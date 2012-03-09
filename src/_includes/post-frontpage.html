@@ -1,0 +1,9 @@
+<article class="blog-excerpt">
+  <header>
+    <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
+    <section class="metadata">
+      on <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
+    </section>
+  </header>
+  <p>{{ post.excerpt }}… <a href="{{ post.url }}" class="more">Read more</a></p>
+</article>

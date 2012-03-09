@@ -1,0 +1,22 @@
+---
+layout: post
+title: Quake-style drop-down terminal on OS X
+tags:
+  - Mac
+  - OS X
+excerpt: I'm currently using OS X 10.6 on my MacBook Pro and the combination of a polished UI and the familiar Posix foundation quite appeals to me (I'll probably do a separate post on my experience with it eventually). Nevertheless, however, I am using the text console a lot,
+---
+
+I'm currently using OS X 10.6 on my MacBook Pro and the combination of a polished UI and the familiar Posix foundation quite appeals to me (I'll probably do a separate post on my experience with it eventually). Nevertheless, however, I am using the text console a lot, obviously when doing development work, but also for lots of everyday stuff I can still do faster with it.
+
+Because I'm often using the console side-by-side with GUI applications, I found it really useful to be able to access a console overlay via a system-wide hotkey, just like in good old Quake (which I never personally played, by the way). This should give you an idea how it looks like:
+
+notextile. <figure><img alt="A screenshot of the drop-down console in Quake 4 overlaying the title screen." src="/blog/2011/02/quake-style-terminal-on-osx/quake4-console.png" /><figcaption>The in-game console at the Quake 4 title screen, toggled by the tilde key.</figcaption></figure>
+
+It doesn't, unfortunately, come as a surprise that the OS X terminal application doesn't support this out of the box, but fortunately there are several third-party tools for archiving this. First, I tried out "_Visor_":http://visor.binaryage.com/, a "_SIMBL_":http://www.culater.net/software/SIMBL/SIMBL.php plugin for Apple's _Terminal_, which provides more or less exactly what I was looking for. Unfortunately, it turned out to be not quite as stable as I hoped (random crashes from time to time), and Terminal.app itself has the annoying habit of not reacting to input quite often, especially after killing a interactive console app with @Ctrl+C@.
+
+But a few days ago, I discovered "_iTerm2_":http://sites.google.com/site/iterm2home/, a replacement for the system terminal application, which also supports a system-wide hotkey to hide/unhide the console window and doesn't suffer the annoying lock up problem with  _Terminal_. It is still in alpha at the moment, but even the nightly build I am currently using (0.20.20110226) has been stable so far.
+
+Just resizing the window to the top third of the screen and using it as an overlay does not quite work when using multiple virtual desktops (»Spaces« in OS X terminology) though: The console window always appears on the same desktop, even if you are working on another one, causing the window manager to switch desktops, which defeats the purpose you were using an overlay in the first place. Fortunately there happens to be an easy solution for this as well: The "_Afloat_":http://infinite-labs.net/afloat/ »window manager plugin« enables you to keep a window on all spaces, among a wealth of other power-user friendly features.
+
+There is currently another minor quirk with iTerm2: Even though it defaults to UTF-8 input, it does not set the @LC_CTYPE@ environment variable accordingly, which caused some problems with Ruby 1.9 applications for me (random encoding-related errors like »invalid byte sequence in US-ASCII (ArgumentError)«). The simple workaround is to add an @export@ line to your @.profile@.

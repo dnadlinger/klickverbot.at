@@ -1,0 +1,15 @@
+---
+layout: post
+title: "Duplicate \xC2\xBBTranslucency\xC2\xAB KWin effect"
+post_id: 15
+tags:
+- KDE
+- KDE 4
+- Linux
+---
+
+For some time, the effect »Translucency« was listed twice in the KWin KCM plugin list of my local KDE setup (SVN trunk). One copy was actually working, the other was just producing error messages.
+
+Today, I finally had time to investigate the issue: The problem was caused by a stale [@.desktop@] file in [@share/kde4/services/kwin@] with the old name of the plugin (it was renamed from _maketransparent_ to _translucency_).
+
+I have no idea how this could happen, because I usually purge the whole [@/opt/kde@] folder everytime I [@svn up@] my [@qt-copy@], which I happen to do quite often…

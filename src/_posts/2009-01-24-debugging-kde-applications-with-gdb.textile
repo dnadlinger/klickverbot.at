@@ -1,0 +1,14 @@
+---
+layout: post
+title: Debugging KDE applications with gdb
+post_id: 12
+tags:
+- C++
+- Debugging
+- gdb
+- KDE
+---
+
+A pretty long time has passed since my last post here, and in the meantime I have jumped right into KDE development myself. I have stumbled upon quite a few tricks and pitfalls that I will undoubtedly write about here some day.
+
+For now, I just want to share a little gem which I have discovered a few minutes ago: In [@kdesdk/scripts@], David Faure published a little script called [@kde-devel-gdb@] ("view with WebSVN":http://websvn.kde.org/trunk/KDE/kdesdk/scripts/kde-devel-gdb?view=markup), which extends gdb with the ability to print the contents of several Qt containers, including the widely used [@QString@]. Highly recommended!

@@ -1,0 +1,22 @@
+---
+layout: post
+title: NoInternetOpenWith
+post_id: 6
+tags:
+- Registry
+- Tweak
+- Vista
+- Windows
+---
+
+At the moment, I am forced to use a box running Windows Vista for parts of my daily work. One thing that really annoys me about Windows is that nasty dialog asking you if you want to search the internet which pops up when you want to open a file with an extension Windows doesn't know about. I am sure that 99 percent of the users would prefer to directly jump into the window where you can choose the application. But well, that's just Microsoft, I guess.
+
+Today, I finally found a tweak that removes that useless dialog:
+Add a dword called @NoInternetOpenWith@ with the value @0x1@ under @HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer@.
+
+If you do not want to poke around manually in your registry, you can copy the following lines in a new @.reg@ file and double-click it to add the key.
+
+bc.. Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"NoInternetOpenWith"=dword:00000001

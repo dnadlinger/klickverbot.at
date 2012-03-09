@@ -1,0 +1,65 @@
+---
+layout: post
+title: Installing DMD, LDC, Tango and DSSS on (K)Ubuntu Jaunty
+post_id: 41
+tags:
+- D
+- DMD
+- DSSS
+- Kubuntu
+- LDC
+- Linux
+- Tango
+---
+
+For quite a while now, I am using the <a href="http://en.wikipedia.org/wiki/D_(programming_language)">D programming language</a>, version 1 (I have not looked at D2 yet, it is said to be still rather unstable). Even though I like it very much for its syntactical quality and the language itself is reasonably mature, I must admit that setting up the toolchain correctly can still be a very cumbersome task to do, especially when you are new to D.
+
+This post describes an installation routine that should provide you with a working D development environment containing DMD, LDC, Tango and DSSS on (K)Ubuntu Jaunty. Please note that it assumes your system to be »clean« – if you have already installed any D-related software, it is probably advisable to remove it completely to prevent any problems with, for instance, stale files. <!--more-->
+
+
+{% highlight bash %}
+mkdir -p ~/tmp
+cd ~/tmp
+
+wget http://ftp.digitalmars.com/dmd.1.050.zip
+unzip dmd.1.050.zip
+cd dmd/linux/bin/
+chmod +x dmd dumpobj obj2asm rdmd
+sudo cp dmd dmd.conf dumpobj obj2asm rdmd /usr/local/bin/
+
+cd ~/tmp
+svn co http://svn.dsource.org/projects/tango/trunk tango
+
+cd tango/
+sudo DC=dmd build/build.sh --lib-install-dir /usr/local/lib
+sudo cp -rf user/object.di user/rt user/std user/tango /usr/local/include/d/
+
+sudo su -c 'echo -e "[Environment]\nDFLAGS=-I/usr/local/include/d -defaultlib=tango-base-dmd -debuglib=tango-base-dmd -L-ltango-user-dmd -version=Tango -version=Posix" > /usr/local/bin/dmd.conf'
+
+sudo su -c 'echo -e "# dsss\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu jaunty main" >> /etc/apt/sources.list'
+sudo apt-get install dsss
+sudo su -c 'echo "profile=dmd-posix-tango" > /etc/drebuild/default'
+{% endhighlight %}
+
+You should now be able to build your D/Tango programs with DMD and DSSS.
+
+I would suggest giving <a href="http://www.dsource.org/projects/ldc">LDC</a> at least a short glance, a fairly young compiler project which leverages <a href="http://llvm.org/">LLVM</a> as its code generating backend. It is maturing very quickly and allows you to make use of the various features the LLVM compiler infrastructure provides, the most noticeable probably being its excellent optimization routines. Fortunately, there are current binary packages available at launchpad, so all that is needed to LDC is:
+
+
+{% highlight bash %}sudo su -c 'echo -e "# ldc-daily\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu karmic main\ndeb http://archive.ubuntu.com/ubuntu karmic main universe" >> /etc/apt/sources.list'
+sudo apt-get update
+
+sudo apt-get install ldc-daily libtango-ldc-daily-dev
+
+cd ~/tmp
+wget -O ldc-posix-tango http://www.dsource.org/projects/ldc/browser/ldc-posix-tango?format=raw
+sudo su -c 'sed "s:ldc.rebuild.conf:/etc/ldc/ldc.rebuild.conf:"  /etc/drebuild/ldc-posix-tango'
+
+sudo su -c 'echo "profile=ldc-posix-tango" > /etc/drebuild/default'
+{% endhighlight %}
+
+Note that the above commands install a daily snapshot of LDC, which I would recommend to use due to the currently fast development of LDC. In order not to break you Jaunty installation, please _*do not forget* to comment out the official »karmic« repositories_ (which contain some dependencies for [@ldc-daily@]) in your [@/etc/apt/sources.list@] and run [@apt-get update@] after the installation is completed.
+
+Both compilers are set up to use Tango, do _not_ install Tango via DSSS! If you want to switch compilers, just activate the corresponding profile in [@/etc/drebuild/default@] and do not forget to rebuild any D libraries you might have compiled and installed with the old compiler (just run [@dsss net install … @]for the ones you installed using DSSS).
+
+p(update). Since I wrote this post, Tango received yet another big structural change to its codebase (amongst other changes, the core and user libraries have been merged). Now, you should use the supplied _»bob«_ tool now to build tango. Additionally, Karmic is now stable so you might have to adapt the APT repository-related instructions.

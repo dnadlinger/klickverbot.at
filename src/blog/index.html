@@ -1,0 +1,23 @@
+---
+layout: blog
+title: Blog
+description: Personal site of David Nadlinger, featuring a programming-centric blog.
+---
+
+{% for post in paginator.posts %}
+{% include post-full.html %}
+{% endfor %}
+
+<div id="blog_pagination" class="clearfix">
+{% if paginator.previous_page %}
+  {% if paginator.previous_page == 1 %}
+    <a href="/blog/" id="previous_page">Newer entries</a>
+  {% else %}
+    <a href="/blog/page{{ paginator.previous_page }}" id="previous_page">Newer entries</a>
+  {% endif %}
+{% endif %}
+
+{% if paginator.next_page %}
+  <a href="/blog/page{{ paginator.next_page }}" id="next_page">Older entries</a>
+{% endif %}
+</div>

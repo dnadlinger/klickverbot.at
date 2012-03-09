@@ -1,0 +1,22 @@
+<article class="blog-post">
+  <header>
+    <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
+    <section class="metadata">
+      on <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
+    </section>
+    <ul class="pagenav">
+      <li>{% if page.previous.url %}<a href="{{ page.previous.url }}">Older</a>{% else %}<s>Older</s>{% endif %}</li>
+      <li>{% if page.next.url %}<a href="{{ page.next.url }}">Newer</a>{% else %}<s>Newer</s>{% endif %}</li>
+     </ul>
+  </header>
+  <div class="blog-post-content">
+  {% if single_post == true %}
+  {{ content }}
+  {% else %}
+  {{ post.content }}
+  {% endif %}
+  <footer>
+    Enjoying the read? There is more on {% for tag_name in post.tags %}{% unless forloop.first %}{% if forloop.last %} and{% else %},{% endif %}{% endunless %} <a href="/blog/tags/{{ tag_name | uri_escape }}/" title="View all posts tagged with »{{ tag_name }}«" rel="tag">{{ tag_name }}</a>{% endfor %}.
+  </footer>
+  </div>
+</article>

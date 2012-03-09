@@ -1,0 +1,29 @@
+---
+layout: post
+title: The Power of Git
+post_id: 34
+tags:
+- Git
+---
+
+As you might already know if you read my <a href="http://klickverbot.wordpress.com/2008/08/02/getting-started-with-git/">blog post</a> about it, I have been using Git quite a while ago now. However, I am still amazed not infrequently by the fact that Git _simply works_, in the sense that it really does the things you tell it to do.
+
+Recently, for instance, I wanted to merge an extension to the great <a href="http://assimp.sf.net">Open Asset Import Library</a> (bindings for the <a href="http://www.digitalmars.com/d/">D programming language</a>, in fact) which I developed locally in Git to the upstream repository in a way that the commit history was kept locally. However, SVN is used as SCM system for upstream development. So I started out by importing the upstream SVN repository via [@git-svn@]:
+
+{% highlight bash %}
+$ mkdir assimp; cd assimp
+$ git svn init https://assimp.svn.sourceforge.net/svnroot/assimp/trunk
+$ git svn fetch
+{% endhighlight %}
+Nothing too exciting here. So far, I only created a local Git clone of the SVN repository which I probably will use for contributing to upstream development in the future. But how to transfer the bindings from the Git repository to this one _including_ their (strictly linear, i.e. master-only) commit history? Because Git does not try to be smarter than its users, the first solution I came up with worked flawlessly. Here is what I did:
+
+{% highlight bash %}
+$ git checkout -b d-bindings
+$ git fetch ../dAssimp
+$ git read-tree --prefix=port/dAssimp FETCH_HEAD
+$ git rev-parse FETCH_HEAD > .git/MERGE_HEAD
+$ git commit
+{% endhighlight %}
+After switching to a new branch in which the history should be stored, I told Git to fetch the contents of the local [@dAssimp@] repository (the D bindings I developed). Because I had not made any merges, Git simply stored the [@HEAD@] of the other repository in [@FETCH_HEAD@]. The [@read-tree@] command reads, as the name suggests, arbitrary tree information into the index. The [@--prefix@] switch allows you to keep the current index and read the tree into an (empty) subdirectory instead – perfect for what I intended to do. Storing the [@FETCH_HEAD@]'s object name into [@.git/MERGE_HEAD@] tells Git to generate a merge commit the next time [@git commit@] is called. There was just one last thing left to do: as [@git read-tree@], according to the manpage, »does not actually update any of the files it ›caches‹«, a [@git reset --hard@] is needed to actually create the new files in the working copy. That's it.
+
+As I found out later, I could have possibly done this more easy using the <a href="http://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html">subtree merge strategy</a>, but I still like, as mentioned above, Git's feature of »just doing what you tell it to do«…

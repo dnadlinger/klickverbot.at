@@ -1,0 +1,23 @@
+---
+layout: post
+title: "Breaking name changes in SWIG/D"
+tags:
+- D
+- SWIG
+excerpt: Sorry if this notice might come a bit late for some of you, but a few days ago, I have committed a breaking change to D support in SWIG trunk. It was needed to bring the names used in the D module in line with the C# one,
+---
+
+Sorry if this notice might come a bit late for some of you, but a few days ago, I have committed a breaking change to "D support":/blog/2010/11/announcing-d-support-in-swig/ in "SWIG":http://swig.org trunk. It was needed to bring the names used in the D module in line with the C# one, the naming scheme of which was intended to be language-independent by the principal maintainer (although it is only used in the C# and D parts right now).
+
+Most of the changes revolve around the term »wrap D module« being replaced with »intermediary D module«, including names derived from it. To adapt your interface files, just perform the following replacements:
+
+{% highlight bash %}
+s/cwtype/ctype/g
+s/dwtype/imtype/g
+s/dptype/dtype/g
+
+s/$wcall/$imcall/g
+s/$dpcall/$dcall/g
+
+s/wrapdmodule/imdmodule/g
+{% endhighlight %}

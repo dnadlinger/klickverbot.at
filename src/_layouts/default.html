@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<script type="text/javascript">
+  TypekitConfig = {
+    kitId: 'mpw3lrx'
+  };
+  (function() {
+    var tk = document.createElement('script');
+    tk.src = '//use.typekit.com/' + TypekitConfig.kitId + '.js';
+    tk.type = 'text/javascript';
+    tk.async = 'true';
+    tk.onload = tk.onreadystatechange = function() {
+      var rs = this.readyState;
+      if (rs && rs != 'complete' && rs != 'loaded') return;
+      try { Typekit.load(TypekitConfig); } catch (e) {}
+    };
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(tk, s);
+  })();
+</script>
+
+  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+       More info: h5bp.com/i/378
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+
+  <!--<script type="text/javascript" src="http://use.typekit.com/mpw3lrx.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>-->
+
+  <title>{{ page.title | strip_html }} | {{ site.title }}</title>
+
+  <!-- Mobile viewport optimized: h5bp.com/viewport -->
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+
+  <link rel="stylesheet" href="/css/style.css">
+  <!--<script src="js/GCS.js"></script>-->
+</head>
+<body>
+  <header id="main_header">
+    <h1><span><a href="/">David Nadlinger</a></span></h1>
+    <nav role="navigation">
+      <ul>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/code">Code</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div role="main" id="main_content">
+    {{ content }}
+  </div>
+  <footer id="main_footer">
+    <ul>
+      <li><a href="/about">Contact me.</a></li>
+      <li><a class="twitter" href="//twitter.com/klickverbot">Follow me on Twitter.</a></li>
+      <li><a href="/blog/atom.xml">Blog feed.</a></li>
+    </ul>
+  </footer>
+
+  <!-- JavaScript at the bottom for fast page loading -->
+
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+
+  <!-- scripts concatenated and minified via build script -->
+  <script src="js/plugins.js"></script>
+  <script src="js/script.js"></script>
+  <!-- end scripts -->
+
+  <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
+       mathiasbynens.be/notes/async-analytics-snippet -->
+  <script>var _gaq=[['_setAccount','UA-29694904-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+</body>
+</html>

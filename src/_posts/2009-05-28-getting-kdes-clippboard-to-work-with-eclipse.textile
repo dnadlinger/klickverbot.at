@@ -1,0 +1,16 @@
+---
+layout: post
+title: Getting KDE's clippboard to work with Eclipse
+post_id: 16
+tags:
+- KDE
+- Linux
+---
+
+For whatever reason, Eclipse does not work well with Klipper, the KDE clipboard manager, in its default settings. The symptoms: Quite often, you copy a piece of text to the clipboard. When you try to paste it, it miraculously disappears and some old piece of clipboard content is pasted instead.
+
+After simply trying to ignore the problem for some time, I searched and found a solution today: You have to disable the _»Prevent empty clipboard«_ setting in Klipper's configuration menu (which is accessible by right-clicking on the systray icon).
+
+Intuitive? Not to me…
+
+p(update). Disabling the mentioned option might introduce some minor glitches to general clipboard usage (sometimes, the clipboard seems to empty itself). As those occur rather infrequently, I have not been able to find out why this happens, or even if this is connected to the configuration changes described in this post.

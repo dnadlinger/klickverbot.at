@@ -1,0 +1,12 @@
+---
+layout: post
+title: STL Algorithms
+post_id: 149
+tags:
+- C++
+- STL
+---
+
+While attending a workshop at <a href="http://linz.linuxwochen.at">Linuxwochen Linz</a> recently, I found using [@std::for_each@] and other algorithms from the C++ Standard Template library without even really thinking about it, much to the surprise of the other workshop attendants, which were, contrary to me, rather artists than coders. As I were thinking about the way my C++ coding style evolved over the years, I remembered that my use of [@<algorithm>@]s can be traced back to a single article on Dr. Dobb's: <a href="http://www.drdobbs.com/cpp/184401446">STL Algorithms vs. Hand-Written Loops</a>.
+
+The text was written by Scott Meyers almost ten years ago, but in my eyes, it is still a very good read on the topic. Highly recommended!

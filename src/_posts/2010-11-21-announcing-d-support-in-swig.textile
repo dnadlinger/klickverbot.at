@@ -1,0 +1,104 @@
+---
+layout: post
+title: "Announcing: D support in SWIG"
+tags:
+  - D
+  - SWIG
+description: Announcing D programming language support in SWIG, the simple wrapper interface generator.
+excerpt: In a nutshell, SWIG is a »glue code« generator, allowing you to access C/C++ libraries from various target languages, including C#, Go, Java, Ruby, Python … and, since I merged my work into SWIG trunk a few days ago, also the D programming language, both version 1 and 2.
+---
+
+In a nutshell, "SWIG":http://swig.org is a »glue code« generator, allowing you to access C/C++ libraries from various target languages, including C#, Go, Java, Ruby, Python … and, since I merged my work into SWIG trunk a few days ago, also the "D programming language":http://digitalmars.com/d/, both version 1 and 2.
+
+Why would D support in SWIG be useful in the first place? After all, D is perfectly able to "interface with C":http://www.digitalmars.com/d/1.0/interfaceToC.html on its own, so why bother using a third-party tool?
+
+Well, it turns out that even for »plain old C«, there are reasons why you'd want to use a bindings generator. Besides the obvious problem that you have to convert the C header files to D modules somehow, there is one major inconvenience with directly using C libraries from D: D code usually is on a higher abstraction level than C, and many of the features that make D interesting are simply not available when dealing with C libraries. For instance, you would have to manually convert strings between pointers to @\0@-terminated char arrays and D [@string@]s, and most interesting algorithms from the D2 standard library are simply unusable with C arrays.
+
+While these issues can be worked around relatively easy by hand-coding a thin wrapper layer around the C library in question, there is another issue where writing wrapper code per hand is not feasible: C++ class libraries. D1 does not support interfacing with C++ at all, and even if @extern(C++)@ has been added to D2, the support is quite limited, and a custom wrapper layer is still required in many cases.
+
+Here is, without further ado, a small example of what the D module for SWIG allows you to do. Consider the following (admittedly not very useful) piece of C++ code:
+
+{% codeblock lang:cpp %}
+typedef std::pair<float, float> Position;
+
+class Shape {
+public:
+   Shape( Position pos ) : m_position( pos ) {}
+   virtual ~Shape() {}
+
+   virtual std::string getDescription() const = 0;
+
+   Position getPosition() const {
+      return m_position;
+   }
+
+protected:
+   Position m_position;
+};
+
+class Circle : public Shape {
+public:
+   Circle( Position pos ) : Shape( pos ) {}
+   virtual ~Circle() {}
+
+   virtual std::string getDescription() const {
+      return "A perfect circle.";
+   }
+};
+
+std::string toString( const Shape& shape ) {
+   std::ostringstream result;
+
+   Position p = shape.getPosition();
+   result << "A shape at (" << p.first << ", " << p.second << ").";
+   result << " It looks like this: " << shape.getDescription();
+
+   return result.str();
+}
+{% endcodeblock %}
+
+By using SWIG to generate the necessary glue code, you can easily make the classes available in D, as demonstrated by the following small program:
+
+{% codeblock lang:d %}
+class Square : Shape {
+   this( Position pos ) {
+      super( pos );
+   }
+
+   override string getDescription() const {
+      return "Quite square-ish.";
+   }
+}
+
+void main() {
+   // One of the ugliest bugs currently in D: Type inference does not
+   // work correctly for arrays of classes with a common supertype.
+   auto shapes = [
+      cast( Shape ) new Circle( new Position( 1, 3 ) ),
+      new Square( new Position( 2, 1 ) )
+   ];
+
+   foreach ( shape; shapes ) {
+      writeln( toString( shape ) );
+   }
+}
+{% endcodeblock %}
+
+<figure><pre><code>A shape at (1, 3). It looks like this: A perfect circle.
+A shape at (2, 1). It looks like this: Quite square-ish.</code></pre></figure>
+
+Note that @Shape@ is extended on the D side just as usual and how the C++ call to @getDescription()@ is transparently routed to @Square.getDescription()@. This mechanism dubbed _cross language polymorphism_ is enabled by a feature of SWIG called »directors«, which causes the extra indirection layer needed for this to be emitted. Also note how the strings are seamlessly converted between their C++ and D representation.
+
+So you want to give the D module in SWIG a whirl? Just head over to the "SWIG SVN":https://swig.svn.sourceforge.net/svnroot/swig/trunk/, grab the sources from there, and "build it":http://swig.org/svn.html. If you are planning to run the test suite or the included examples, you might want to specify @--with-d1-compiler=<…>@ and @--with-d2-compiler=<…>@ at the @configure@ command line. In case you want to play around with the small example from above, I also put up a "small archive":demo.zip containing the files (for such a small example, the C++ code could be included directly in the SWIG interface file via the @%inline@ directive, but that's how you would probably want to tackle a real library).
+
+What can you expect to work? The test-suite which covers all the basic features of SWIG should build and run fine, which means that it will probably just work when trying to wrap a library. The source tree includes also a documentation chapter on D (@Doc/Manual/D.html@) which describes the basic structure and some of the D-specific features. As the D module started out as a fork from the C# one, the documentation on C# could be of considerable use for you as well.
+
+There are still a few areas which need serious work, though. One of them is _operator overloading_, where both semantics and implementation differ quite a lot between C++ and D. It would probably be not too hard to come up with a solution (maybe using D's extensive compile-time reflection capabilities to avoid having to add special cases to the SWIG module), but I would really appreciate some help from someone actually needing it here.
+
+The other big one is _multithreading support_. Since I personally have not needed to use C++ libraries from D in a threaded setting yet, I have not really thought about the problems arising from multiple threads calling the wrapper code. Especially in combination with the garbage collector, I expect quite a lot of issues to pop up in a serious multithreaded environment. There are a few places which include threading-related code (@synchronized@, @shared@, …), but these are mostly remnants from the C# module, which may or may not apply to D – once again, I would be happy if somebody needing this would help me out here.
+
+Speaking of C# remnants: As mentioned above, the D module was forked from the C# module, which in turn started out as a fork from the Java one. Due to this heritage, there are a few places where things could be done much easier in D. For example, the code for _returning C strings to D_ without memory leaks is unnecessarily complex at the moment. But the same applies here as well – I would be happy to support anyone wanting to clean this up, but the current implementation did its job for me so far.
+
+Anyway, I would be glad if some of you could go ahead and put SWIG to real-world use, so that any major bug can be fixed before the next SWIG release (not planned so far). If you stumble upon any issues or if any questions should arise, please feel free to contact me, either via "mail":/about#contact, on "digitalmars.D":http://www.digitalmars.com/webnews/newsgroups.php?group=digitalmars.D or in "#D on freenode":irc://irc.freenode.net/D. Besides that, as always, it would also be nice just to hear about what you are doing with this.
+
+p(update). In the meantime, two severe bugs in the code generated for Windows have been fixed; please be sure to use the latest version from SVN.

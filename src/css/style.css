@@ -32,31 +32,41 @@ audio:not([controls]) { display: none; }
 
 html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
 
-html, button, input, select, textarea { font-family: sans-serif; color: #222; }
+html, button, input, select, textarea, body { font-family: "ff-meta-serif-web-pro", Georgia, "Times New Roman", serif; color: black; }
 
-body { margin: 0; font-size: 1em; line-height: 1.4; }
+body { margin: 0 5%; font-size: 1em; line-height: 1.45em; min-width: 12em; }
 
-/*
- * Remove text-shadow in selection highlight: h5bp.com/i
- * These selection declarations have to be separate
- * Also: hot pink! (or customize the background color to match your design)
- */
+::-moz-selection { background: #A00; color: #fff; text-shadow: none; }
+::selection { background: #A00; color: #fff; text-shadow: none; }
 
-::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
-::selection { background: #fe57a1; color: #fff; text-shadow: none; }
+h1, h2 {
+    font-weight: normal;
+    margin: 0;
+}
 
+pre { margin: 0; }
 
 /* =============================================================================
    Links
    ========================================================================== */
 
-a { color: #00e; }
-a:visited { color: #551a8b; }
-a:hover { color: #06e; }
+a, a:active { color: #a00; text-decoration: none; }
+a:visited { color: #922; }
+a:hover { color: #aaa; }
 a:focus { outline: thin dotted; }
 
 /* Improve readability when focused and hovered in all browsers: h5bp.com/h */
 a:hover, a:active { outline: 0; }
+
+/* Causes short blue flashes on reload in Chrome 17.
+a, a:visited, a:hover {
+    -webkit-transition: color 0.2s ease-out;
+       -moz-transition: color 0.2s ease-out;
+         -o-transition: color 0.2s ease-out;
+        -ms-transition: color 0.2s ease-out;
+            transition: color 0.2s ease-out;
+}
+*/
 
 
 /* =============================================================================
@@ -78,7 +88,11 @@ ins { background: #ff9; color: #000; text-decoration: none; }
 mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
 
 /* Redeclare monospace font family: h5bp.com/j */
-pre, code, kbd, samp { font-family: monospace, serif; _font-family: 'courier new', monospace; font-size: 1em; }
+pre, code, kbd, samp {
+    font-family: "mplus-1m", monospace, serif;
+    font-size: 0.96em;
+    /* letter-spacing: +0.02em; Seems to produce weird rendering bugs on iOS, and no effect on desktop Chrome. */
+}
 
 /* Improve readability of pre-formatted text in all browsers */
 pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
@@ -93,14 +107,20 @@ sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: b
 sup { top: -0.5em; }
 sub { bottom: -0.25em; }
 
-
 /* =============================================================================
    Lists
    ========================================================================== */
 
-ul, ol { margin: 1em 0; padding: 0 0 0 40px; }
-dd { margin: 0 0 0 40px; }
-nav ul, nav ol { list-style: none; list-style-image: none; margin: 0; padding: 0; }
+ul, ol { margin: 1em 0; padding: 0; list-style: none; }
+li > p:before {
+    content: "»";
+    padding: 0 0.6em 0 0.4em;
+    color: #b11;
+    display: inline;
+}
+
+dd { margin: 0; }
+/*nav ul li:before, nav ol li:before, #main_footer ul li:before, ul.pagenav li:before { content: normal; }*/
 
 
 /* =============================================================================
@@ -112,7 +132,7 @@ nav ul, nav ol { list-style: none; list-style-image: none; margin: 0; padding: 0
  * 2. Remove the gap between images and borders on image containers: h5bp.com/i/440
  */
 
-img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; max-width: 100% }
 
 /*
  * Correct overflow not hidden in IE9
@@ -126,7 +146,12 @@ svg:not(:root) { overflow: hidden; }
    ========================================================================== */
 
 figure { margin: 0; }
-
+figcaption, .footnote {
+    font-size: 0.8333em;
+}
+figcaption {
+    font-style: italic;
+}
 
 /* =============================================================================
    Forms
@@ -205,72 +230,380 @@ input:invalid, textarea:invalid { background-color: #f0dddd; }
 
 table { border-collapse: collapse; border-spacing: 0; }
 td { vertical-align: top; }
-
-
-/* =============================================================================
-   Chrome Frame Prompt
-   ========================================================================== */
-
-.chromeframe { margin: 0.2em 0; background: #ccc; color: black; padding: 0.2em 0; }
-
-
-/* ==|== primary styles =====================================================
-   Author:
-   ========================================================================== */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ==|== media queries ======================================================
-   EXAMPLE Media Query for Responsive Design.
-   This example overrides the primary ('mobile first') styles
-   Modify as content requires.
-   ========================================================================== */
-
-@media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
+th {
+    font-style: italic;
+    font-weight: normal;
 }
 
-
-
-/* ==|== non-semantic helper classes ========================================
-   Please define your styles before this section.
+/* =============================================================================
+   Specific styles
    ========================================================================== */
 
-/* For image replacement */
-.ir { display: block; border: 0; text-indent: -999em; overflow: hidden; background-color: transparent; background-repeat: no-repeat; text-align: left; direction: ltr; *line-height: 0; }
-.ir br { display: none; }
+#main_header {
+    padding: 0 0 0.6em;
+    margin: 0 0 1em;
+    border-bottom: 1px solid #888;
+}
 
-/* Hide from both screenreaders and browsers: h5bp.com/u */
-.hidden { display: none !important; visibility: hidden; }
+#main_header > h1 {
+    margin: 0 25% 0.9em;
+    width: 50%;
 
-/* Hide only visually, but have it available for screenreaders: h5bp.com/v */
-.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+    text-align: center;
+    font-size: 1em;
+    line-height: 2.3em;
+}
 
-/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p */
-.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+#main_header > h1 > span {
+    padding-top: 0.2em;
+    width: 100%;
+    display: inline-block;
+    background-color: #222;
+}
 
-/* Hide visually and from screenreaders, but maintain layout */
-.invisible { visibility: hidden; }
+#main_header > h1 > span > a, #main_header > h1 > span > a:visited {
+    color: #fff;
+    text-decoration: none;
+}
 
-/* Contain floats: h5bp.com/q */
-.clearfix:before, .clearfix:after { content: ""; display: table; }
-.clearfix:after { clear: both; }
-.clearfix { *zoom: 1; }
+#main_header > nav li {
+    display: inline-block;
+    width: 32%;
+    margin: 0;
+    text-align: center;
+}
 
+#main_header > nav a, #main_header > nav a:visited {
+    color: black;
+    text-decoration: none;
+}
 
+#main_header > nav a:hover {
+    color: #b11;
+}
+
+#intro {
+    font-size: 1.2em;
+    font-style: italic;
+    line-height: 1.44em;
+    text-align: center;
+    margin-bottom: 1em;
+    padding: 0 0 0.6em;
+    margin: 0 0 1em;
+    border-bottom: 1px solid #888;
+}
+
+.metadata {
+    font-style: italic;
+}
+
+.blog-excerpt > header > h1 {
+    margin: 1.45em 0 0;
+    font-size: 1.44em;
+    line-height: 1.4em;
+}
+
+.blog-post {
+    padding: 1.45em 0 0;
+}
+
+.blog-post > header > h1 {
+    font-size: 2.0736em;
+    line-height: 1.388em;
+}
+
+.blog-post h2 {
+    margin: 1.45em 0 0;
+    font-size: 1.44em;
+    line-height: 1.4em;
+}
+
+header > h1 > a, header > h1 > a:visited {
+    color: #222;
+    text-decoration: none;
+}
+
+header > h1 > a:hover {
+    color: #000;
+}
+
+a.more {
+    white-space: nowrap;
+}
+
+a.more:after {
+    content: " →";
+}
+
+/*a.twitter {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMjgwMTE3NDA3MjA2ODExQTQxQUNFN0NCOEMyNEMzNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowQkYxMEI5QjQ5QzYxMUUwQTJGN0YyQzFDMzFCQjZCMyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowQkYxMEI5QTQ5QzYxMUUwQTJGN0YyQzFDMzFCQjZCMyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkIxREYyRDc2MTIyMDY4MTFBNDFBQ0U3Q0I4QzI0QzM2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjAyODAxMTc0MDcyMDY4MTFBNDFBQ0U3Q0I4QzI0QzM2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+bAX+SwAAADZQTFRFzMzM////zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMWLdFTgAAABF0Uk5TAAAQIDBAUGBwgI+fr7/P3+/+LnC/AAAAu0lEQVQYGYXBCWKEIBAEwAbBAQkw/f/PZr3FsKEKZgBmAGYAZgA90+zxn0TWiu8Syezw5GuwOAk3yeLmSCaHjVXuisUt8SN7fESeCh4SV9kDyovgEnkQ4a3i4nlSPsxeFuyEfepwCMqOMnvsLPtUcBB2iMdtCnyraES+RTS8slUtVgEnV9jw2PgyYzVFZUNwENUcU+GL4OIq/6geD3ZhS6NFa1qUlxIsOlxYcs4/USa0zADMAMwAzADMwC8tmRmiiR71vgAAAABJRU5ErkJggg==) 0 -0.05em no-repeat;
+    background-size: auto 90%;
+    padding-left: 1.6em;
+}*/
+
+#blog_feed > footer {
+    margin: 1.45em 0 0;
+}
+
+.blog-post footer {
+    margin: 1.45em 0 0;
+    font-style: italic;
+}
+
+ul.pagenav li {
+    display: inline;
+}
+ul.pagenav li:before {
+	content: " // ";
+}
+ul.pagenav li:first-child:before {
+	content: normal;
+}
+ul.pagenav a, ul.pagenav s {
+    font-style: italic;
+}
+ul.pagenav s {
+    text-decoration: none;
+    color: #555;
+}
+
+#main_footer {
+    margin: 1.45em 0;
+    padding: 1.45em 0;
+    border-top: 1px solid #888;
+}
+
+#main_footer a:visited {
+    color: #b11;
+}
+
+/* =============================================================================
+   Responsive styles
+   ========================================================================== */
+
+/*figure.code pre, #main_header, #main_header > h1 > span, #main_header > h1 > nav, body {
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}*/
+
+/* Make sure 70 characters of code fit on the screen as long as possible. */
+@media screen and (max-width: 39em) {
+    figure.code pre {
+        font-size: 0.8333em;
+        line-height: 1.4em;
+    }
+}
+@media screen and (max-width: 34em) {
+    figure.code pre {
+        font-size: 0.694em;
+    }
+}
+@media screen and (max-width: 29em) {
+    figure.code pre {
+        font-size: 0.578em;
+        line-height: 1.4em;
+    }
+}
+@media screen and (max-width: 24.5em) {
+    figure.code pre {
+        font-size: 0.482em;
+    }
+}
+
+/* Main menu */
+@media screen and (min-width: 32em) {
+    #main_header {
+        padding-top: 0.6em;
+    }
+
+    #main_header > h1 {
+        margin: 0;
+        width: 33%;
+        display: inline-block;
+        text-align: left;
+    }
+
+    #main_header > h1 > span {
+        width: 10em;
+        text-align: center;
+    }
+
+    #main_header > nav {
+        display: inline-block;
+        width: 66%;
+    }
+
+    #main_header > nav li {
+        padding: 0.1em 0 0;
+        width: 32%;
+        line-height: 2.3em;
+    }
+}
+
+@media screen and (min-width: 49em) {
+    .blog-post > header {
+        float: left;
+        width: 33%;
+        box-sizing: border-box;
+        padding: 0 0.7em;
+    }
+
+    .blog-post > .blog-post-content {
+        float: left;
+        width: 66.5%;
+        box-sizing: border-box;
+        padding: 0 0.7em 0;
+    }
+
+    #main_header > h1 {
+        margin: 0;
+        width: 33%;
+        display: inline-block;
+        text-align: left;
+    }
+
+    #main_header > h1 > span {
+        width: 10em;
+        text-align: center;
+    }
+
+    #main_header > nav {
+        display: inline-block;
+        width: 66%;
+    }
+
+    #main_header > nav li {
+        padding: 0.1em 0 0;
+        width: 32%;
+        line-height: 2.3em;
+    }
+
+    .blog-post figure {
+        margin-left: -50%;
+    }
+
+    .blog-post figure > div, .blog-post figure > table, .blog-post figure > img, .blog-post figure > pre {
+        width: 66.666%;
+        float: right;
+    }
+
+    .blog-post figure > figcaption {
+        max-width: 22%;
+        float: right;
+        text-align: right;
+        padding: 0.6em 0;
+        margin: 0 1.6em 0 0;
+        border: solid #888;
+        border-width: 1px 0;
+    }
+
+    .blog-post figure.code > figcaption {
+        margin-top: -0.6em;
+    }
+
+    .blog-post figure.bigimg > img {
+        width: auto;
+        min-width: 66.666%;
+        max-width: 89%;
+        float: right;
+    }
+
+    .blog-post figure.bigimg > figcaption {
+        max-width: 100%;
+        float: none;
+        clear: both;
+        margin-left: 33.33%;
+        border-width: 0;
+        text-align: left;
+    }
+
+    /* h5bp clearfix. */
+    .blog-post:before, .blog-post:after, .blog-post figure:before, .blog-post figure:after {
+        content: ""; display: table;
+    }
+    .blog-post:after, .blog-post figure:after {
+        clear: both;
+    }
+    .blog-post, .blog-post figure {
+        *zoom: 1;
+    }
+}
+@media screen and (min-width: 49em) and (max-width: 60em) {
+    figure.code pre {
+        font-size: 0.9em;
+    }
+}
+
+@media screen and (min-width: 70em) {
+    body {
+        font-size: 109.54%;
+    }
+}
+
+@media screen and (min-width: 75em) {
+    body {
+        margin: 0 10%;
+    }
+}
+
+@media screen and (min-width: 90em) {
+    body {
+        font-size: 120%;
+        margin: 0 15%;
+    }
+}
+
+@media screen and (min-width: 105em) {
+    body {
+        line-height: 1.5774em;
+    }
+}
+
+@media screen and (min-width: 120em) {
+    body {
+        margin: 0 17%;
+    }
+}
+
+@media screen and (min-width: 130em) {
+    body {
+        font-size: 131.45%;
+    }
+}
+
+@media screen and (min-width: 150em) {
+    body {
+        font-size: 144%;
+    }
+}
+
+@media screen and (min-width: 160em) {
+    body {
+        line-height: 1.728em;
+    }
+}
+
+@media screen and (min-width: 170em) {
+    body {
+        font-size: 157.74%;
+    }
+}
+
+/* =============================================================================
+   Code highlighting
+   ========================================================================== */
+
+/* Keywords */
+.highlight .k {
+    font-weight: 500;
+}
+
+/* Strings */
+.highlight .s {
+    color: #a00;
+}
 
 /* ==|== print styles =======================================================
    Print styles.

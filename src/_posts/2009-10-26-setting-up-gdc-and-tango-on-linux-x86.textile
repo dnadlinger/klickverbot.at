@@ -1,0 +1,147 @@
+---
+layout: post
+title: Setting up GDC and Tango on Linux x86
+post_id: 97
+tags:
+- D
+- gdc
+- Linux
+- Tango
+---
+
+Currently, there are three more-or-less working compilers for the "D programming language":http://digitalmars.com/d/ (version 1): The oldest and most mature one is DMD, short for Digital Mars D Compiler, the official reference implementation by Walter Bright, the creator of D. It has grown reasonably stable, but has certain limitations, most of them resulting from using a proprietary back-end. Additionally, not all parts of it are Open Source (starting with a capital letter). The second one is <a href="http://dsource.org/projects/ldc">LDC</a>, a rather young, but quick-moving project which aims to port the front-end of DMD to the also fairly recent <a href="http://llvm.org">LLVM</a> compiler infrastructure in order to leverage its advanced code generation and optimization infrastructure. While it still has some bugs to iron out (most notably missing exception support on Windows), it works reasonably well on Linux x86 (32 and 64&nbsp;bit). The third compiler, and subject of interest for this post, is GDC. Like the other two compilers, it uses the Digital Mars D front-end, but coupled to the very mature GNU Compiler Collection (GCC) back-end, whose C/C++ compiler is widely used on Unix-like systems like Linux, Mac OS X, various flavors of BSD and also Windows through <a href="http://mingw.org">MinGW</a>. Unfortunately, development on it has stalled, making it pretty much unusable due to the many bugs the old DMD front-end it uses contains.
+
+However, there has been an effort started to resurrect GDC recently. Development takes place over at <a href="http://bitbucket.org/goshawk/gdc">bitbucket</a> (you can also find building instructions for GDC there) and the project has been able to celebrate some first success: The reasonably recent front-end versions 1.040 and 2.015 (for D2) are working with GCC 4.3. This seemed enough of a sign of life for me to decide to give GDC another try. After some initial problems (some of which resulted from bugs which have already been fixed in the official Mercurial repository) I managed to compile a GDC binary (frontend version 1.040 against GCC 4.3.1) which happily compiles the <a href="http://dsource.org/projects/tango">Tango</a> standard library and a personal project of mine. This is what I did (silently omitting quite a few hours of searching and fixing bugs): <!--more-->
+
+First, go to some temporary directory and checkout the GDC sources from the Mercurial repository (at the time of writing, revision 53 was current):
+
+{% highlight bash %}
+cd ~/tmp
+hg clone http://bitbucket.org/goshawk/gdc
+{% endhighlight %}
+
+Then, download the core of GCC 4.3.1 from a <a href="http://gcc.gnu.org/mirrors.html">mirror near you</a> (version 4.3.2 should also work, but builds against 4.3.4 are currently known to be broken) and extract it inside the GDC sources:
+
+{% highlight bash %}
+wget ftp://gd.tuwien.ac.at/gnu/gcc/releases/gcc-4.3.1/gcc-core-4.3.1.tar.bz2
+mkdir gdc/dev
+cd gdc/dev
+tar xjvf ../../gcc-core-4.3.1.tar.bz2
+{% endhighlight %}
+
+Now, link the GDC sources into the extracted directory and use the provided [@setup-gcc.sh@] script to patch GCC to enable D version 1:
+
+{% highlight bash %}
+cd gcc-4.3.4
+ln -s ../../../d gcc/d
+gcc/d/setup-gcc.sh --d-language-version=1
+{% endhighlight %}
+
+After that, you are ready to build and install GCC with D support. For this, go to some build directory and [@configure@] and [@make@]. You can, of course, choose an arbitrary directory for the build files (for instance, I personally prefer having the build files completely outside the source direcotry):
+
+{% highlight bash %}
+mkdir build
+cd build
+../configure --enable-languages=d --disable-multilib --disable-shared --prefix=/opt/gdc
+make
+sudo make install
+{% endhighlight %}
+
+Note that I configured GCC/GDC to be installed in [@/opt/gdc@]. As the build also includes the C compiler, this avoids any interference with the »normal« GCC installed probably in [@/usr@]. After the build has finished – this takes quite long, since GCC is built three times to bootstrap itself – you should have a working GDC executable in [@/opt/gdc/bin@]. Now for the second part, Tango:
+
+Start off by fetching the Tango sources from the SVN to a temporary working directory (I worked with revision 5023):
+
+{% highlight bash %}
+cd ~/tmp
+svn co http://svn.dsource.org/projects/tango/trunk tango
+{% endhighlight %}
+
+Unfortunately, Tango currently does not compile with GDC out of the box, you have to apply a couple of minor changes: The first change adds build/arch files for GDC/Linux:
+
+{% highlight diff %}
+diff --git a/build/arch/linux-i686-gdc-dbg.mak b/build/arch/linux-i686-gdc-dbg.mak
+--- /dev/null
++++ b/build/arch/linux-i686-gdc-dbg.mak
+@@ -0,0 +1,6 @@
++include $(ARCHDIR)/gdc.rules
++include $(ARCHDIR)/linux.inc
++
++# -Wall breaks the compilation with wrong errors
++DFLAGS_COMP=-g
++CFLAGS_COMP=-g
+
+diff --git a/build/arch/linux-i686-gdc-opt.mak b/build/arch/linux-i686-gdc-opt.mak
+--- /dev/null
++++ b/build/arch/linux-i686-gdc-opt.mak
+@@ -0,0 +1,5 @@
++include $(ARCHDIR)/gdc.rules
++include $(ARCHDIR)/linux.inc
++
++DFLAGS_COMP=-O2
++CFLAGS_COMP=-O2
+
+diff --git a/build/arch/linux-i686-gdc-tst.mak b/build/arch/linux-i686-gdc-tst.mak
+--- /dev/null
++++ b/build/arch/linux-i686-gdc-tst.mak
+@@ -0,0 +1,5 @@
++include $(ARCHDIR)/gdc.rules
++include $(ARCHDIR)/linux.inc
++
++DFLAGS_COMP=-g -fdeprecated -fdebug=UnitTest -funittest
++CFLAGS_COMP=-g
+{% endhighlight %}
+The second change removes the [@-fversion=Posix@] flag from the Makefile of the runtime because the DMD frontend GDC currently uses (1.040) does not allow it to be specified as it is set automatically (this restriction has been lifted in later versions):
+
+{% highlight diff %}
+diff --git a/runtime/compiler/gdc/Makefile.am b/runtime/compiler/gdc/Makefile.am
+--- a/runtime/compiler/gdc/Makefile.am
++++ b/runtime/compiler/gdc/Makefile.am
+@@ -18,7 +18,7 @@
+ # AUTOMAKE_OPTIONS = 1.9.6 foreign no-dependencies
+
+ OUR_CFLAGS=@DEFS@ -I.
+-D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared -fversion=Posix
++D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared
+ ALL_DFLAGS = $(DFLAGS) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(MULTIFLAGS)
+
+ host_alias=.
+diff --git a/runtime/compiler/gdc/Makefile.in b/runtime/compiler/gdc/Makefile.in
+--- a/runtime/compiler/gdc/Makefile.in
++++ b/runtime/compiler/gdc/Makefile.in
+@@ -228,7 +228,7 @@ target_vendor = @target_vendor@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ OUR_CFLAGS = @DEFS@ -I.
+-D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared -fversion=Posix
++D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared
+ ALL_DFLAGS = $(DFLAGS) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(MULTIFLAGS)
+ toolexecdir = $(phobos_toolexecdir)
+ toolexeclibdir = $(phobos_toolexeclibdir)
+{% endhighlight %}
+The third and last change adds a workaround to Tango's user library for a bug in the DMD front-end which has been fixed by now (the compiler fails to resolve the type of the template parameter in the templated [@intpow@] function):
+
+{% highlight diff %}
+diff --git a/user/tango/math/internal/BiguintCore.d b/user/tango/math/internal/BiguintCore.d
+--- a/user/tango/math/internal/BiguintCore.d
++++ b/user/tango/math/internal/BiguintCore.d
+@@ -516,7 +516,7 @@ static BigUint pow(BigUint x, ulong y)
+             }
+             y0 = y/p;
+             finalMultiplier = intpow(x0, y - y0*p);
+-            x0 = intpow(x0, p);
++            x0 = intpow!(BigDigit)(x0, p);
+         }
+         xlength = 1;
+     }
+{% endhighlight %}
+
+After you have applied these patches, you should be ready to build Tango (make sure that you have a [@cc@] somewhere in your [@PATH@], if not, create a link to your system's [@gcc@]):
+
+{% highlight bash %}
+sudo PATH=$PATH:/opt/gdc/bin DC=gdc build/build.sh --lib-install-dir /opt/gdc/lib
+{% endhighlight %}
+However, I had to remove Phobos' [@object.d@] from [@/opt/gdc/include/d/4.3.1@] first. [@build/build.sh@] should finish with a note reminding you that the user libraries still have to be installed. To do this, simply copy the contents of the [@user@] directory to [@/opt/gdc/include/d/4.3.1@] after removing the old include files which are part of Phobos (you have to keep the [@gcc@] and [@i686-pc-linux-gnu@] directories though). Congratulations, now you should be able to build your Tango projects with GDC!
+
+A quick tip for <a href="http://www.dsource.org/projects/dsss/">DSSS</a> users: You probably have to modify your [@gdc-posix-tango@] profile to omit the [@-version=Posix@] switch (see above) on [@gdmd@] calls and add [@-L-ltango-base-gdc@] to the linker flags since Tango was not installed via DSSS in the above instructions.
+
+p(update). Since I originally wrote this post, Tango's build system was modified yet another time (at least, things are much simpler now). Instead of fiddling around with the makefiles, just use the [@bob@] tool from the [@build@] directory now which _should_ work with GDC out of the box.

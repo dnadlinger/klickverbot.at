@@ -1,0 +1,11 @@
+---
+layout: post
+title: Git on Windows
+post_id: 10
+tags:
+- Git
+- Github
+- Windows
+---
+
+Just found "an excellent writeup":http://kylecordes.com/2008/04/30/git-windows-go/ by Kyle Cordes about using Git on Windows.

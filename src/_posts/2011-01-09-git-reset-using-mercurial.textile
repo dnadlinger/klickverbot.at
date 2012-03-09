@@ -1,0 +1,32 @@
+---
+layout: post
+title: "git reset using Mercurial"
+tags:
+- Git
+- Mercurial
+excerpt: I am mainly a Git user, but lately I have been working with Mercurial from time to time. So far, I have been mostly using it for basic committing though, so I still occasionally end up with a commit I did not mean to create like this when performing more advanced operations. But undoing that can't be too hard, right?
+---
+
+I am mainly a "Git":http://git-scm.com user, but lately I have been working with "Mercurial":http://mercurial.selenic.com/ from time to time. I have been mostly using it for basic committing though, so I still occasionally end up with a commit I did not mean to create like this when performing more advanced operations. But undoing that can't be too hard, right?
+
+For example, I recently toyed around with "Mercurial Queues":http://mercurial.selenic.com/wiki/MqExtension to emulate Git's staging area, one of the features that seem trivial, but which you don't want to miss at any cost once you are used to it. Doing so, while being at, let's say, revision @1000@, I accidentally created two changesets, @1001@ and @1002@. Now, how do I get rid of these while still keeping the contents of them in the working copy? Using Git, this would just be @git reset HEAD~2@. But unfortunately, Mercurial seems to make your life somewhat hard in this case, this is what I came up with (please leave me a message in the comments in case I missed an easier way):
+
+{% highlight bash %}
+hg update -r1000
+{% endhighlight %}
+
+This sets the working copy to the last »good« revision, only to …
+
+{% highlight bash %}
+hg revert --all -r1002
+{% endhighlight %}
+
+… bring the changes from the two commits back to the working copy (but without committing them this time), so we can now …
+
+{% highlight bash %}
+hg strip --force 1001
+{% endhighlight %}
+
+… strip the two changesets from the history.
+
+I am perfectly aware of the fact that any other SCM tool will probably seem clumsy at first if I am used to Git (besides the fact that Git seems to be a natural fit for the way I think about versioning), but I still wonder whether there a deeper reason for Mercurial not to support this more directly.

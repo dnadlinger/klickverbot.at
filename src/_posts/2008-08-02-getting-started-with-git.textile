@@ -1,0 +1,13 @@
+---
+layout: post
+title: Getting started with git
+post_id: 7
+tags:
+- Git
+- Github
+- Rails
+---
+
+Recently, I decided to have a look at the revision control system "Git":http://git-scm.com and the »social code hosting service« "GitHub":http://github.com, which is currently hyped in large parts of the open source community (git is used for the Linux kernel, Ruby on Rails, ...). At first, I felt pretty overwhelmed, because the differences to other SCMs like Subversion were bigger than I had expected. But now, having read the excellent blog post "Got git?":http://b.lesseverything.com/2008/3/25/got-git-howto-git-and-github by Steven Bristol, I am starting to understand the concepts and the motivation behind it.
+
+Frankly, I am still not quite sure if the "doing it distributed" paradigm will really establish itself in everyday coding work, but for open source projects git looks very promising at least.

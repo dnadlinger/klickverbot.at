@@ -1,0 +1,12 @@
+---
+layout: post
+title: Strange segfaults when compiling with GDC
+post_id: 14
+tags:
+- D
+- gdc
+---
+
+Use -no-export-dynamic to prevent segfaults in external libraries when linking with GDC.
+
+More to come soon...

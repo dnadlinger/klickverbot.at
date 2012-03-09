@@ -1,0 +1,14 @@
+---
+layout: post
+title: "SWIG 2.0.2 with D support released"
+tags:
+- D
+- SWIG
+excerpt: Yesterday, SWIG 2.0.2 has been released. Along with various bug fixes for the other supported languages, this is the first release to officially support the D programming language.
+---
+
+Yesterday, "SWIG":http://swig.org version 2.0.2 has been "officially released":http://sourceforge.net/news/?group_id=1645&id=297686. Along with various bug fixes for the other supported languages, this is the first release to support the "D programming language":http://d-programming-language.org. As always, you can get the release from the "download area":http://swig.org/download.html, but here are direct links to the files hosted at SourceForge for your convenience: One for the "source tarball":http://prdownloads.sourceforge.net/swig/swig-2.0.2.tar.gz, and another for _"swigwin":http://prdownloads.sourceforge.net/swig/swigwin-2.0.2.zip_ which includes a pre-built Win32 executable.
+
+Since my "first announcement":/blog/2010/11/announcing-d-support-in-swig/, there were a number of changes and improvements. Along them were some critical fixes to the generated code when compiled on Windows, some minor ones regarding name collision in the D part, and a fix to the »directors« feature where a wrong C++ method would be called silently under certain circumstances (thanks to Jimmy Cao for reporting). Unfortunately, there were also some "breaking name changes":/blog/2010/12/swig-d-breaking-name-changes/, as previously mentioned on this blog. Furthermore, I added basic support for operator overloading, please refer to the "documentation":http://www.swig.org/Doc2.0/D.html#D_operator_overloading for details.
+
+If you have any questions or need assistance with using SWIG on a certain library, feel free to "contact":/#contact me directly or to post to the "swig-user":http://swig.org/mail.html mailing list. During the next few days, I will be quite busy and cannot promise you to reply quickly, but after that, I will be happy to help. Oh, and it would be great if you could share your personal experiences, common pitfalls and how to overcome them when using SWIG for the first time, since »Getting Started«-style documentation for people new to SWIG is a bit scarce at the moment!

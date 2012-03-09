@@ -1,0 +1,18 @@
+---
+layout: post
+title: ZoneAlarm Firewall + Windows Vista = No Good
+post_id: 13
+tags:
+- Firewall
+- Windows
+- ZoneAlarm
+---
+
+I am terribly short on time at the moment, but I just have to record this:
+_Don't use the Zone Labs ZoneAlarm Firewall on Microsoft Windows Vista. Just don't do it!_
+
+For me, the firewall caused numerous seemingly unrelated problems: the Windows Update panel froze when started (had to kill explorer.exe), the Windows Defender updates were not working anymore, I could not install Visual Studio (Visual C++ 2008 Express to be precise), etc.
+
+I will certainly write more about this somewhen in the future...
+
+p(update). Apparently, Microsoft have already covered this issue in a "knowledge base entry":http://support.microsoft.com/kb/321434 almost two years ago. D'oh! I will probably do some testing on this during the next days.

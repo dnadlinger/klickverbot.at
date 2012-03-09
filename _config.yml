@@ -1,0 +1,7 @@
+title: David Nadlinger
+url: http://klickverbot.at
+permalink: /blog/:year/:month/:title
+source: src
+destination: intermediate
+plugins: plugins
+pygments: true

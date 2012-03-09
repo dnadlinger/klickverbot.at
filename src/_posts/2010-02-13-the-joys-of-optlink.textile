@@ -1,0 +1,26 @@
+---
+layout: post
+title: The Joys of OPTLINK
+post_id: 129
+tags:
+- D
+- DMD
+- OPTLINK
+- Windows
+---
+
+As you might know, DMD/Windows (the reference compiler for the <a href="http://www.digitalmars.com/d/1.0/">D</a> programming language) does not use the standard COFF format for the object files it generates, but the fairly obscure OMF instead. This fact itself causes quite a number of annoyances. For example, the format differences make it unable to link static libraries produced by other compilers to D projects, which is especially annoying since it also applies to DLL import libraries. You also cannot use any tools which expect object files in COFF format and vice versa.
+
+However, all of these issues, as annoying as they may be, do not pose a serious problem, they can all be worked around. But there is another one, and it has seven letters: OPTLINK. OPTLINK, courtesy of Digital Mars, is the linker which comes with DMD. There are quite a number of issues with it:
+
+First, it is proprietary closed-source software. Apart from some people's idealistic worries, this also poses a serious problem to more pragmatically inclined coders because _there are no alternative linkers_ for OMF, at least no even half-decent ones. This means that if you stumble upon a bug, you can do nothing more than to wait for Walter Bright to fix it.
+
+Second, even if the source code was available, it would probably still be hard to fix bugs, since, according to Walter himself, large parts are written in assembler – a _maintainer's nightmare_. This might also explain why it took him so long to fix some serious bugs in the past…
+
+Third, there are bugs. _Lots of bugs_, compared to other linkers and with the pretty high version number (8.00.2) in mind. If you want to know what I am talking about, just search the D newsgroups; projects which make extensive use of templates seem to be affected more often than others. Until yesterday, I personally had been spared from this kind of issues, but the OPTLINK bug I encountered yesterday almost drove me crazy, because one wouldn't expect this at all: <!--more-->
+
+After I had worked quite some time on Linux exclusively, I needed to compile a Windows version of a project of mine. So I went ahead and rebooted, updated DMD, Tango and a few other tools. Everything worked fine, the project even built fine, until I needed to build debug symbols into the binary. Every time I just added the [@-g@] flag to the compiler invocation, OPTLINK would abort with »Error 118: Filename Expected«. Because I had also upgraded my build tool, my first thought was that the linker commands could really be broken, but on closer inspection, it turned out that the invocation was generated perfectly fine. So I went on and downgraded all of the tools again, but to no avail – again the same error, although debug builds had worked flawlessly in the past.
+
+After having searched for about an hour, I finally found the cause, and I could not really believe it at first: Compared to my previous D/Windows setup, I had added the Notepad++ installation directory to my [@PATH@]. You might ask yourself now, »Um, what? How should that break the linker?« Well, it turned out that OPTLINK apparently has problems with handling plus signs in all the lookup paths it uses, including not only the ones passed at the command line, but also those from the environment variables.
+
+For a second I was really tempted to just drop DMD altogether, but unfortunately, there currently is no other D compiler of comparable quality for Windows. In my eyes, it would really help if DMD used COFF for its object files, making it possible to easily switch out OPTLINK, since the maturity of the tool-chain is currently the number one problem of D.
