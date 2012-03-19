@@ -1,0 +1,14 @@
+---
+layout: code
+title: std.units
+prev_title: LDC
+prev_url: /code/ldc
+next_title: Mathematische Grundlagen der 3D-Grafik
+next_url: /science/3d-mathematics
+---
+
+h1. Units of measurement for D (Phobos?)
+
+Recently, I have been playing around with a units of measurement implementation for D2/Phobos. I've yet to write a detailed description – for now, please see the code ("std/units.d":https://github.com/klickverbot/phobos/blob/units/std/units.d and "std/si.d":https://github.com/klickverbot/phobos/blob/units/std/si.d in my Phobos fork on GitHub), the DDoc documentation ("std.units":std_units.html and "std.si":std_si.html).
+
+Please be sure to tell me what you think about it on the discussion I started at the main D newsgroup, "»RFC: Units of measurement for D (Phobos?)«":http://www.digitalmars.com/webnews/newsgroups.php?art_group=digitalmars.D&article_id=134590.

@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.codegen.processor</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.codegen.processor">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.codegen.processor"><a href="htmlsrc/thrift.codegen.processor.html" class="symbol">thrift.codegen.processor</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">template</span> <a class="symbol _template" name="TServiceProcessor" href="htmlsrc/thrift.codegen.processor.html#L82">TServiceProcessor</a><span class="tparams">(<em>Interface</em>, <em>Protocols</em>...)</span> <a href="thrift.codegen.processor.html#TServiceProcessor" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Service processor for Interface, which implements TProcessor by
+ synchronously forwarding requests for the service methods to a handler
+ implementing Interface.</div></div>
+<div class="cmnt">The generated class implements TProcessor and additionally allows a
+ TProcessorEventHandler to be specified via the public eventHandler property.
+ The constructor takes a single argument of type Interface, which is the
+ handler to forward the requests to:
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex1" name="L1_ex1">1</a>
+<a href="#L2_ex1" name="L2_ex1">2</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="k">this</span>(<span class="i">Interface</span> <span class="i">iface</span>);
+<span class="i">TProcessorEventHandler</span> <span class="i">eventHandler</span>;</pre>
+</td></tr>
+</table>
+<p class="bl"></p>
+ If Interface is derived from another service BaseInterface, this class is
+ also derived from TServiceProcessor!BaseInterface.
+<p class="bl"></p>
+ The optional Protocols template tuple parameter can be used to specify
+ one or more TProtocol implementations to specifically generate code for. If
+ the actual types of the protocols passed to process() at runtime match one
+ of the items from the list, the optimized code paths are taken, otherwise,
+ a generic TProtocol version is used as fallback. For cases where the input
+ and output protocols differ, TProtocolPair!(InputProtocol, OutputProtocol)
+ can be used in the Protocols list:
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex2" name="L1_ex2">1</a>
+<a href="#L2_ex2" name="L2_ex2">2</a>
+<a href="#L3_ex2" name="L3_ex2">3</a>
+<a href="#L4_ex2" name="L4_ex2">4</a>
+<a href="#L5_ex2" name="L5_ex2">5</a>
+<a href="#L6_ex2" name="L6_ex2">6</a>
+<a href="#L7_ex2" name="L7_ex2">7</a>
+<a href="#L8_ex2" name="L8_ex2">8</a>
+<a href="#L9_ex2" name="L9_ex2">9</a>
+<a href="#L10_ex2" name="L10_ex2">10</a>
+<a href="#L11_ex2" name="L11_ex2">11</a>
+<a href="#L12_ex2" name="L12_ex2">12</a>
+<a href="#L13_ex2" name="L13_ex2">13</a>
+<a href="#L14_ex2" name="L14_ex2">14</a>
+<a href="#L15_ex2" name="L15_ex2">15</a>
+<a href="#L16_ex2" name="L16_ex2">16</a>
+<a href="#L17_ex2" name="L17_ex2">17</a>
+<a href="#L18_ex2" name="L18_ex2">18</a>
+<a href="#L19_ex2" name="L19_ex2">19</a>
+<a href="#L20_ex2" name="L20_ex2">20</a>
+<a href="#L21_ex2" name="L21_ex2">21</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="k">interface</span> <span class="i">FooService</span> { <span class="k">void</span> <span class="i">foo</span>(); }
+<span class="k">class</span> <span class="i">FooImpl</span> { <span class="k">override</span> <span class="k">void</span> <span class="i">foo</span> {} }
+
+<span class="lc">// Provides fast path if TBinaryProtocol!TBufferedTransport is used for</span>
+<span class="lc">// both input and output:</span>
+<span class="k">alias</span> <span class="i">TServiceProcessor</span>!(<span class="i">FooService</span>, <span class="i">TBinaryProtocol</span>!<span class="i">TBufferedTransport</span>)
+  <span class="i">BinaryProcessor</span>;
+
+<span class="k">auto</span> <span class="i">proc</span> = <span class="k">new</span> <span class="i">BinaryProcessor</span>(<span class="k">new</span> <span class="i">FooImpl</span>());
+
+<span class="lc">// Low overhead.</span>
+<span class="i">proc</span>.<span class="i">process</span>(<span class="i">tBinaryProtocol</span>(<span class="i">tBufferTransport</span>(<span class="i">someSocket</span>)));
+
+<span class="lc">// Not in the specialization list – higher overhead.</span>
+<span class="i">proc</span>.<span class="i">process</span>(<span class="i">tBinaryProtocol</span>(<span class="i">tFramedTransport</span>(<span class="i">someSocket</span>)));
+
+<span class="lc">// Same as above, but optimized for the Compact protocol backed by a</span>
+<span class="lc">// TPipedTransport for input and a TBufferedTransport for output.</span>
+<span class="k">alias</span> <span class="i">TServiceProcessor</span>!(<span class="i">FooService</span>, <span class="i">TProtocolPair</span>!(
+  <span class="i">TCompactProtocol</span>!<span class="i">TPipedTransport</span>, <span class="i">TCompactProtocol</span>!<span class="i">TBufferedTransport</span>)
+) <span class="i">MixedProcessor</span>;</pre>
+</td></tr>
+</table></div>
+</dd>
+<dt class="decl"><span class="kw">template</span> <a class="symbol _template" name="TArgsStruct" href="htmlsrc/thrift.codegen.processor.html#L354">TArgsStruct</a><span class="tparams">(<em>Interface</em>, string <em>methodName</em>)</span> <a href="thrift.codegen.processor.html#TArgsStruct" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A struct representing the arguments of a Thrift method call.</div></div>
+<div class="cmnt">There should usually be no reason to use this directly without the help of
+ TServiceProcessor, but it is documented publicly to help debugging in case
+ of CTFE errors.
+<p class="bl"></p>
+ Consider this example:
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex3" name="L1_ex3">1</a>
+<a href="#L2_ex3" name="L2_ex3">2</a>
+<a href="#L3_ex3" name="L3_ex3">3</a>
+<a href="#L4_ex3" name="L4_ex3">4</a>
+<a href="#L5_ex3" name="L5_ex3">5</a>
+<a href="#L6_ex3" name="L6_ex3">6</a>
+<a href="#L7_ex3" name="L7_ex3">7</a>
+<a href="#L8_ex3" name="L8_ex3">8</a>
+<a href="#L9_ex3" name="L9_ex3">9</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="k">interface</span> <span class="i">Foo</span> {
+  <span class="k">int</span> <span class="i">bar</span>(<span class="i">string</span> <span class="i">a</span>, <span class="k">bool</span> <span class="i">b</span>);
+
+  <span class="k">enum</span> <span class="i">methodMeta</span> = [
+    <span class="i">TMethodMeta</span>(<span class="sl">"bar"</span>, [<span class="i">TParamMeta</span>(<span class="sl">"a"</span>, <span class="n">1</span>), <span class="i">TParamMeta</span>(<span class="sl">"b"</span>, <span class="n">2</span>)])
+  ];
+}
+
+<span class="k">alias</span> <span class="i">TArgsStruct</span>!(<span class="i">Foo</span>, <span class="sl">"bar"</span>) <span class="i">FooBarArgs</span>;</pre>
+</td></tr>
+</table>
+<p class="bl"></p>
+ The definition of FooBarArgs is equivalent to:
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex4" name="L1_ex4">1</a>
+<a href="#L2_ex4" name="L2_ex4">2</a>
+<a href="#L3_ex4" name="L3_ex4">3</a>
+<a href="#L4_ex4" name="L4_ex4">4</a>
+<a href="#L5_ex4" name="L5_ex4">5</a>
+<a href="#L6_ex4" name="L6_ex4">6</a>
+<a href="#L7_ex4" name="L7_ex4">7</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="k">struct</span> <span class="i">FooBarArgs</span> {
+  <span class="i">string</span> <span class="i">a</span>;
+  <span class="k">bool</span> <span class="i">b</span>;
+
+  <span class="k">mixin</span> <span class="i">TStructHelpers</span>!([<span class="i">TFieldMeta</span>(<span class="sl">"a"</span>, <span class="n">1</span>, <span class="i">TReq</span>.<span class="i">OPT_IN_REQ_OUT</span>),
+    <span class="i">TFieldMeta</span>(<span class="sl">"b"</span>, <span class="n">2</span>, <span class="i">TReq</span>.<span class="i">OPT_IN_REQ_OUT</span>)]);
+}</pre>
+</td></tr>
+</table>
+<p class="bl"></p>
+ If the TVerboseCodegen version is defined, a warning message is issued at
+ compilation if no TMethodMeta for Interface.methodName is found.</div>
+</dd>
+<dt class="decl"><span class="kw">template</span> <a class="symbol _template" name="TResultStruct" href="htmlsrc/thrift.codegen.processor.html#L454">TResultStruct</a><span class="tparams">(<em>Interface</em>, string <em>methodName</em>)</span> <a href="thrift.codegen.processor.html#TResultStruct" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A struct representing the result of a Thrift method call.</div></div>
+<div class="cmnt">It contains a field called "success" for the return value of the function
+ (with id 0), and additional fields for the exceptions declared for the
+ method, if any.
+<p class="bl"></p>
+ There should usually be no reason to use this directly without the help of
+ TServiceProcessor, but it is documented publicly to help debugging in case
+ of CTFE errors.
+<p class="bl"></p>
+ Consider the following example:
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex5" name="L1_ex5">1</a>
+<a href="#L2_ex5" name="L2_ex5">2</a>
+<a href="#L3_ex5" name="L3_ex5">3</a>
+<a href="#L4_ex5" name="L4_ex5">4</a>
+<a href="#L5_ex5" name="L5_ex5">5</a>
+<a href="#L6_ex5" name="L6_ex5">6</a>
+<a href="#L7_ex5" name="L7_ex5">7</a>
+<a href="#L8_ex5" name="L8_ex5">8</a>
+<a href="#L9_ex5" name="L9_ex5">9</a>
+<a href="#L10_ex5" name="L10_ex5">10</a>
+<a href="#L11_ex5" name="L11_ex5">11</a>
+<a href="#L12_ex5" name="L12_ex5">12</a>
+<a href="#L13_ex5" name="L13_ex5">13</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="k">interface</span> <span class="i">Foo</span> {
+  <span class="k">int</span> <span class="i">bar</span>(<span class="i">string</span> <span class="i">a</span>);
+
+  <span class="k">alias</span> .<span class="i">FooException</span> <span class="i">FooException</span>;
+
+  <span class="k">enum</span> <span class="i">methodMeta</span> = [
+    <span class="i">TMethodMeta</span>(<span class="sl">"bar"</span>,
+      [<span class="i">TParamMeta</span>(<span class="sl">"a"</span>, <span class="n">1</span>)],
+      [<span class="i">TExceptionMeta</span>(<span class="sl">"fooe"</span>, <span class="n">1</span>, <span class="sl">"FooException"</span>)]
+    )
+  ];
+}
+<span class="k">alias</span> <span class="i">TResultStruct</span>!(<span class="i">Foo</span>, <span class="sl">"bar"</span>) <span class="i">FooBarResult</span>;</pre>
+</td></tr>
+</table>
+<p class="bl"></p>
+ The definition of FooBarResult is equivalent to:
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex6" name="L1_ex6">1</a>
+<a href="#L2_ex6" name="L2_ex6">2</a>
+<a href="#L3_ex6" name="L3_ex6">3</a>
+<a href="#L4_ex6" name="L4_ex6">4</a>
+<a href="#L5_ex6" name="L5_ex6">5</a>
+<a href="#L6_ex6" name="L6_ex6">6</a>
+<a href="#L7_ex6" name="L7_ex6">7</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="k">struct</span> <span class="i">FooBarResult</span> {
+  <span class="k">int</span> <span class="i">success</span>;
+  <span class="i">FooException</span> <span class="i">fooe</span>;
+
+  <span class="k">mixin</span>(<span class="i">TStructHelpers</span>!([<span class="i">TFieldMeta</span>(<span class="sl">"success"</span>, <span class="n">0</span>, <span class="i">TReq</span>.<span class="i">OPTIONAL</span>),
+    <span class="i">TFieldMeta</span>(<span class="sl">"fooe"</span>, <span class="n">1</span>, <span class="i">TReq</span>.<span class="i">OPTIONAL</span>)]));
+}</pre>
+</td></tr>
+</table>
+<p class="bl"></p>
+ If the TVerboseCodegen version is defined, a warning message is issued at
+ compilation if no TMethodMeta for Interface.methodName is found.</div>
+</dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:29 2012.</p>
+</div>
+</div>
+</body>
+</html>

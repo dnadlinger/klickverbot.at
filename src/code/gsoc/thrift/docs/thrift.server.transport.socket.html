@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.server.transport.socket</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.server.transport.socket">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.server.transport.socket"><a href="htmlsrc/thrift.server.transport.socket.html" class="symbol">thrift.server.transport.socket</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TServerSocket" href="htmlsrc/thrift.server.transport.socket.html#L44">TServerSocket</a> : <span class="bclass">TServerTransport</span> <a href="thrift.server.transport.socket.html#TServerSocket" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Server socket implementation of TServerTransport.</div></div>
+<div class="cmnt">Maps to std.socket listen()/accept(); only provides TCP/IP sockets (i.e. no
+ Unix sockets) for now, because they are not supported in std.socket.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TServerSocket.this" href="htmlsrc/thrift.server.transport.socket.html#L53">this</a><span class="params">(ushort <em>port</em>, Duration <em>sendTimeout</em> = <span class="defval"><span class="i">dur</span>!<span class="sl">"hnsecs"</span>(<span class="n">0</span>)</span>, Duration <em>recvTimeout</em> = <span class="defval"><span class="i">dur</span>!<span class="sl">"hnsecs"</span>(<span class="n">0</span>)</span>)</span> <a href="thrift.server.transport.socket.html#TServerSocket.this" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Constructs a new instance.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>port</em></td><td>The TCP port to listen at (host is always 0.0.0.0).</td></tr>
+<tr><td><em>sendTimeout</em></td><td>The socket sending timeout.</td></tr>
+<tr><td><em>recvTimout</em></td><td>The socket receiving timeout.</td></tr></table></dd>
+<dt class="decl"><span class="rettyp">ushort</span> <a class="symbol _function" name="TServerSocket.port" href="htmlsrc/thrift.server.transport.socket.html#L66">port</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.server.transport.socket.html#TServerSocket.port" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The port the server socket listens at.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerSocket.sendTimeout" href="htmlsrc/thrift.server.transport.socket.html#L71">sendTimeout</a><span class="params">(Duration <em>sendTimeout</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.server.transport.socket.html#TServerSocket.sendTimeout" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The socket sending timeout, zero to block infinitely.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerSocket.recvTimeout" href="htmlsrc/thrift.server.transport.socket.html#L76">recvTimeout</a><span class="params">(Duration <em>recvTimeout</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.server.transport.socket.html#TServerSocket.recvTimeout" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The socket receiving timeout, zero to block infinitely.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerSocket.retryLimit" href="htmlsrc/thrift.server.transport.socket.html#L81">retryLimit</a><span class="params">(ushort <em>retryLimit</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.server.transport.socket.html#TServerSocket.retryLimit" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The maximum number of listening retries if it fails.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerSocket.retryDelay" href="htmlsrc/thrift.server.transport.socket.html#L86">retryDelay</a><span class="params">(Duration <em>retryDelay</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.server.transport.socket.html#TServerSocket.retryDelay" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The delay between a listening attempt failing and retrying it.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerSocket.tcpSendBuffer" href="htmlsrc/thrift.server.transport.socket.html#L91">tcpSendBuffer</a><span class="params">(int <em>tcpSendBuffer</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.server.transport.socket.html#TServerSocket.tcpSendBuffer" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The size of the TCP send buffer, in bytes.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerSocket.tcpRecvBuffer" href="htmlsrc/thrift.server.transport.socket.html#L96">tcpRecvBuffer</a><span class="params">(int <em>tcpRecvBuffer</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.server.transport.socket.html#TServerSocket.tcpRecvBuffer" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The size of the TCP receiving buffer, in bytes.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerSocket.ipv6Only" href="htmlsrc/thrift.server.transport.socket.html#L102">ipv6Only</a><span class="params">(bool <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.server.transport.socket.html#TServerSocket.ipv6Only" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether to listen on IPv6 only, if IPv6 support is detected
+ (default: false).</div></div></dd>
+<dt class="decl"><span class="kw">auto</span> <a class="symbol _variable" name="TServerSocket.ACCEPT_BACKLOG" href="htmlsrc/thrift.server.transport.socket.html#L126">ACCEPT_BACKLOG</a> <span class="attrs">[<span class="stc">manifest</span>]</span> <a href="thrift.server.transport.socket.html#TServerSocket.ACCEPT_BACKLOG" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Number of connections listen() backlogs.</div></div></dd>
+<dt class="decl"><span class="rettyp">TSocket</span> <a class="symbol _function" name="TServerSocket.createTSocket" href="htmlsrc/thrift.server.transport.socket.html#L185">createTSocket</a><span class="params">(Socket <em>socket</em>)</span> <span class="attrs">[<span class="prot">protected</span>]</span> <a href="thrift.server.transport.socket.html#TServerSocket.createTSocket" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Allows derived classes to create a different TSocket type.</div></div></dd></dl></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:29 2012.</p>
+</div>
+</div>
+</body>
+</html>

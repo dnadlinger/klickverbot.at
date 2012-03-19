@@ -7,6 +7,7 @@ tags:
 - Debugging
 - gdb
 - KDE
+excerpt: "A pretty long time has passed since my last post here, and in the meantime I have jumped right into KDE development myself. I have stumbled upon quite a few tricks and pitfalls that I will undoubtedly write about here some day. For now, I just want to share"
 ---
 
 A pretty long time has passed since my last post here, and in the meantime I have jumped right into KDE development myself. I have stumbled upon quite a few tricks and pitfalls that I will undoubtedly write about here some day.

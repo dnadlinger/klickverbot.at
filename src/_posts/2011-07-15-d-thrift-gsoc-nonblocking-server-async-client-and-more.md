@@ -38,7 +38,7 @@ Profiling results
 So, after all these (de)serialization micro-optimizations (I improved the writing part when first working on performance), how does the D implementation compare to its natural competitor, the C++ one? Well, frankly not too well at this point. Before discussing my findings in more detail, the performance results as measured on an x86_64 Arch Linux VM<sup class="footnote" id="fnr1"><a href="#fn1">1</a></sup>, hosted on my MacBook Pro (Intel Core i7-620M 2.66 GHz, OS X 10.6), by running each part 10&thinsp;000&thinsp;000 times and averaging over it (the results are in 1&thinsp;000 operations per second, so both implementations can perform on the order of a million reads/writes per second):
 
 <figure>
-  <table class="dstress">
+  <table class="firstname">
     <thead>
       <tr>
         <th>&nbsp;</th>

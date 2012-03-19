@@ -6,6 +6,7 @@ tags:
 - Firewall
 - Windows
 - ZoneAlarm
+excerpt: "I am terribly short on time at the moment, but I just have to record this: <em>Don't use the Zone Labs ZoneAlarm Firewall on Microsoft Windows Vista. Just don't do it!</em> For me, the firewall caused numerous seemingly unrelated problems"
 ---
 
 I am terribly short on time at the moment, but I just have to record this:

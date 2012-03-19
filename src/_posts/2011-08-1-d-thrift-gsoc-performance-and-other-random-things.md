@@ -5,7 +5,7 @@ tags:
   - D
   - GSoC
   - Thrift
-excerpt: "This week, I will try to keep the post short, while still informative – I spent way too much time being unproductive due to hard to track down bugs already to be in the mood for writing up"
+excerpt: "This week, I will try to keep the post short, while still informative – I spent way too much time being unproductive due to hard to track down bugs already to be in the mood for writing up extensive ramblings. So, on to the meat of the recent changes (besides the usual little cleanup commits here and there)"
 ---
 
 This week, I will try to keep the post short, while still informative – I spent way too much time being unproductive due to hard to track down bugs already to be in the mood for writing up extensive ramblings. So, on to the meat of the recent changes (besides the usual little cleanup commits here and there):
@@ -21,7 +21,7 @@ This week, I will try to keep the post short, while still informative – I spen
  * The biggest chunk of time was actually spent on _performance investigations_: While I was pretty certain that the D serialization code should not perform any worse than its C++ counterpart already, the difference in speed merely being compiler-dependent, I wanted to prove this fact so that I could cross this item from the list. This involved updating [LDC](http://dsource.org/projects/ldc) to the 2.054 frontend (only to discover that Alexey Prokhin decided to start work on it at the same time I did, the related commits in the [main repository](https://bitbucket.org/lindquist/ldc) are his now), fixing some LDC-specific druntime bugs, etc<sup class="footnote" id="fnr1"><a href="#fn1">1</a></sup>. Unfortunately, I couldn't test GDC because of [issue 6411](http://d.puremagic.com/issues/show_bug.cgi?id=6411), but without further ado, here are the results:
 
 <figure>
-  <table class="dstress">
+  <table class="firstname">
     <thead>
       <tr>
         <th>&nbsp;</th>
@@ -69,11 +69,11 @@ The `std::string` implementation of the GCC STL seems to be fairly inefficient i
 
 But now to the D results: Simply switching to LDC 2 instead of DMD didn't give any great speedups, because `readAll()` wasn't inlined by it either, thus leaving all the memory copying unoptimized, as discussed in the last post. To see how much of a difference this would really make, I compiled the D code to LLVM IR files and manually ran the optimizer/code generator/linker on them, with the plan being to manually add the `alwaysinline` attribute to the relevant pieces of IR:
 
-<pre><code>ldc2 -c -output-ll -oq -w -release -I../src -Igen-d ….d
+<figure><pre><code>ldc2 -c -output-ll -oq -w -release -I../src -Igen-d ….d
 llvm-link *.ll -o benchmark.bc
 opt {-O3, -std-compile-opts} benchmark.bc -o benchmark_opt.bc
 llvm-ld -native -llphobos2 -ldl -lm -lrt benchmark_opt.bc
-</code></pre>
+</code></pre></figure>
 
 I then discovered that the method calls in question were properly inlined by the stand-alone `opt` without any manual intervention anyway. I am not really sure why this happens; the inliner cost limits could be more liberal in this case, or the optimization passes being scheduled in a different way than inside LDC could have an impact, or maybe it's connected to the fact that `TMemoryBuffer` and the caller are in different modules (to my understanding, LTO _shouldn't_ be required to optimize in this case, but it may well be that I am mistaken here).
 
@@ -81,6 +81,6 @@ The `LDC -output-ll` rows in the above table correspond to the benchmark compile
 
 The only change related to benchmark performance I made since the last post was an LDC-specific workaround to stop manifest constants from incorrectly being leaked from the CTFE codegen process into the writing functions. I think the above results are justification enough to stop worrying about raw serialization performance – the results when using the Compact instead of the Binary protocol are similar – and moving on to more important topics<sup class="footnote" id="fnr2"><a href="#fn2">2</a></sup>.
 
-<p class="footnote" id="fn1"><a href="#fnr1"><sup>1</sup></a> If you are curious about LDC 2, you can get the source I used from the <a href="https://bitbucket.org/lindquist/ldc">official hg repo</a>, and the LDC-specific <a href="https://github.com/klickverbot/druntime/tree/ldc2">druntime</a> and <a href="https://github.com/klickverbot/phobos/tree/ldc2">Phobos</a> source from my clones at GitHub.</p>
+<p class="footnote" id="fn1"><a href="#fnr1"><sup>1</sup></a> <s>If you are curious about LDC 2, you can get the source I used from the <a href="https://bitbucket.org/lindquist/ldc">official hg repo</a>, and the LDC-specific <a href="https://github.com/klickverbot/druntime/tree/ldc2">druntime</a> and <a href="https://github.com/klickverbot/phobos/tree/ldc2">Phobos</a> source from my clones at GitHub</s>. LDC is <a href="https://github.com/ldc-developers/ldc">officially on GitHub</a> now.</p>
 
 <p class="footnote" id="fn2"><a href="#fnr2"><sup>2</sup></a> Such as performance-testing the actual server implementations, but I don't expect any big surprises there, and I am not sure how to reliably benchmark the network-related code – running server and clients on the same machine is probably a bad idea?</p>

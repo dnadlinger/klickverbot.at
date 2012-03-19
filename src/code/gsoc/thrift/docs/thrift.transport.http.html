@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.transport.http</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.transport.http">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.transport.http"><a href="htmlsrc/thrift.transport.http.html" class="symbol">thrift.transport.http</a></h1>
+
+<div class="summary"><div class="cmnt">HTTP tranpsort implementation, modelled after the C++ one.</div></div>
+<div class="cmnt">Unfortunately, libcurl is quite heavyweight and supports only client-side
+ applications. This is an implementation of the basic HTTP/1.1 parts
+ supporting HTTP 100 Continue, chunked transfer encoding, keepalive, etc.</div>
+<dl>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="THttpTransport" href="htmlsrc/thrift.transport.http.html#L43">THttpTransport</a> : <span class="bclass">TBaseTransport</span> <span class="attrs">[<span class="stc">abstract</span>]</span> <a href="thrift.transport.http.html#THttpTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Base class for both client- and server-side HTTP transports.</div></div>
+<dl>
+<dt class="decl"><span class="kw">auto</span> <a class="symbol _variable" name="THttpTransport.HTTP_BUFFER_SIZE" href="htmlsrc/thrift.transport.http.html#L123">HTTP_BUFFER_SIZE</a> <span class="attrs">[<span class="stc">manifest</span>]</span> <a href="thrift.transport.http.html#THttpTransport.HTTP_BUFFER_SIZE" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The size of the buffer to read HTTP requests into, in bytes. Will expand
+ as required.</div></div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TClientHttpTransport" href="htmlsrc/thrift.transport.http.html#L298">TClientHttpTransport</a> : <span class="bclass">THttpTransport</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.transport.http.html#TClientHttpTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">HTTP client transport.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TClientHttpTransport.this" href="htmlsrc/thrift.transport.http.html#L308">this</a><span class="params">(TTransport <em>transport</em>, string <em>host</em>, string <em>path</em>)</span> <a href="thrift.transport.http.html#TClientHttpTransport.this" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Constructs a client http transport operating on the passed underlying
+ transport.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>transport</em></td><td>The underlying transport used for the actual I/O.</td></tr>
+<tr><td><em>host</em></td><td>The HTTP host string.</td></tr>
+<tr><td><em>path</em></td><td>The HTTP path string.</td></tr></table></dd>
+<dt class="decl"><a class="symbol _ctor" name="TClientHttpTransport.this:2" href="htmlsrc/thrift.transport.http.html#L323">this</a><span class="params">(string <em>host</em>, ushort <em>port</em>, string <em>path</em>)</span> <a href="thrift.transport.http.html#TClientHttpTransport.this:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Convenience overload for constructing a client HTTP transport using a
+ TSocket connecting to the specified host and port.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>host</em></td><td>The server to connect to, also used as HTTP host string.</td></tr>
+<tr><td><em>port</em></td><td>The port to connect to.</td></tr>
+<tr><td><em>path</em></td><td>The HTTP path string.</td></tr></table></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TServerHttpTransport" href="htmlsrc/thrift.transport.http.html#L373">TServerHttpTransport</a> : <span class="bclass">THttpTransport</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.transport.http.html#TServerHttpTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">HTTP server transport.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TServerHttpTransport.this" href="htmlsrc/thrift.transport.http.html#L380">this</a><span class="params">(TTransport <em>transport</em>)</span> <a href="thrift.transport.http.html#TServerHttpTransport.this" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Constructs a new instance.</div></div>
+<p class="sec_header">Param:</p><div class="cmnt">transport = The underlying transport used for the actual I/O.</div></dd></dl></dd>
+<dt class="decl"><span class="kw">alias</span> TWrapperTransportFactory!TServerHttpTransport <a class="symbol _alias" name="TServerHttpTransportFactory" href="htmlsrc/thrift.transport.http.html#L422">TServerHttpTransportFactory</a> <a href="thrift.transport.http.html#TServerHttpTransportFactory" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Wraps a transport into a HTTP server protocol.</div></div></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:30 2012.</p>
+</div>
+</div>
+</body>
+</html>

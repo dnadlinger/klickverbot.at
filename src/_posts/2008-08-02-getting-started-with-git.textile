@@ -6,6 +6,7 @@ tags:
 - Git
 - Github
 - Rails
+excerpt: "Recently, I decided to have a look at the revision control system Git and the »social code hosting service« GitHub, which is currently hyped in large parts of the open source community"
 ---
 
 Recently, I decided to have a look at the revision control system "Git":http://git-scm.com and the »social code hosting service« "GitHub":http://github.com, which is currently hyped in large parts of the open source community (git is used for the Linux kernel, Ruby on Rails, ...). At first, I felt pretty overwhelmed, because the differences to other SCMs like Subversion were bigger than I had expected. But now, having read the excellent blog post "Got git?":http://b.lesseverything.com/2008/3/25/got-git-howto-git-and-github by Steven Bristol, I am starting to understand the concepts and the motivation behind it.

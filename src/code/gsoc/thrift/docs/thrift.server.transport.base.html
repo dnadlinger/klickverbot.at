@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.server.transport.base</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.server.transport.base">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.server.transport.base"><a href="htmlsrc/thrift.server.transport.base.html" class="symbol">thrift.server.transport.base</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">interface</span> <a class="symbol _interface" name="TServerTransport" href="htmlsrc/thrift.server.transport.base.html#L29">TServerTransport</a> <a href="thrift.server.transport.base.html#TServerTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Some kind of I/O device enabling servers to listen for incoming client
+ connections and communicate with them via a TTransport interface.</div></div>
+<dl>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerTransport.listen" href="htmlsrc/thrift.server.transport.base.html#L41">listen</a><span class="params">()</span> <a href="thrift.server.transport.base.html#TServerTransport.listen" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Starts listening for server connections.</div></div>
+<div class="cmnt">Just as simliar functions commonly found in socket libraries, this
+ function does not block.
+<p class="bl"></p>
+ If the socket is already listening, nothing happens.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TServerTransportException if listening failed or the transport
+   was already listening.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerTransport.close" href="htmlsrc/thrift.server.transport.base.html#L48">close</a><span class="params">()</span> <a href="thrift.server.transport.base.html#TServerTransport.close" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Closes the server transport, causing it to stop listening.</div></div>
+<p class="sec_header">Throws:</p><div class="cmnt">TServerTransportException if the transport was not listening.</div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TServerTransport.isListening" href="htmlsrc/thrift.server.transport.base.html#L53">isListening</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.server.transport.base.html#TServerTransport.isListening" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Returns whether the server transport is currently listening.</div></div></dd>
+<dt class="decl"><span class="rettyp">TTransport</span> <a class="symbol _function" name="TServerTransport.accept" href="htmlsrc/thrift.server.transport.base.html#L69">accept</a><span class="params">(TCancellation <em>cancellation</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.server.transport.base.html#TServerTransport.accept" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Accepts a client connection and returns an opened TTransport for it,
+ never returning null.</div></div>
+<div class="cmnt">Blocks until a client connection is available.</div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>cancellation</em></td><td>If triggered, requests the call to stop blocking and
+     return with a TCancelledException. Implementations are free to
+     ignore this if they cannot provide a reasonable.</td></tr></table>
+<p class="sec_header">Throws:</p><div class="cmnt">TServerTransportException if accepting failed,
+   TCancelledException if it was cancelled.</div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TServerTransportException" href="htmlsrc/thrift.server.transport.base.html#L77">TServerTransportException</a> : <span class="bclass">TException</span> <a href="thrift.server.transport.base.html#TServerTransportException" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Server transport exception.</div></div>
+<dl>
+<dt class="decl"><span class="kw">enum</span> <a class="symbol _enum" name="TServerTransportException.Type" href="htmlsrc/thrift.server.transport.base.html#L81">Type</a> <a href="thrift.server.transport.base.html#TServerTransportException.Type" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Error codes for the various types of exceptions.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="TServerTransportException.Type.UNKNOWN" href="htmlsrc/thrift.server.transport.base.html#L83">UNKNOWN</a> <a href="thrift.server.transport.base.html#TServerTransportException.Type.UNKNOWN" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TServerTransportException.Type.NOT_LISTENING" href="htmlsrc/thrift.server.transport.base.html#L86">NOT_LISTENING</a> <a href="thrift.server.transport.base.html#TServerTransportException.Type.NOT_LISTENING" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The server socket is not listening, but excepted to be.</div></div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TServerTransportException.Type.ALREADY_LISTENING" href="htmlsrc/thrift.server.transport.base.html#L89">ALREADY_LISTENING</a> <a href="thrift.server.transport.base.html#TServerTransportException.Type.ALREADY_LISTENING" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The server socket is already listening, but expected not to be.</div></div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TServerTransportException.Type.RESOURCE_FAILED" href="htmlsrc/thrift.server.transport.base.html#L93">RESOURCE_FAILED</a> <a href="thrift.server.transport.base.html#TServerTransportException.Type.RESOURCE_FAILED" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">An operation on the primary underlying resource, e.g. a socket used
+ for accepting connections, failed.</div></div></dd></dl></dd>
+<dt class="decl"><a class="symbol _ctor" name="TServerTransportException.this" href="htmlsrc/thrift.server.transport.base.html#L97">this</a><span class="params">(Type <em>type</em>, string <em>file</em> = <span class="defval"><span class="st">__FILE__</span></span>, size_t <em>line</em> = <span class="defval"><span class="st">__LINE__</span></span>, Throwable <em>next</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.server.transport.base.html#TServerTransportException.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="TServerTransportException.this:2" href="htmlsrc/thrift.server.transport.base.html#L111">this</a><span class="params">(string <em>msg</em>, string <em>file</em> = <span class="defval"><span class="st">__FILE__</span></span>, size_t <em>line</em> = <span class="defval"><span class="st">__LINE__</span></span>, Throwable <em>next</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.server.transport.base.html#TServerTransportException.this:2" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="TServerTransportException.this:3" href="htmlsrc/thrift.server.transport.base.html#L118">this</a><span class="params">(string <em>msg</em>, Type <em>type</em>, string <em>file</em> = <span class="defval"><span class="st">__FILE__</span></span>, size_t <em>line</em> = <span class="defval"><span class="st">__LINE__</span></span>, Throwable <em>next</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.server.transport.base.html#TServerTransportException.this:3" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">Type</span> <a class="symbol _function" name="TServerTransportException.type" href="htmlsrc/thrift.server.transport.base.html#L126">type</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">nothrow</span>, <span class="stc">const</span>]</span> <a href="thrift.server.transport.base.html#TServerTransportException.type" class="plink">¶</a></dt>
+<dd class="ddef"></dd></dl></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:29 2012.</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.base</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.base">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.base"><a href="htmlsrc/thrift.base.html" class="symbol">thrift.base</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TException" href="htmlsrc/thrift.base.html#L24">TException</a> : <span class="bclass">Exception</span> <a href="thrift.base.html#TException" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Common base class for all Thrift exceptions.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TException.this" href="htmlsrc/thrift.base.html#L26">this</a><span class="params">(string <em>msg</em> = <span class="defval"><span class="sl">""</span></span>, string <em>file</em> = <span class="defval"><span class="st">__FILE__</span></span>, size_t <em>line</em> = <span class="defval"><span class="st">__LINE__</span></span>, Throwable <em>next</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.base.html#TException.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TCompoundOperationException" href="htmlsrc/thrift.base.html#L36">TCompoundOperationException</a> : <span class="bclass">TException</span> <a href="thrift.base.html#TCompoundOperationException" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">An operation failed because one or more sub-tasks failed.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TCompoundOperationException.this" href="htmlsrc/thrift.base.html#L38">this</a><span class="params">(string <em>msg</em>, Exception[] <em>exceptions</em>, string <em>file</em> = <span class="defval"><span class="st">__FILE__</span></span>, size_t <em>line</em> = <span class="defval"><span class="st">__LINE__</span></span>, Throwable <em>next</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.base.html#TCompoundOperationException.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Exception[] <a class="symbol _variable" name="TCompoundOperationException.exceptions" href="htmlsrc/thrift.base.html#L47">exceptions</a> <a href="thrift.base.html#TCompoundOperationException.exceptions" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The exceptions thrown by the children of the operation. If applicable,
+ the list is ordered in the same way the exceptions occured.</div></div></dd></dl></dd>
+<dt class="decl"><span class="kw">auto</span> <a class="symbol _variable" name="VERSION" href="htmlsrc/thrift.base.html#L53">VERSION</a> <span class="attrs">[<span class="stc">manifest</span>]</span> <a href="thrift.base.html#VERSION" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The Thrift version string, used for informative purposes.</div></div></dd>
+<dt class="decl"><span class="kw">alias</span> logFormatted!g_infoLogSink <a class="symbol _alias" name="logInfo" href="htmlsrc/thrift.base.html#L68">logInfo</a> <a href="thrift.base.html#logInfo" class="plink">¶</a></dt>
+<dt class="decl"><span class="kw">alias</span> logFormatted!g_errorLogSink <a class="symbol _alias" name="logError" href="htmlsrc/thrift.base.html#L69">logError</a> <a href="thrift.base.html#logError" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Functions used for logging inside Thrift.</div></div>
+<div class="cmnt">By default, the formatted messages are written to stdout/stderr, but this
+ behavior can be overwritten by providing custom g_{Info, Error}LogSink
+ handlers.</div>
+<p class="sec_header">Examples:</p><div class="cmnt"><table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex1" name="L1_ex1">1</a>
+<a href="#L2_ex1" name="L2_ex1">2</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="i">logInfo</span>(<span class="sl">"An informative message."</span>);
+<span class="i">logError</span>(<span class="sl">"Some error occured: %s"</span>, <span class="i">e</span>);</pre>
+</td></tr>
+</table></div></dd>
+<dt class="decl">void delegate(const(char)[]) <a class="symbol _variable" name="g_infoLogSink" href="htmlsrc/thrift.base.html#L78">g_infoLogSink</a> <span class="attrs">[<span class="stc">gshared</span>]</span> <a href="thrift.base.html#g_infoLogSink" class="plink">¶</a></dt>
+<dt class="decl">void delegate(const(char)[]) <a class="symbol _variable" name="g_errorLogSink" href="htmlsrc/thrift.base.html#L79">g_errorLogSink</a> <span class="attrs">[<span class="stc">gshared</span>]</span> <a href="thrift.base.html#g_errorLogSink" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Error and info log message sinks.</div></div>
+<div class="cmnt">These delegates are called with the log message passed as const(char)[]
+ argument, and can be overwritten to hook the Thrift libraries up with a
+ custom logging system. By default, they forward all output to stdout/stderr.</div></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:28 2012.</p>
+</div>
+</div>
+</body>
+</html>

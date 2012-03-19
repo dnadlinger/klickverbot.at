@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.util.future</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.util.future">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.util.future"><a href="htmlsrc/thrift.util.future.html" class="symbol">thrift.util.future</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">interface</span> <a class="symbol _interface" name="TFuture" href="htmlsrc/thrift.util.future.html#L48">TFuture</a><span class="tparams">(<em>ResultType</em>)</span> <a href="thrift.util.future.html#TFuture" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Represents an operation which is executed asynchronously and the result of
+ which will become available at some point in the future.</div></div>
+<div class="cmnt">Once a operation is completed, the result of the operation can be fetched
+ via the get() family of methods. There are three possible cases: Either the
+ operation succeeded, then its return value is returned, or it failed by
+ throwing, in which case the exception is rethrown, or it was cancelled
+ before, then a TCancelledException is thrown. There might be TFuture
+ implementations which never possibly enter the cancelled state.
+<p class="bl"></p>
+ All methods are thread-safe, but keep in mind that any exception object or
+ result (if it is a reference type, of course) is shared between all
+ get()-family invocations.</div>
+<dl>
+<dt class="decl"><span class="rettyp">TFutureStatus</span> <a class="symbol _function" name="TFuture.status" href="htmlsrc/thrift.util.future.html#L55">status</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.util.future.html#TFuture.status" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The status the operation is currently in.</div></div>
+<div class="cmnt">An operation starts out in RUNNING status, and changes state to one of the
+ others at most once afterwards.</div></dd>
+<dt class="decl"><span class="rettyp">TAwaitable</span> <a class="symbol _function" name="TFuture.completion" href="htmlsrc/thrift.util.future.html#L60">completion</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.util.future.html#TFuture.completion" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A TAwaitable triggered when the operation leaves the RUNNING status.</div></div></dd>
+<dt class="decl"><span class="rettyp">ResultType</span> <a class="symbol _function" name="TFuture.waitGet" href="htmlsrc/thrift.util.future.html#L73">waitGet</a><span class="params">()</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.util.future.html#TFuture.waitGet" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Convenience shorthand for waiting until the result is available and then
+ get()ing it.</div></div>
+<div class="cmnt">If the operation has already completed, the result is immediately
+ returned.
+<p class="bl"></p>
+ The result of this method is »alias this«'d to the interface, so that
+ TFuture can be used as a drop-in replacement for a simple value in
+ synchronous code.</div></dd>
+<dt class="decl"><span class="rettyp">ResultType</span> <a class="symbol _function" name="TFuture.waitGet:2" href="htmlsrc/thrift.util.future.html#L88">waitGet</a><span class="params">(Duration <em>timeout</em>)</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.util.future.html#TFuture.waitGet:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Convenience shorthand for waiting until the result is available and then
+ get()ing it.</div></div>
+<div class="cmnt">If the operation completes in time, returns its result (resp. throws an
+ exception for the failed/cancelled cases). If not, throws a
+ TFutureException.</div></dd>
+<dt class="decl"><span class="rettyp">ResultType</span> <a class="symbol _function" name="TFuture.get" href="htmlsrc/thrift.util.future.html#L101">get</a><span class="params">()</span> <a href="thrift.util.future.html#TFuture.get" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Returns the result of the operation.</div></div>
+<p class="sec_header">Throws:</p><div class="cmnt">TFutureException if the operation has been cancelled,
+   TCancelledException if it is not yet done; the set exception if it
+   failed.</div></dd>
+<dt class="decl"><span class="rettyp">Exception</span> <a class="symbol _function" name="TFuture.getException" href="htmlsrc/thrift.util.future.html#L109">getException</a><span class="params">()</span> <a href="thrift.util.future.html#TFuture.getException" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Returns the captured exception if the operation failed, or null otherwise.</div></div>
+<p class="sec_header">Throws:</p><div class="cmnt">TFutureException if not yet done, TCancelledException if the
+   operation has been cancelled.</div></dd></dl></dd>
+<dt class="decl"><span class="kw">enum</span> <a class="symbol _enum" name="TFutureStatus" href="htmlsrc/thrift.util.future.html#L115">TFutureStatus</a> : byte <a href="thrift.util.future.html#TFutureStatus" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The states the operation offering a future interface can be in.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="TFutureStatus.RUNNING" href="htmlsrc/thrift.util.future.html#L116">RUNNING</a> <a href="thrift.util.future.html#TFutureStatus.RUNNING" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The operation is still running.</div></div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TFutureStatus.SUCCEEDED" href="htmlsrc/thrift.util.future.html#L117">SUCCEEDED</a> <a href="thrift.util.future.html#TFutureStatus.SUCCEEDED" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The operation completed without throwing an exception.</div></div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TFutureStatus.FAILED" href="htmlsrc/thrift.util.future.html#L118">FAILED</a> <a href="thrift.util.future.html#TFutureStatus.FAILED" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The operation completed by throwing an exception.</div></div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TFutureStatus.CANCELLED" href="htmlsrc/thrift.util.future.html#L119">CANCELLED</a> <a href="thrift.util.future.html#TFutureStatus.CANCELLED" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The operation was cancelled.</div></div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TPromise" href="htmlsrc/thrift.util.future.html#L130">TPromise</a><span class="tparams">(<em>ResultType</em>)</span> : <span class="bclass">TFuture!ResultType</span> <a href="thrift.util.future.html#TPromise" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A TFuture covering the simple but common case where the result is simply
+ set by a call to succeed()/fail().</div></div>
+<div class="cmnt">All methods are thread-safe, but usually, succeed()/fail() are only called
+ from a single thread (different from the thread(s) waiting for the result
+ using the TFuture interface, though).</div>
+<dl>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TPromise.succeed" href="htmlsrc/thrift.util.future.html#L177">succeed</a><span class="params">(ResultType <em>result</em>)</span> <a href="thrift.util.future.html#TPromise.succeed" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Sets the result of the operation, marks it as done, and notifies any
+ waiters.</div></div>
+<div class="cmnt">If the operation has been cancelled before, nothing happens.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TFutureException if the operation is already completed.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TPromise.fail" href="htmlsrc/thrift.util.future.html#L215">fail</a><span class="params">(Exception <em>exception</em>)</span> <a href="thrift.util.future.html#TPromise.fail" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Marks the operation as failed with the specified exception and notifies
+ any waiters.</div></div>
+<div class="cmnt">If the operation was already cancelled, nothing happens.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TFutureException if the operation is already completed.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TPromise.complete" href="htmlsrc/thrift.util.future.html#L242">complete</a><span class="params">(TFuture!ResultType <em>future</em>)</span> <a href="thrift.util.future.html#TPromise.complete" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Marks this operation as completed and takes over the outcome of another
+ TFuture of the same type.</div></div>
+<div class="cmnt">If this operation was already cancelled, nothing happens. If the other
+ operation was cancelled, this operation is marked as failed with a
+ TCancelledException.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TFutureException if the passed in future was not completed or
+   this operation is already completed.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TPromise.cancel" href="htmlsrc/thrift.util.future.html#L273">cancel</a><span class="params">()</span> <a href="thrift.util.future.html#TPromise.cancel" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Marks this operation as cancelled and notifies any waiters.</div></div>
+<div class="cmnt">If the operation is already completed, nothing happens.</div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TFutureException" href="htmlsrc/thrift.util.future.html#L309">TFutureException</a> : <span class="bclass">TException</span> <a href="thrift.util.future.html#TFutureException" class="plink">¶</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TFutureException.this" href="htmlsrc/thrift.util.future.html#L311">this</a><span class="params">(string <em>msg</em> = <span class="defval"><span class="sl">""</span></span>, string <em>file</em> = <span class="defval"><span class="st">__FILE__</span></span>, size_t <em>line</em> = <span class="defval"><span class="st">__LINE__</span></span>, Throwable <em>next</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.util.future.html#TFutureException.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><span class="kw">template</span> <a class="symbol _template" name="TFutureInterface" href="htmlsrc/thrift.util.future.html#L340">TFutureInterface</a><span class="tparams">(<em>Interface</em>)</span> <a href="thrift.util.future.html#TFutureInterface" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Creates an interface that is similiar to a given one, but accepts an
+ additional, optional TCancellation parameter each method, and returns
+ TFutures instead of plain return values.</div></div>
+<div class="cmnt">For example, given the following declarations:
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex1" name="L1_ex1">1</a>
+<a href="#L2_ex1" name="L2_ex1">2</a>
+<a href="#L3_ex1" name="L3_ex1">3</a>
+<a href="#L4_ex1" name="L4_ex1">4</a>
+<a href="#L5_ex1" name="L5_ex1">5</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="k">interface</span> <span class="i">Foo</span> {
+  <span class="k">void</span> <span class="i">bar</span>();
+  <span class="i">string</span> <span class="i">baz</span>(<span class="k">int</span> <span class="i">a</span>);
+}
+<span class="k">alias</span> <span class="i">TFutureInterface</span>!<span class="i">Foo</span> <span class="i">FutureFoo</span>;</pre>
+</td></tr>
+</table>
+<p class="bl"></p>
+ FutureFoo would be equivalent to:
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex2" name="L1_ex2">1</a>
+<a href="#L2_ex2" name="L2_ex2">2</a>
+<a href="#L3_ex2" name="L3_ex2">3</a>
+<a href="#L4_ex2" name="L4_ex2">4</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="k">interface</span> <span class="i">FutureFoo</span> {
+  <span class="i">TFuture</span>!<span class="k">void</span> <span class="i">bar</span>(<span class="i">TCancellation</span> <span class="i">cancellation</span> = <span class="k">null</span>);
+  <span class="i">TFuture</span>!<span class="i">string</span> <span class="i">baz</span>(<span class="k">int</span> <span class="i">a</span>, <span class="i">TCancellation</span> <span class="i">cancellation</span> = <span class="k">null</span>);
+}</pre>
+</td></tr>
+</table></div>
+</dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TFutureAggregatorRange" href="htmlsrc/thrift.util.future.html#L375">TFutureAggregatorRange</a><span class="tparams">(<em>T</em>)</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.util.future.html#TFutureAggregatorRange" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">An input range that aggregates results from multiple asynchronous operations,
+ returning them in the order they arrive.</div></div>
+<div class="cmnt">Additionally, a timeout can be set after which results from not yet finished
+ futures will no longer be waited for, e.g. to ensure the time it takes to
+ iterate over a set of results is limited.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TFutureAggregatorRange.this" href="htmlsrc/thrift.util.future.html#L384">this</a><span class="params">(TFuture!T[] <em>futures</em>, TCancellationOrigin <em>childCancellation</em>, Duration <em>timeout</em> = <span class="defval"><span class="i">dur</span>!<span class="sl">"hnsecs"</span>(<span class="n">0</span>)</span>)</span> <a href="thrift.util.future.html#TFutureAggregatorRange.this" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Constructs a new instance.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>futures</em></td><td>The set of futures to collect results from.</td></tr>
+<tr><td><em>timeout</em></td><td>If positive, not yet finished futures will be cancelled and
+     their results will not be taken into account.</td></tr></table></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TFutureAggregatorRange.empty" href="htmlsrc/thrift.util.future.html#L428">empty</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.util.future.html#TFutureAggregatorRange.empty" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether the range is empty.</div></div>
+<div class="cmnt">This is the case if the results from the completed futures not having
+ failed have already been popped and either all future have been finished
+ or the timeout has expired.
+<p class="bl"></p>
+ Potentially blocks until a new result is available or the timeout has
+ expired.</div></dd>
+<dt class="decl"><span class="rettyp">T</span> <a class="symbol _function" name="TFutureAggregatorRange.front" href="htmlsrc/thrift.util.future.html#L482">front</a><span class="params">()</span> <a href="thrift.util.future.html#TFutureAggregatorRange.front" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Returns the first element from the range.</div></div>
+<div class="cmnt">Potentially blocks until a new result is available or the timeout has
+ expired.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TException if the range is empty.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TFutureAggregatorRange.popFront" href="htmlsrc/thrift.util.future.html#L496">popFront</a><span class="params">()</span> <a href="thrift.util.future.html#TFutureAggregatorRange.popFront" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Removes the first element from the range.</div></div>
+<div class="cmnt">Potentially blocks until a new result is available or the timeout has
+ expired.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TException if the range is empty.</div></dd>
+<dt class="decl"><span class="rettyp">size_t</span> <a class="symbol _function" name="TFutureAggregatorRange.completedCount" href="htmlsrc/thrift.util.future.html#L506">completedCount</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.util.future.html#TFutureAggregatorRange.completedCount" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The number of futures the result of which has been returned or which have
+ failed so far.</div></div></dd>
+<dt class="decl"><span class="rettyp">Exception[]</span> <a class="symbol _function" name="TFutureAggregatorRange.exceptions" href="htmlsrc/thrift.util.future.html#L513">exceptions</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.util.future.html#TFutureAggregatorRange.exceptions" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The exceptions collected from failed TFutures so far.</div></div></dd></dl></dd>
+<dt class="decl"><span class="rettyp">TFutureAggregatorRange!T</span> <a class="symbol _function" name="tFutureAggregatorRange" href="htmlsrc/thrift.util.future.html#L545">tFutureAggregatorRange</a><span class="tparams">(<em>T</em>)</span><span class="params">(TFuture!T[] <em>futures</em>, TCancellationOrigin <em>childCancellation</em>, Duration <em>timeout</em> = <span class="defval"><span class="i">dur</span>!<span class="sl">"hnsecs"</span>(<span class="n">0</span>)</span>)</span> <a href="thrift.util.future.html#tFutureAggregatorRange" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">TFutureAggregatorRange construction helper to avoid having to explicitly
+ specify the value type, i.e. to allow the constructor being called using IFTI
+ (see <a href="http://d.puremagic.com/issues/show_bug.cgi?id=6082">D Bugzilla enhancement requet 6082</a>).</div></div></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:30 2012.</p>
+</div>
+</div>
+</body>
+</html>

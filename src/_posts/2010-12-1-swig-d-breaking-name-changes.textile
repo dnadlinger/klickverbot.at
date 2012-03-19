@@ -11,7 +11,7 @@ Sorry if this notice might come a bit late for some of you, but a few days ago, 
 
 Most of the changes revolve around the term »wrap D module« being replaced with »intermediary D module«, including names derived from it. To adapt your interface files, just perform the following replacements:
 
-{% highlight bash %}
+{% codeblock lang:bash %}
 s/cwtype/ctype/g
 s/dwtype/imtype/g
 s/dptype/dtype/g
@@ -20,4 +20,4 @@ s/$wcall/$imcall/g
 s/$dpcall/$dcall/g
 
 s/wrapdmodule/imdmodule/g
-{% endhighlight %}
+{% endcodeblock %}

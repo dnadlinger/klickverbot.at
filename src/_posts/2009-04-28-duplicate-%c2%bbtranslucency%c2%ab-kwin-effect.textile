@@ -6,6 +6,8 @@ tags:
 - KDE
 - KDE 4
 - Linux
+excerpt: "For some time, the effect »Translucency« was listed twice in the KWin KCM plugin list of my local KDE setup (SVN trunk). One copy was actually working, the other was just producing error messages.
+Today, I finally had time to investigate the issue"
 ---
 
 For some time, the effect »Translucency« was listed twice in the KWin KCM plugin list of my local KDE setup (SVN trunk). One copy was actually working, the other was just producing error messages.

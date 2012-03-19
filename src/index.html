@@ -6,14 +6,14 @@ openid_endpoint: true
 ---
 
 <section id="intro">
-Hi! Science student by day and programming geek by night, I share my experiences, ideas and opinions about our digital world here. Why not peruse some of my posts below?
+Hi! Science student by day and programming geek by night, I share my experiences, ideas and opinions about our digital world here. Why not flip through some of my posts below?
 </section>
 
 <section id="blog_feed">
 {% for post in site.posts limit:5 %}
-{% include post-frontpage.html %}
+{% include post-excerpt.html %}
 {% endfor %}
 
-<footer><ul class="pagenav"><li><a href="/blog">Older</a></li><li><s>Newer</s></li></ul></footer>
+<footer><ul class="pagenav"><li><a href="/blog/#main_footer">Older</a></li><li><s>Newer</s></li></ul></footer>
 </section>
 

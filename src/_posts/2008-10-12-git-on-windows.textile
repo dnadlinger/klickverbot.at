@@ -6,6 +6,8 @@ tags:
 - Git
 - Github
 - Windows
+excerpt: 'Just found <a href="http://kylecordes.com/2008/04/30/git-windows-go/">an excellent writeup</a> by Kyle Cordes about using Git on Windows.'
+no_more: true
 ---
 
 Just found "an excellent writeup":http://kylecordes.com/2008/04/30/git-windows-go/ by Kyle Cordes about using Git on Windows.

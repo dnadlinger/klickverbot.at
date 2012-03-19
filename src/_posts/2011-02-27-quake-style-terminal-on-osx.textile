@@ -4,7 +4,7 @@ title: Quake-style drop-down terminal on OS X
 tags:
   - Mac
   - OS X
-excerpt: I'm currently using OS X 10.6 on my MacBook Pro and the combination of a polished UI and the familiar Posix foundation quite appeals to me (I'll probably do a separate post on my experience with it eventually). Nevertheless, however, I am using the text console a lot,
+excerpt: "I'm currently using OS X 10.6 on my MacBook Pro and the combination of a polished UI and the familiar Posix foundation quite appeals to me (I'll probably do a separate post on my experience with it eventually). Nevertheless, however, I am using the text console a lot, "
 ---
 
 I'm currently using OS X 10.6 on my MacBook Pro and the combination of a polished UI and the familiar Posix foundation quite appeals to me (I'll probably do a separate post on my experience with it eventually). Nevertheless, however, I am using the text console a lot, obviously when doing development work, but also for lots of everyday stuff I can still do faster with it.

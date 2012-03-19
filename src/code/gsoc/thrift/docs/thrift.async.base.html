@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.async.base</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.async.base">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.async.base"><a href="htmlsrc/thrift.async.base.html" class="symbol">thrift.async.base</a></h1>
+
+<div class="summary"><div class="cmnt">Defines the interface used for client-side handling of asynchronous
+ I/O operations, based on coroutines.</div></div>
+<div class="cmnt">The main piece of the »client side« (e.g. for TAsyncClient users) of the
+ API is TFuture, which represents an asynchronously executed operation,
+ which can have a return value, throw exceptions, and which can be waited
+ upon.
+<p class="bl"></p>
+ On the »implementation side«, the idea is that by using a TAsyncTransport
+ instead of a normal TTransport and executing the work through a
+ TAsyncManager, the same code as for synchronous I/O can be used for
+ asynchronous operation as well, for example:
+<p class="bl"></p>
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex1" name="L1_ex1">1</a>
+<a href="#L2_ex1" name="L2_ex1">2</a>
+<a href="#L3_ex1" name="L3_ex1">3</a>
+<a href="#L4_ex1" name="L4_ex1">4</a>
+<a href="#L5_ex1" name="L5_ex1">5</a>
+<a href="#L6_ex1" name="L6_ex1">6</a>
+<a href="#L7_ex1" name="L7_ex1">7</a>
+<a href="#L8_ex1" name="L8_ex1">8</a>
+<a href="#L9_ex1" name="L9_ex1">9</a>
+<a href="#L10_ex1" name="L10_ex1">10</a>
+<a href="#L11_ex1" name="L11_ex1">11</a>
+<a href="#L12_ex1" name="L12_ex1">12</a>
+<a href="#L13_ex1" name="L13_ex1">13</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="k">auto</span> <span class="i">socket</span> = <span class="k">new</span> <span class="i">TAsyncSocket</span>(<span class="i">someTAsyncSocketManager</span>(), <span class="i">host</span>, <span class="i">port</span>);
+<span class="lc">// …</span>
+<span class="i">socket</span>.<span class="i">asyncManager</span>.<span class="i">execute</span>(<span class="i">socket</span>, {
+  <span class="i">SomeThriftStruct</span> <span class="i">s</span>;
+
+  <span class="lc">// Waiting for socket I/O will not block an entire thread but cause</span>
+  <span class="lc">// the async manager to execute another task in the meantime, because</span>
+  <span class="lc">// we are using TAsyncSocket instead of TSocket.</span>
+  <span class="i">s</span>.<span class="i">read</span>(<span class="i">socket</span>);
+
+  <span class="lc">// Do something with s, e.g. set a TPromise result to it.</span>
+  <span class="i">writeln</span>(<span class="i">s</span>);
+});</pre>
+</td></tr>
+</table></div>
+<dl>
+<dt class="decl"><span class="kw">interface</span> <a class="symbol _interface" name="TAsyncManager" href="htmlsrc/thrift.async.base.html#L75">TAsyncManager</a> <a href="thrift.async.base.html#TAsyncManager" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Manages one or more asynchronous transport resources (e.g. sockets in the
+ case of TAsyncSocketManager) and allows work items to be submitted for them.</div></div>
+<div class="cmnt">Implementations will typically run one or more background threads for
+ executing the work, which is one of the reasons for a TAsyncManager to be
+ used. Each work item is run in its own fiber and is expected to yield() away
+ while waiting for time-consuming operations.
+<p class="bl"></p>
+ The second important purpose of TAsyncManager is to serialize access to
+ the transport resources – without taking care of that, e.g. issuing multiple
+ RPC calls over the same connection in rapid succession would likely lead to
+ more than one request being written at the same time, causing only garbage
+ to arrive at the remote end.
+<p class="bl"></p>
+ All methods are thread-safe.</div>
+<dl>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncManager.execute" href="htmlsrc/thrift.async.base.html#L107">execute</a><span class="params">(TAsyncTransport <em>transport</em>, void delegate() <em>work</em>, TCancellation <em>cancellation</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.async.base.html#TAsyncManager.execute" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Submits a work item to be executed asynchronously.</div></div>
+<div class="cmnt">Access to asnyc transports is serialized – if two work items associated
+ with the same transport are submitted, the second delegate will not be
+ invoked until the first has returned, even it the latter context-switches
+ away (because it is waiting for I/O) and the async manager is idle
+ otherwise.
+<p class="bl"></p>
+ Optionally, a TCancellation instance can be specified. If present,
+ triggering it will be considered a request to cancel the work item, if it
+ is still waiting for the associated transport to become available.
+ Delegates which are already being processed (i.e. waiting for I/O) are not
+ affected because this would bring the connection into an undefined state
+ (as probably half-written request or a half-read response would be left
+ behind).</div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>transport</em></td><td>The TAsyncTransport the work delegate will operate on. Must
+     be associated with this TAsyncManager instance.</td></tr>
+<tr><td><em>work</em></td><td>The operations to execute on the given transport. Must never
+     throw, errors should be handled in another way. nothrow semantics are
+     difficult to enforce in combination with fibres though, so currently
+     exceptions are just swallowed by TAsyncManager implementations.</td></tr>
+<tr><td><em>cancellation</em></td><td>If set, can be used to request cancellatinon of this work
+     item if it is still waiting to be executed.</td></tr></table>
+<p class="sec_header">Note:</p><div class="cmnt">The work item will likely be executed in a different thread, so make
+   sure the code it relies on is thread-safe. An exception are the async
+   transports themselves, to which access is serialized as noted above.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncManager.delay" href="htmlsrc/thrift.async.base.html#L148">delay</a><span class="params">(Duration <em>duration</em>, void delegate() <em>work</em>)</span> <a href="thrift.async.base.html#TAsyncManager.delay" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Submits a delegate to be executed after a certain amount of time has
+ passed.</div></div>
+<div class="cmnt">The actual amount of time elapsed can be higher if the async manager
+ instance is busy and thus should not be relied on. The</div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>duration</em></td><td>The amount of time to wait before starting to execute the
+     work delegate.</td></tr>
+<tr><td><em>work</em></td><td>The code to execute after the specified amount of time has passed.</td></tr></table>
+<p class="sec_header">Example:</p><div class="cmnt"><table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex2" name="L1_ex2">1</a>
+<a href="#L2_ex2" name="L2_ex2">2</a>
+<a href="#L3_ex2" name="L3_ex2">3</a>
+<a href="#L4_ex2" name="L4_ex2">4</a>
+<a href="#L5_ex2" name="L5_ex2">5</a>
+<a href="#L6_ex2" name="L6_ex2">6</a>
+<a href="#L7_ex2" name="L7_ex2">7</a>
+<a href="#L8_ex2" name="L8_ex2">8</a>
+<a href="#L9_ex2" name="L9_ex2">9</a>
+<a href="#L10_ex2" name="L10_ex2">10</a>
+<a href="#L11_ex2" name="L11_ex2">11</a>
+<a href="#L12_ex2" name="L12_ex2">12</a>
+<a href="#L13_ex2" name="L13_ex2">13</a>
+<a href="#L14_ex2" name="L14_ex2">14</a>
+<a href="#L15_ex2" name="L15_ex2">15</a>
+<a href="#L16_ex2" name="L16_ex2">16</a>
+<a href="#L17_ex2" name="L17_ex2">17</a>
+<a href="#L18_ex2" name="L18_ex2">18</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="lc">// A very basic example – usually, the actuall work item would enqueue</span>
+<span class="lc">// some async transport operation.</span>
+<span class="k">auto</span> <span class="i">asyncMangager</span> = <span class="i">someAsyncManager</span>();
+
+<span class="i">TFuture</span>!<span class="k">int</span> <span class="i">calculate</span>() {
+  <span class="lc">// Create a promise and asynchronously set its value after three</span>
+  <span class="lc">// seconds have passed.</span>
+  <span class="k">auto</span> <span class="i">promise</span> = <span class="k">new</span> <span class="i">TPromise</span>!<span class="k">int</span>;
+  <span class="i">asyncManager</span>.<span class="i">delay</span>(<span class="i">dur</span>!<span class="sl">"seconds"</span>(<span class="n">3</span>), {
+    <span class="i">promise</span>.<span class="i">succeed</span>(<span class="n">42</span>);
+  });
+
+  <span class="lc">// Immediately return it to the caller.</span>
+  <span class="k">return</span> <span class="i">promise</span>;
+}
+
+<span class="lc">// This will wait until the result is available and then print it.</span>
+<span class="i">writeln</span>(<span class="i">calculate</span>().<span class="i">waitGet</span>());</pre>
+</td></tr>
+</table></div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TAsyncManager.stop" href="htmlsrc/thrift.async.base.html#L166">stop</a><span class="params">(Duration <em>waitFinishTimeout</em> = <span class="defval"><span class="i">dur</span>!<span class="sl">"hnsecs"</span>(-<span class="n">1</span>)</span>)</span> <a href="thrift.async.base.html#TAsyncManager.stop" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Shuts down all background threads or other facilities that might have
+ been started in order to execute work items. This function is typically
+ called during program shutdown.</div></div>
+<div class="cmnt">If there are still tasks to be executed when the timeout expires, any
+ currently executed work items will never receive any notifications
+ for async transports managed by this instance, queued work items will
+ be silently dropped, and implementations are allowed to leak resources.</div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>waitFinishTimeout</em></td><td>If positive, waits for all work items to be
+     finished for the specified amount of time, if negative, waits for
+     completion without ever timing out, if zero, immediately shuts down
+     the background facilities.</td></tr></table></dd></dl></dd>
+<dt class="decl"><span class="kw">interface</span> <a class="symbol _interface" name="TAsyncTransport" href="htmlsrc/thrift.async.base.html#L179">TAsyncTransport</a> : <span class="bclass">TTransport</span> <a href="thrift.async.base.html#TAsyncTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A TTransport which uses a TAsyncManager to schedule non-blocking operations.</div></div>
+<div class="cmnt">The actual type of device is not specified; typically, implementations will
+ depend on an interface derived from TAsyncManager to be notified of changes
+ in the transport state.
+<p class="bl"></p>
+ The peeking, reading, writing and flushing methods must always be called
+ from within the associated async manager.</div>
+<dl>
+<dt class="decl"><span class="rettyp">TAsyncManager</span> <a class="symbol _function" name="TAsyncTransport.asyncManager" href="htmlsrc/thrift.async.base.html#L183">asyncManager</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.async.base.html#TAsyncTransport.asyncManager" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The TAsyncManager associated with this transport.</div></div></dd></dl></dd>
+<dt class="decl"><span class="kw">interface</span> <a class="symbol _interface" name="TAsyncSocketManager" href="htmlsrc/thrift.async.base.html#L189">TAsyncSocketManager</a> : <span class="bclass">TAsyncManager</span> <a href="thrift.async.base.html#TAsyncSocketManager" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A TAsyncManager providing notificiations for socket events.</div></div>
+<dl>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncSocketManager.addOneshotListener" href="htmlsrc/thrift.async.base.html#L201">addOneshotListener</a><span class="params">(Socket <em>socket</em>, TAsyncEventType <em>eventType</em>, Duration <em>timeout</em>, TSocketEventListener <em>listener</em>)</span> <a href="thrift.async.base.html#TAsyncSocketManager.addOneshotListener" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncSocketManager.addOneshotListener:2" href="htmlsrc/thrift.async.base.html#L205">addOneshotListener</a><span class="params">(Socket <em>socket</em>, TAsyncEventType <em>eventType</em>, TSocketEventListener <em>listener</em>)</span> <a href="thrift.async.base.html#TAsyncSocketManager.addOneshotListener:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Adds a listener that is triggered once when an event of the specified type
+ occurs, and removed afterwards.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>socket</em></td><td>The socket to listen for events at.</td></tr>
+<tr><td><em>eventType</em></td><td>The type of the event to listen for.</td></tr>
+<tr><td><em>timeout</em></td><td>The period of time after which the listener will be called
+     with TAsyncEventReason.TIMED_OUT if no event happened.</td></tr>
+<tr><td><em>listener</em></td><td>The delegate to call when an event happened.</td></tr></table></dd></dl></dd>
+<dt class="decl"><span class="kw">enum</span> <a class="symbol _enum" name="TAsyncEventType" href="htmlsrc/thrift.async.base.html#L212">TAsyncEventType</a> <a href="thrift.async.base.html#TAsyncEventType" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Types of events that can happen for an asynchronous transport.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="TAsyncEventType.READ" href="htmlsrc/thrift.async.base.html#L213">READ</a> <a href="thrift.async.base.html#TAsyncEventType.READ" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">New data became available to read.</div></div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TAsyncEventType.WRITE" href="htmlsrc/thrift.async.base.html#L214">WRITE</a> <a href="thrift.async.base.html#TAsyncEventType.WRITE" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The transport became ready to be written to.</div></div></dd></dl></dd>
+<dt class="decl"><span class="kw">alias</span> void delegate(TAsyncEventReason callReason) <a class="symbol _alias" name="TSocketEventListener" href="htmlsrc/thrift.async.base.html#L220">TSocketEventListener</a> <a href="thrift.async.base.html#TSocketEventListener" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The type of the delegates used to register socket event handlers.</div></div></dd>
+<dt class="decl"><span class="kw">enum</span> <a class="symbol _enum" name="TAsyncEventReason" href="htmlsrc/thrift.async.base.html#L225">TAsyncEventReason</a> : byte <a href="thrift.async.base.html#TAsyncEventReason" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The reason a listener was called.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="TAsyncEventReason.NORMAL" href="htmlsrc/thrift.async.base.html#L226">NORMAL</a> <a href="thrift.async.base.html#TAsyncEventReason.NORMAL" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The event listened for was triggered normally.</div></div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TAsyncEventReason.TIMED_OUT" href="htmlsrc/thrift.async.base.html#L227">TIMED_OUT</a> <a href="thrift.async.base.html#TAsyncEventReason.TIMED_OUT" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A timeout for the event was set, and it expired.</div></div></dd></dl></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:28 2012.</p>
+</div>
+</div>
+</body>
+</html>

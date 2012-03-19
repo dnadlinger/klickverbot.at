@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>index</title>
+  <style type="text/css">
+  .linescolumn > a { display: block; }
+  td { vertical-align: top; }
+  </style>
+  <link href="html.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table><tr><td class="linescolumn"><a id="L1" href="#L1">1</a><a id="L2" href="#L2">2</a><a id="L3" href="#L3">3</a><a id="L4" href="#L4">4</a><a id="L5" href="#L5">5</a><a id="L6" href="#L6">6</a><a id="L7" href="#L7">7</a><a id="L8" href="#L8">8</a><a id="L9" href="#L9">9</a><a id="L10" href="#L10">10</a><a id="L11" href="#L11">11</a><a id="L12" href="#L12">12</a><a id="L13" href="#L13">13</a><a id="L14" href="#L14">14</a><a id="L15" href="#L15">15</a><a id="L16" href="#L16">16</a><a id="L17" href="#L17">17</a><a id="L18" href="#L18">18</a><a id="L19" href="#L19">19</a><a id="L20" href="#L20">20</a><a id="L21" href="#L21">21</a><a id="L22" href="#L22">22</a><a id="L23" href="#L23">23</a><a id="L24" href="#L24">24</a><a id="L25" href="#L25">25</a><a id="L26" href="#L26">26</a><a id="L27" href="#L27">27</a><a id="L28" href="#L28">28</a><a id="L29" href="#L29">29</a><a id="L30" href="#L30">30</a><a id="L31" href="#L31">31</a><a id="L32" href="#L32">32</a><a id="L33" href="#L33">33</a></td>
+<td><td><pre class="sourcecode">
+Ddoc
+
+<h2>Package overview</h2>
+
+<dl>
+  <dt>$(D_CODE thrift.async)</dt>
+  <dd>Support infrastructure for handling client-side asynchronous operations using non-blocking I/O and coroutines.</dd>
+
+  <dt>$(D_CODE thrift.codegen)</dt>
+  <dd>
+    <p>Templates used for generating Thrift clients/processors from regular D struct and interface definitions.</p>
+    <p><strong>Note:</strong> Several artifacts in these modules have options for specifying the exact protocol types used. In this case, the amount of virtual calls can be greatly reduced and as a result, the code also can be optimized better. If performance is not a concern or the actual protocol type is not known at compile time, these parameters can just be left at their defaults.
+    </p>
+  </dd>
+
+  <dt>$(D_CODE thrift.internal)</dt>
+  <dd>Internal helper modules used by the Thrift library. This package is not part of the public API, and no stability guarantees are given whatsoever.</dd>
+
+  <dt>$(D_CODE thrift.protocol)</dt>
+  <dd>The Thrift protocol implemtations which specify how to pass messages over a TTransport.</dd>
+
+  <dt>$(D_CODE thrift.server)</dt>
+  <dd>Generic Thrift server implementations handling clients over a TTransport interface and forwarding requests to a TProcessor (which is in turn usually provided by thrift.codegen).</dd>
+
+  <dt>$(D_CODE thrift.transport)</dt>
+  <dd>The TTransport data source/sink interface used in the Thrift library and its imiplementations.</dd>
+
+  <dt>$(D_CODE thrift.util)</dt>
+  <dd>General-purpose utility modules not specific to Thrift, part of the public API.</dd>
+</dl>
+
+Macros:
+  TITLE = Thrift D Software Library
+
+</pre></td>
+</tr></table>
+</body>
+</html>

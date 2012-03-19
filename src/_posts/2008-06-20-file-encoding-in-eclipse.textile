@@ -4,6 +4,7 @@ title: File encoding in Eclipse
 post_id: 4
 tags:
 - Eclipse
+excerpt: "While coding my first Rails application in Eclipse using RadRails, I found that my HTML files were not encoded in the correct format. Although I knew"
 ---
 
 While coding my first Rails application in Eclipse using RadRails, I found that my HTML files were not encoded in the correct format. Although I knew that you _can_ specify the default file encoding (e.g. UTF-8) in Eclipse, it took me quite some time to find the corresponding option.

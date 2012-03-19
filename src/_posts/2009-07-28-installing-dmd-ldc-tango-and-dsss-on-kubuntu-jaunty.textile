@@ -10,6 +10,7 @@ tags:
 - LDC
 - Linux
 - Tango
+excerpt: "For quite a while now, I am using the D programming language, version 1 (I have not looked at D2 yet, it is said to be still rather unstable). Even though I like it very much for its syntactical quality and the language itself is reasonably mature,"
 ---
 
 For quite a while now, I am using the <a href="http://en.wikipedia.org/wiki/D_(programming_language)">D programming language</a>, version 1 (I have not looked at D2 yet, it is said to be still rather unstable). Even though I like it very much for its syntactical quality and the language itself is reasonably mature, I must admit that setting up the toolchain correctly can still be a very cumbersome task to do, especially when you are new to D.
@@ -17,7 +18,7 @@ For quite a while now, I am using the <a href="http://en.wikipedia.org/wiki/D_(p
 This post describes an installation routine that should provide you with a working D development environment containing DMD, LDC, Tango and DSSS on (K)Ubuntu Jaunty. Please note that it assumes your system to be »clean« – if you have already installed any D-related software, it is probably advisable to remove it completely to prevent any problems with, for instance, stale files. <!--more-->
 
 
-{% highlight bash %}
+{% codeblock lang:bash %}
 mkdir -p ~/tmp
 cd ~/tmp
 
@@ -39,14 +40,14 @@ sudo su -c 'echo -e "[Environment]\nDFLAGS=-I/usr/local/include/d -defaultlib=ta
 sudo su -c 'echo -e "# dsss\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu jaunty main" >> /etc/apt/sources.list'
 sudo apt-get install dsss
 sudo su -c 'echo "profile=dmd-posix-tango" > /etc/drebuild/default'
-{% endhighlight %}
+{% endcodeblock %}
 
 You should now be able to build your D/Tango programs with DMD and DSSS.
 
 I would suggest giving <a href="http://www.dsource.org/projects/ldc">LDC</a> at least a short glance, a fairly young compiler project which leverages <a href="http://llvm.org/">LLVM</a> as its code generating backend. It is maturing very quickly and allows you to make use of the various features the LLVM compiler infrastructure provides, the most noticeable probably being its excellent optimization routines. Fortunately, there are current binary packages available at launchpad, so all that is needed to LDC is:
 
 
-{% highlight bash %}sudo su -c 'echo -e "# ldc-daily\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu karmic main\ndeb http://archive.ubuntu.com/ubuntu karmic main universe" >> /etc/apt/sources.list'
+{% codeblock lang:bash %}sudo su -c 'echo -e "# ldc-daily\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu karmic main\ndeb http://archive.ubuntu.com/ubuntu karmic main universe" >> /etc/apt/sources.list'
 sudo apt-get update
 
 sudo apt-get install ldc-daily libtango-ldc-daily-dev
@@ -56,7 +57,7 @@ wget -O ldc-posix-tango http://www.dsource.org/projects/ldc/browser/ldc-posix-ta
 sudo su -c 'sed "s:ldc.rebuild.conf:/etc/ldc/ldc.rebuild.conf:"  /etc/drebuild/ldc-posix-tango'
 
 sudo su -c 'echo "profile=ldc-posix-tango" > /etc/drebuild/default'
-{% endhighlight %}
+{% endcodeblock %}
 
 Note that the above commands install a daily snapshot of LDC, which I would recommend to use due to the currently fast development of LDC. In order not to break you Jaunty installation, please _*do not forget* to comment out the official »karmic« repositories_ (which contain some dependencies for [@ldc-daily@]) in your [@/etc/apt/sources.list@] and run [@apt-get update@] after the installation is completed.
 

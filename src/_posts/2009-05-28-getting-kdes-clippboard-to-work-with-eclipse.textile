@@ -5,6 +5,7 @@ post_id: 16
 tags:
 - KDE
 - Linux
+excerpt: "For whatever reason, Eclipse does not work well with Klipper, the KDE clipboard manager, in its default settings. The symptoms: Quite often, you copy a piece of text to the clipboard. When you try to paste it, it miraculously disappears"
 ---
 
 For whatever reason, Eclipse does not work well with Klipper, the KDE clipboard manager, in its default settings. The symptoms: Quite often, you copy a piece of text to the clipboard. When you try to paste it, it miraculously disappears and some old piece of clipboard content is pasted instead.

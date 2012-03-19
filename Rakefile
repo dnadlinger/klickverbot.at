@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 
-source_dir = "source"
+source_dir = "src"
 intermediate_dir = "intermediate"
 deploy_dir = "deploy"
+tag_dir = "blog/tags"
 
 task :build do
   sh "rm -rf _site"
@@ -28,7 +30,7 @@ namespace :deploy do
 end
 
 desc 'Generate tags pages'
-task :tags => :tagcloud do
+task :tags do
   puts "Generating tags..."
   require 'rubygems'
   require 'jekyll'
@@ -39,25 +41,25 @@ task :tags => :tagcloud do
   site.read_posts('')
 
   # Remove tags directory before regenerating
-  FileUtils.rm_rf("blog/tags")
+  FileUtils.rm_rf("#{source_dir}/#{tag_dir}")
 
   site.tags.sort.each do |tag, posts|
-    FileUtils.mkdir_p("blog/tags/#{tag}")
-    File.open("blog/tags/#{tag}/index.html", 'w+') do |file|
+    FileUtils.mkdir_p("#{source_dir}/#{tag_dir}/#{tag}")
+    File.open("#{source_dir}/#{tag_dir}/#{tag}/index.html", 'w+') do |file|
       file.puts <<-HTML
 ---
 layout: default
 title: "Tag archive: #{tag}"
 ---
-<h1>Posts tagged with "#{tag}"</h1>
+<h1>Posts tagged with »#{tag}«</h1>
 
 {% for post in site.tags["#{tag}"] %}
-{% include post-full.html %}
+{% include post-excerpt.html %}
 {% endfor %}
 HTML
     end
 
-    File.open("blog/tags/#{tag}/atom.xml", 'w+') do |file|
+    File.open("#{source_dir}/#{tag_dir}/#{tag}/atom.xml", 'w+') do |file|
       file.puts <<-ATOM
 ---
 layout: nil
@@ -65,10 +67,10 @@ layout: nil
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  <title>{{ site.title }}</title>
- <link href="{{ site.url }}/blog/tags/#{tag}/atom.xml" rel="self"/>
+ <link href="{{ site.url }}/#{tag_dir}/#{tag}/atom.xml" rel="self"/>
  <link href="{{ site.url }}/"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
- <id>{{ site.url }}/blog/tags/#{tag}/</id>
+ <id>{{ site.url }}/#{tag_dir}/#{tag}/</id>
  <author>
    <name>David Nadlinger</name>
    <email>atom@klickverbot.at</email>
@@ -106,7 +108,7 @@ task :tagcloud do
   site.tags.sort.each do |tag, posts|
     s = posts.count
     font_size = ((20 - 10.0*(max_count-s)/max_count)*2).to_i/2.0
-    url = "/blog/tags/#{tag}/"
+    url = "/#{tag_dir}/#{tag}/"
     html << "<li><a href=\"#{URI.escape url}\" title=\"View posts tagged #{tag}\" style=\"font-size: #{font_size}px; line-height:#{font_size}px\">#{tag}</a></li>"
   end
   html << '</ul>'

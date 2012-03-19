@@ -6,8 +6,9 @@ tags:
 - Eclipse
 - Rails
 - Ruby
+excerpt: "I just found this little tutorial on how to package your Rails application into a neat archive for showing it to your customers. I guess it will come in quite handy for me"
 ---
 
-I just found "this little tutorial":http://www.erikveen.dds.nl/distributingrubyapplications/rails.html on how to package your Rails application into a handy archive for showing it to your customers.
+I just found "this little tutorial":http://www.erikveen.dds.nl/distributingrubyapplications/rails.html on how to package your Rails application into a neat archive for showing it to your customers.
 
 I guess it will come in quite handy for me in a few weeks because I am developing a small application for a friend of mine at the moment, who is not a developer, but wants to run the application locally on his Windows box.

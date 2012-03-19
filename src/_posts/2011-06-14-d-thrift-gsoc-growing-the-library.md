@@ -5,7 +5,7 @@ tags:
   - D
   - GSoC
   - Thrift
-excerpt: "First, let me apologize for not posting an update last week – I had a busy time, but regardless I will try to let you know about the state of affairs regularly in the future. Now, what were I working on?"
+excerpt: "First, let me apologize for not posting an update last week – I had a busy time, but regardless I will try to let you know about the state of affairs regularly in the future. Now, what were I working on? I updated"
 ---
 
 First, let me apologize for not posting an update last week – I had a busy time, but regardless I will try to let you know about the state of affairs regularly in the future. Now, what were I working on? I updated my [project page](/code/gsoc/thrift/) based on the timeline previously discussed at my project mailing list, and – besides me being a day late, more below – it is still valid. These were the main points I worked on:

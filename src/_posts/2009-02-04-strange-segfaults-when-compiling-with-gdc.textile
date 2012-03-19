@@ -5,6 +5,8 @@ post_id: 14
 tags:
 - D
 - gdc
+excerpt: "Use <code>-no-export-dynamic</code> to prevent segfaults in external libraries when linking with GDC. More to come soon…"
+no_more: true
 ---
 
 Use -no-export-dynamic to prevent segfaults in external libraries when linking with GDC.

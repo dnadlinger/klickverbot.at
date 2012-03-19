@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.util.awaitable</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.util.awaitable">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.util.awaitable"><a href="htmlsrc/thrift.util.awaitable.html" class="symbol">thrift.util.awaitable</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">interface</span> <a class="symbol _interface" name="TAwaitable" href="htmlsrc/thrift.util.awaitable.html#L36">TAwaitable</a> <a href="thrift.util.awaitable.html#TAwaitable" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">An event that can occur at some point in the future and which can be
+ awaited, either by blocking until it occurs, or by registering a callback
+ delegate.</div></div>
+<dl>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAwaitable.wait" href="htmlsrc/thrift.util.awaitable.html#L42">wait</a><span class="params">()</span> <a href="thrift.util.awaitable.html#TAwaitable.wait" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Waits until the event occurs.</div></div>
+<div class="cmnt">Calling wait() for an event that has already occurred is a no-op.</div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TAwaitable.wait:2" href="htmlsrc/thrift.util.awaitable.html#L51">wait</a><span class="params">(Duration <em>timeout</em>)</span> <a href="thrift.util.awaitable.html#TAwaitable.wait:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Waits until the event occurs or the specified timeout expires.</div></div>
+<div class="cmnt">Calling wait() for an event that has already occurred is a no-op.</div>
+<p class="sec_header">Returns:</p><div class="cmnt">Whether the event was triggered before the timeout expired.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAwaitable.addCallback" href="htmlsrc/thrift.util.awaitable.html#L68">addCallback</a><span class="params">(void delegate() <em>dg</em>)</span> <a href="thrift.util.awaitable.html#TAwaitable.addCallback" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Registers a callback that is called if the event occurs.</div></div>
+<div class="cmnt">The delegate will likely be invoked from a different thread, and is
+ expected not to perform expensive work as it will usually be invoked
+ synchronously by the notifying thread. The order in which registered
+ callbacks are invoked is not specified.
+<p class="bl"></p>
+ The callback must never throw, but nothrow semantics are difficult to
+ enforce, so currently exceptions are just swallowed by
+ TAwaitable implementations.
+<p class="bl"></p>
+ If the event has already occurred, the delegate is immediately executed
+ in the current thread.</div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TAwaitable.removeCallback" href="htmlsrc/thrift.util.awaitable.html#L76">removeCallback</a><span class="params">(void delegate() <em>dg</em>)</span> <a href="thrift.util.awaitable.html#TAwaitable.removeCallback" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Removes a previously added callback.</div></div>
+<p class="sec_header">Returns:</p><div class="cmnt">Whether the callback could be found in the list, i.e. whether it
+   was previously added.</div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TOneshotEvent" href="htmlsrc/thrift.util.awaitable.html#L82">TOneshotEvent</a> : <span class="bclass">TAwaitable</span> <a href="thrift.util.awaitable.html#TOneshotEvent" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A simple TAwaitable event triggered by just calling a trigger() method.</div></div>
+<dl>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TOneshotEvent.trigger" href="htmlsrc/thrift.util.awaitable.html#L131">trigger</a><span class="params">()</span> <a href="thrift.util.awaitable.html#TOneshotEvent.trigger" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Triggers the event.</div></div>
+<div class="cmnt">Any registered event callbacks are executed synchronously before the
+ function returns.</div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TSocketNotifier" href="htmlsrc/thrift.util.awaitable.html#L152">TSocketNotifier</a> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.util.awaitable.html#TSocketNotifier" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Translates TAwaitable events into dummy messages on a socket that can be
+ used e.g. to wake up from a select() call.</div></div>
+<dl>
+<dt class="decl"><span class="rettyp">Socket</span> <a class="symbol _function" name="TSocketNotifier.socket" href="htmlsrc/thrift.util.awaitable.html#L163">socket</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.util.awaitable.html#TSocketNotifier.socket" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The socket the messages will be sent to.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSocketNotifier.attach" href="htmlsrc/thrift.util.awaitable.html#L179">attach</a><span class="params">(TAwaitable <em>awaitable</em>)</span> <a href="thrift.util.awaitable.html#TSocketNotifier.attach" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Atatches the socket notifier to the specified awaitable, causing it to
+ write a byte to the notification socket when the awaitable callbacks are
+ invoked.</div></div>
+<div class="cmnt">If the event has already been triggered, the dummy byte is written
+ immediately to the socket.
+<p class="bl"></p>
+ A socket notifier can only be attached to a single awaitable at a time.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TException if the socket notifier is already attached.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSocketNotifier.detach" href="htmlsrc/thrift.util.awaitable.html#L191">detach</a><span class="params">()</span> <a href="thrift.util.awaitable.html#TSocketNotifier.detach" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Detaches the socket notifier from the awaitable it is currently attached
+ to.</div></div>
+<p class="sec_header">Throws:</p><div class="cmnt">TException if the socket notifier is not currently attached.</div></dd></dl></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:30 2012.</p>
+</div>
+</div>
+</body>
+</html>

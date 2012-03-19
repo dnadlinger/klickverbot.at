@@ -7,6 +7,7 @@ tags:
 - KDE 4
 - Kubuntu
 - Linux
+excerpt: "I just upgraded to Kubuntu 8.10 in order to have a look at shiny new KDE 4. But amongst other minor annoyances, I had real trouble getting hotkeys to work. There are configuration options in the new System Settings panel (which is a huge"
 ---
 
 I just upgraded to Kubuntu 8.10 in order to have a look at shiny new KDE 4. But amongst other minor annoyances, I had real trouble getting hotkeys to work. There are configuration options in the new System Settings panel (which is a huge regression compared to KControl by the way), but they seemed to have no effect.

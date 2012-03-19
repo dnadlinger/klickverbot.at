@@ -1,0 +1,10 @@
+["binary",1,[],[1,415],[
+["TBinaryProtocol",3,[10],[30,333],[
+["this",17,[],[47,55],[]],
+["strictRead",11,[],[69,69],[]],
+["strictWrite",11,[],[77,77],[]],
+["containerSizeLimit",11,[],[89,89],[]],
+["stringSizeLimit",11,[],[101,101],[]]]],
+["tBinaryProtocol",12,[],[341,347],[]],
+["TBinaryProtocolFactory",3,[],[384,414],[
+["this",17,[],[388,395],[]]]]]]

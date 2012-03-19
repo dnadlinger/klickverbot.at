@@ -11,21 +11,21 @@ I am mainly a "Git":http://git-scm.com user, but lately I have been working with
 
 For example, I recently toyed around with "Mercurial Queues":http://mercurial.selenic.com/wiki/MqExtension to emulate Git's staging area, one of the features that seem trivial, but which you don't want to miss at any cost once you are used to it. Doing so, while being at, let's say, revision @1000@, I accidentally created two changesets, @1001@ and @1002@. Now, how do I get rid of these while still keeping the contents of them in the working copy? Using Git, this would just be @git reset HEAD~2@. But unfortunately, Mercurial seems to make your life somewhat hard in this case, this is what I came up with (please leave me a message in the comments in case I missed an easier way):
 
-{% highlight bash %}
+{% codeblock lang:bash %}
 hg update -r1000
-{% endhighlight %}
+{% endcodeblock %}
 
 This sets the working copy to the last »good« revision, only to …
 
-{% highlight bash %}
+{% codeblock lang:bash %}
 hg revert --all -r1002
-{% endhighlight %}
+{% endcodeblock %}
 
 … bring the changes from the two commits back to the working copy (but without committing them this time), so we can now …
 
-{% highlight bash %}
+{% codeblock lang:bash %}
 hg strip --force 1001
-{% endhighlight %}
+{% endcodeblock %}
 
 … strip the two changesets from the history.
 

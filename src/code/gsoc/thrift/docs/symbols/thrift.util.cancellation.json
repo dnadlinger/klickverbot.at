@@ -1,0 +1,9 @@
+["cancellation",1,[],[1,106],[
+["TCancellation",4,[],[41,57],[
+["triggered",12,[29,7],[45,45],[]],
+["throwIfTriggered",12,[7],[51,51],[]],
+["triggering",12,[29],[56,56],[]]]],
+["TCancellationOrigin",3,[10],[67,95],[
+["trigger",12,[],[75,78],[]]]],
+["TCancelledException",3,[],[98,105],[
+["this",17,[],[100,104],[]]]]]]

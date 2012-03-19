@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-<script type="text/javascript">
+<!--<script type="text/javascript">
   TypekitConfig = {
     kitId: 'mpw3lrx'
   };
@@ -19,14 +19,14 @@
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(tk, s);
   })();
-</script>
+</script>-->
 
   <!-- Use the .htaccess and remove these lines to avoid edge case issues.
        More info: h5bp.com/i/378
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-  <!--<script type="text/javascript" src="http://use.typekit.com/mpw3lrx.js"></script>
-  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>-->
+  <script type="text/javascript" src="http://use.typekit.com/mpw3lrx.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
   <title>{{ page.title | strip_html }} | {{ site.title }}</title>
 
@@ -36,7 +36,7 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
 
   <link rel="stylesheet" href="/css/style.css">
-  <!--<script src="js/GCS.js"></script>-->
+  <!--<script src="/js/GCS.js"></script>-->
 </head>
 <body>
   <header id="main_header">
@@ -54,9 +54,9 @@
   </div>
   <footer id="main_footer">
     <ul>
-      <li><a href="/about">Contact me.</a></li>
-      <li><a class="twitter" href="//twitter.com/klickverbot">Follow me on Twitter.</a></li>
-      <li><a href="/blog/atom.xml">Blog feed.</a></li>
+      <li><a class="twitter" href="//twitter.com/klickverbot">Follow me on Twitter</a></li>
+      <li><a class="mail" href="/about">Contact me</a></li>
+      <li><a class="rss" href="/blog/atom.xml">Blog feed</a></li>
     </ul>
   </footer>
 
@@ -67,8 +67,8 @@
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
 
   <!-- scripts concatenated and minified via build script -->
-  <script src="js/plugins.js"></script>
-  <script src="js/script.js"></script>
+  <script src="/js/plugins.js"></script>
+  <script src="/js/script.js"></script>
   <!-- end scripts -->
 
   <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.

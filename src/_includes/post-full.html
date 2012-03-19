@@ -9,14 +9,14 @@
       <li>{% if page.next.url %}<a href="{{ page.next.url }}">Newer</a>{% else %}<s>Newer</s>{% endif %}</li>
      </ul>
   </header>
-  <div class="blog-post-content">
+  <div class="content">
   {% if single_post == true %}
   {{ content }}
   {% else %}
   {{ post.content }}
   {% endif %}
   <footer>
-    Enjoying the read? There is more on {% for tag_name in post.tags %}{% unless forloop.first %}{% if forloop.last %} and{% else %},{% endif %}{% endunless %} <a href="/blog/tags/{{ tag_name | uri_escape }}/" title="View all posts tagged with »{{ tag_name }}«" rel="tag">{{ tag_name }}</a>{% endfor %}.
+    {% if post.nonempty_tags.size > 0 %}Like what you read? There is more on {% for tag_name in post.nonempty_tags %}{% unless forloop.first %}{% if forloop.last %} and{% else %},{% endif %}{% endunless %} <a href="/blog/tags/{{ tag_name | uri_escape }}/" title="View all posts tagged with »{{ tag_name }}«" rel="tag">{{ tag_name }}</a>{% endfor %}.{% endif %}
   </footer>
   </div>
 </article>

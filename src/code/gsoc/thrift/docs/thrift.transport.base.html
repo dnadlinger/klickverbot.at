@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.transport.base</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.transport.base">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.transport.base"><a href="htmlsrc/thrift.transport.base.html" class="symbol">thrift.transport.base</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">interface</span> <a class="symbol _interface" name="TTransport" href="htmlsrc/thrift.transport.base.html#L31">TTransport</a> <a href="thrift.transport.base.html#TTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">An entity data can be read from and/or written to.</div></div>
+<div class="cmnt">A TTransport implementation may capable of either reading or writing, but
+ not necessarily both.</div>
+<dl>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TTransport.isOpen" href="htmlsrc/thrift.transport.base.html#L47">isOpen</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.transport.base.html#TTransport.isOpen" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether this transport is open.</div></div>
+<div class="cmnt">If a transport is closed, it can be opened by calling open(), and vice
+ versa for close().
+<p class="bl"></p>
+ While a transport should always be open when trying to read/write data,
+ the related functions do not necessarily fail when called for a closed
+ transport. Situations like this could occur e.g. with a wrapper
+ transport which buffers data when the underlying transport has already
+ been closed (possibly because the connection was abruptly closed), but
+ there is still data left to be read in the buffers. This choice has been
+ made to simplify transport implementations, in terms of both  code
+ complexity and runtime overhead.</div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TTransport.peek" href="htmlsrc/thrift.transport.base.html#L56">peek</a><span class="params">()</span> <a href="thrift.transport.base.html#TTransport.peek" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Tests whether there is more data to read or if the remote side is
+ still open.</div></div>
+<div class="cmnt">A typical use case would be a server checking if it should process
+ another request on the transport.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TTransport.open" href="htmlsrc/thrift.transport.base.html#L65">open</a><span class="params">()</span> <a href="thrift.transport.base.html#TTransport.open" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Opens the transport for communications.</div></div>
+<div class="cmnt">If the transport is already open, nothing happens.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TTransportException if opening fails.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TTransport.close" href="htmlsrc/thrift.transport.base.html#L74">close</a><span class="params">()</span> <a href="thrift.transport.base.html#TTransport.close" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Closes the transport.</div></div>
+<div class="cmnt">If the transport is not open, nothing happens.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TTransportException if closing fails.</div></dd>
+<dt class="decl"><span class="rettyp">size_t</span> <a class="symbol _function" name="TTransport.read" href="htmlsrc/thrift.transport.base.html#L92">read</a><span class="params">(ubyte[] <em>buf</em>)</span> <a href="thrift.transport.base.html#TTransport.read" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Attempts to fill the given buffer by reading data.</div></div>
+<div class="cmnt">For potentially blocking data sources (e.g. sockets), read() will only
+ block if no data is available at all. If there is some data available,
+ but waiting for new data to arrive would be required to fill the whole
+ buffer, the readily available data will be immediately returned – use
+ readAll() if you want to wait until the whole buffer is filled.</div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>buf</em></td><td>Slice to use as buffer.</td></tr></table>
+<p class="sec_header">Returns:</p><div class="cmnt">How many bytes were actually read</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TTransportException if an error occurs.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TTransport.readAll" href="htmlsrc/thrift.transport.base.html#L104">readAll</a><span class="params">(ubyte[] <em>buf</em>)</span> <a href="thrift.transport.base.html#TTransport.readAll" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Fills the given buffer by reading data into it, failing if not enough
+ data is available.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>buf</em></td><td>Slice to use as buffer.</td></tr></table>
+<p class="sec_header">Throws:</p><div class="cmnt">TTransportException if insufficient data is available or reading
+   fails altogether.</div></dd>
+<dt class="decl"><span class="rettyp">size_t</span> <a class="symbol _function" name="TTransport.readEnd" href="htmlsrc/thrift.transport.base.html#L114">readEnd</a><span class="params">()</span> <a href="thrift.transport.base.html#TTransport.readEnd" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Must be called by clients when read is completed.</div></div>
+<div class="cmnt">Implementations can choose to perform a transport-specific action, e.g.
+ logging the request to a file.</div>
+<p class="sec_header">Returns:</p><div class="cmnt">The number of bytes read if available, 0 otherwise.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TTransport.write" href="htmlsrc/thrift.transport.base.html#L130">write</a><span class="params">(<span class="k">in</span> ubyte[] <em>buf</em>)</span> <a href="thrift.transport.base.html#TTransport.write" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Writes the passed slice of data.</div></div>
+<p class="sec_header">Note:</p><div class="cmnt">You must call flush() to ensure the data is actually written,
+ and available to be read back in the future.  Destroying a TTransport
+ object does not automatically flush pending data – if you destroy a
+ TTransport object with written but unflushed data, that data may be
+ discarded.</div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>buf</em></td><td>Slice of data to write.</td></tr></table>
+<p class="sec_header">Throws:</p><div class="cmnt">TTransportException if an error occurs.</div></dd>
+<dt class="decl"><span class="rettyp">size_t</span> <a class="symbol _function" name="TTransport.writeEnd" href="htmlsrc/thrift.transport.base.html#L140">writeEnd</a><span class="params">()</span> <a href="thrift.transport.base.html#TTransport.writeEnd" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Must be called by clients when write is completed.</div></div>
+<div class="cmnt">Implementations can choose to perform a transport-specific action, e.g.
+ logging the request to a file.</div>
+<p class="sec_header">Returns:</p><div class="cmnt">The number of bytes written if available, 0 otherwise.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TTransport.flush" href="htmlsrc/thrift.transport.base.html#L151">flush</a><span class="params">()</span> <a href="thrift.transport.base.html#TTransport.flush" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Flushes any pending data to be written.</div></div>
+<div class="cmnt">Must be called before destruction to ensure writes are actually complete,
+ otherwise pending data may be discarded. Typically used with buffered
+ transport mechanisms.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TTransportException if an error occurs.</div></dd>
+<dt class="decl"><span class="rettyp">const(ubyte)[]</span> <a class="symbol _function" name="TTransport.borrow" href="htmlsrc/thrift.transport.base.html#L180">borrow</a><span class="params">(ubyte* <em>buf</em>, size_t <em>len</em>)</span> <a href="thrift.transport.base.html#TTransport.borrow" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Attempts to return a slice of <code>len</code> bytes of incoming data,
+ possibly copied into buf, not consuming them (i.e.: a later read will
+ return the same data).</div></div>
+<div class="cmnt">This method is meant to support protocols that need to read variable-
+ length fields. They can attempt to borrow the maximum amount of data that
+ they will need, then <code>consume()</code> what they actually use. Some
+ transports will not support this method and others will fail occasionally,
+ so protocols must be prepared to fall back to <code>read()</code> if
+ borrow fails.
+<p class="bl"></p>
+ The transport must be open when calling this.</div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>buf</em></td><td>A buffer where the data can be stored if needed, or null to
+     indicate that the caller is not supplying storage, but would like a
+     slice of an internal buffer, if available.</td></tr>
+<tr><td><em>len</em></td><td>The number of bytes to borrow.</td></tr></table>
+<p class="sec_header">Returns:</p><div class="cmnt">If the borrow succeeds, a slice containing the borrowed data,
+   null otherwise. The slice will be at least as long as requested, but
+   may be longer if the returned slice points into an internal buffer
+   rather than buf.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">TTransportException if an error occurs.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TTransport.consume" href="htmlsrc/thrift.transport.base.html#L198">consume</a><span class="params">(size_t <em>len</em>)</span> <a href="thrift.transport.base.html#TTransport.consume" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Remove len bytes from the transport. This must always follow a borrow
+ of at least len bytes, and should always succeed.</div></div>
+<div class="cmnt">The transport must be open when calling this.</div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>len</em></td><td>Number of bytes to consume.</td></tr></table>
+<p class="sec_header">Throws:</p><div class="cmnt">TTransportException if an error occurs.</div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TBaseTransport" href="htmlsrc/thrift.transport.base.html#L204">TBaseTransport</a> : <span class="bclass">TTransport</span> <a href="thrift.transport.base.html#TBaseTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Provides basic fall-back implementations of the TTransport interface.</div></div>
+</dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TTransportFactory" href="htmlsrc/thrift.transport.base.html#L281">TTransportFactory</a> <a href="thrift.transport.base.html#TTransportFactory" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Makes a TTransport which wraps a given source transport in some way.</div></div>
+<div class="cmnt">A common use case is inside server implementations, where the raw client
+ connections accepted from e.g. TServerSocket need to be wrapped into
+ buffered or compressed transports.</div>
+<dl>
+<dt class="decl"><span class="rettyp">TTransport</span> <a class="symbol _function" name="TTransportFactory.getTransport" href="htmlsrc/thrift.transport.base.html#L285">getTransport</a><span class="params">(TTransport <em>trans</em>)</span> <a href="thrift.transport.base.html#TTransportFactory.getTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Default implementation does nothing, just returns the transport given.</div></div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TWrapperTransportFactory" href="htmlsrc/thrift.transport.base.html#L294">TWrapperTransportFactory</a><span class="tparams">(<em>T</em>)</span> : <span class="bclass">TTransportFactory</span> <a href="thrift.transport.base.html#TWrapperTransportFactory" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Transport factory for transports which simply wrap an underlying TTransport
+ without requiring additional configuration.</div></div>
+</dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TTransportException" href="htmlsrc/thrift.transport.base.html#L305">TTransportException</a> : <span class="bclass">TException</span> <a href="thrift.transport.base.html#TTransportException" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Transport-level exception.</div></div>
+<dl>
+<dt class="decl"><span class="kw">enum</span> <a class="symbol _enum" name="TTransportException.Type" href="htmlsrc/thrift.transport.base.html#L309">Type</a> <a href="thrift.transport.base.html#TTransportException.Type" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Error codes for the various types of exceptions.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="TTransportException.Type.UNKNOWN" href="htmlsrc/thrift.transport.base.html#L310">UNKNOWN</a> <a href="thrift.transport.base.html#TTransportException.Type.UNKNOWN" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TTransportException.Type.NOT_OPEN" href="htmlsrc/thrift.transport.base.html#L311">NOT_OPEN</a> <a href="thrift.transport.base.html#TTransportException.Type.NOT_OPEN" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TTransportException.Type.TIMED_OUT" href="htmlsrc/thrift.transport.base.html#L312">TIMED_OUT</a> <a href="thrift.transport.base.html#TTransportException.Type.TIMED_OUT" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TTransportException.Type.END_OF_FILE" href="htmlsrc/thrift.transport.base.html#L313">END_OF_FILE</a> <a href="thrift.transport.base.html#TTransportException.Type.END_OF_FILE" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TTransportException.Type.INTERRUPTED" href="htmlsrc/thrift.transport.base.html#L314">INTERRUPTED</a> <a href="thrift.transport.base.html#TTransportException.Type.INTERRUPTED" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TTransportException.Type.BAD_ARGS" href="htmlsrc/thrift.transport.base.html#L315">BAD_ARGS</a> <a href="thrift.transport.base.html#TTransportException.Type.BAD_ARGS" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TTransportException.Type.CORRUPTED_DATA" href="htmlsrc/thrift.transport.base.html#L316">CORRUPTED_DATA</a> <a href="thrift.transport.base.html#TTransportException.Type.CORRUPTED_DATA" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TTransportException.Type.INTERNAL_ERROR" href="htmlsrc/thrift.transport.base.html#L317">INTERNAL_ERROR</a> <a href="thrift.transport.base.html#TTransportException.Type.INTERNAL_ERROR" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TTransportException.Type.NOT_IMPLEMENTED" href="htmlsrc/thrift.transport.base.html#L318">NOT_IMPLEMENTED</a> <a href="thrift.transport.base.html#TTransportException.Type.NOT_IMPLEMENTED" class="plink">¶</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _ctor" name="TTransportException.this" href="htmlsrc/thrift.transport.base.html#L322">this</a><span class="params">(Type <em>type</em>, string <em>file</em> = <span class="defval"><span class="st">__FILE__</span></span>, size_t <em>line</em> = <span class="defval"><span class="st">__LINE__</span></span>, Throwable <em>next</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.transport.base.html#TTransportException.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="TTransportException.this:2" href="htmlsrc/thrift.transport.base.html#L341">this</a><span class="params">(string <em>msg</em>, string <em>file</em> = <span class="defval"><span class="st">__FILE__</span></span>, size_t <em>line</em> = <span class="defval"><span class="st">__LINE__</span></span>, Throwable <em>next</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.transport.base.html#TTransportException.this:2" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="TTransportException.this:3" href="htmlsrc/thrift.transport.base.html#L348">this</a><span class="params">(string <em>msg</em>, Type <em>type</em>, string <em>file</em> = <span class="defval"><span class="st">__FILE__</span></span>, size_t <em>line</em> = <span class="defval"><span class="st">__LINE__</span></span>, Throwable <em>next</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.transport.base.html#TTransportException.this:3" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">Type</span> <a class="symbol _function" name="TTransportException.type" href="htmlsrc/thrift.transport.base.html#L356">type</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">nothrow</span>, <span class="stc">const</span>]</span> <a href="thrift.transport.base.html#TTransportException.type" class="plink">¶</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><span class="kw">template</span> <a class="symbol _template" name="isTTransport" href="htmlsrc/thrift.transport.base.html#L368">isTTransport</a><span class="tparams">(<em>T</em>)</span> <a href="thrift.transport.base.html#isTTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Meta-programming helper returning whether the passed type is a TTransport
+ implementation.</div></div>
+</dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:29 2012.</p>
+</div>
+</div>
+</body>
+</html>

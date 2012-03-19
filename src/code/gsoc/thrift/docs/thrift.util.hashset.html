@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.util.hashset</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.util.hashset">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.util.hashset"><a href="htmlsrc/thrift.util.hashset.html" class="symbol">thrift.util.hashset</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="HashSet" href="htmlsrc/thrift.util.hashset.html#L33">HashSet</a><span class="tparams">(<em>E</em>)</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.util.hashset.html#HashSet" class="plink">¶</a></dt>
+<dt class="decl"><span class="kw">auto</span> <a class="symbol _function" name="hashSet" href="htmlsrc/thrift.util.hashset.html#L121">hashSet</a><span class="tparams">(<em>E</em>)</span><span class="params">(E[] <em>elems</em>...)</span> <a href="thrift.util.hashset.html#hashSet" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A quickly hacked together hash set implementation backed by built-in
+ associative arrays to have something to compile Thrift's set&lt;&gt; to until
+ std.container gains something suitable.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="HashSet.this" href="htmlsrc/thrift.util.hashset.html#L35">this</a><span class="params">()</span> <a href="thrift.util.hashset.html#HashSet.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="HashSet.this:2" href="htmlsrc/thrift.util.hashset.html#L38">this</a><span class="params">(E[] <em>elems</em>...)</span> <a href="thrift.util.hashset.html#HashSet.this:2" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="HashSet.insert" href="htmlsrc/thrift.util.hashset.html#L43">insert</a><span class="tparams">(<em>Stuff</em>)</span><span class="params">(Stuff <em>stuff</em>)</span> <a href="thrift.util.hashset.html#HashSet.insert" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="HashSet.insert:2" href="htmlsrc/thrift.util.hashset.html#L48">insert</a><span class="tparams">(<em>Stuff</em>)</span><span class="params">(Stuff <em>stuff</em>)</span> <a href="thrift.util.hashset.html#HashSet.insert:2" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="HashSet.opOpAssign" href="htmlsrc/thrift.util.hashset.html#L57">opOpAssign</a><span class="tparams">(string <em>op</em> : <span class="spec"><span class="sl">"~"</span></span>, <em>Stuff</em>)</span><span class="params">(Stuff <em>stuff</em>)</span> <a href="thrift.util.hashset.html#HashSet.opOpAssign" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="HashSet.remove" href="htmlsrc/thrift.util.hashset.html#L62">remove</a><span class="params">(E <em>e</em>)</span> <a href="thrift.util.hashset.html#HashSet.remove" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="HashSet.removeAll" href="htmlsrc/thrift.util.hashset.html#L68">removeAll</a><span class="params">()</span> <a href="thrift.util.hashset.html#HashSet.removeAll" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">size_t</span> <a class="symbol _function" name="HashSet.length" href="htmlsrc/thrift.util.hashset.html#L73">length</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.util.hashset.html#HashSet.length" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">size_t</span> <a class="symbol _function" name="HashSet.empty" href="htmlsrc/thrift.util.hashset.html#L78">empty</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.util.hashset.html#HashSet.empty" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="HashSet.opBinaryRight" href="htmlsrc/thrift.util.hashset.html#L83">opBinaryRight</a><span class="tparams">(string <em>op</em> : <span class="spec"><span class="sl">"in"</span></span>)</span><span class="params">(E <em>e</em>)</span> <span class="attrs">[<span class="stc">const</span>]</span> <a href="thrift.util.hashset.html#HashSet.opBinaryRight" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">E[]</span> <a class="symbol _function" name="HashSet.opSlice" href="htmlsrc/thrift.util.hashset.html#L88">opSlice</a><span class="params">()</span> <span class="attrs">[<span class="stc">const</span>]</span> <a href="thrift.util.hashset.html#HashSet.opSlice" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">string</span> <a class="symbol _function" name="HashSet.toString" href="htmlsrc/thrift.util.hashset.html#L93">toString</a><span class="params">()</span> <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a href="thrift.util.hashset.html#HashSet.toString" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="HashSet.opEquals" href="htmlsrc/thrift.util.hashset.html#L105">opEquals</a><span class="params">(Object <em>other</em>)</span> <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a href="thrift.util.hashset.html#HashSet.opEquals" class="plink">¶</a></dt>
+<dd class="ddef"></dd></dl></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:30 2012.</p>
+</div>
+</div>
+</body>
+</html>

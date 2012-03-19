@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.server.base</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.server.base">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.server.base"><a href="htmlsrc/thrift.server.base.html" class="symbol">thrift.server.base</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TServer" href="htmlsrc/thrift.server.base.html#L36">TServer</a> <a href="thrift.server.base.html#TServer" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Base class for all Thrift servers.</div></div>
+<div class="cmnt">By setting the eventHandler property to a TServerEventHandler
+ implementation, custom code can be integrated into the processing pipeline,
+ which can be used e.g. for gathering statistics.</div>
+<dl>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServer.serve" href="htmlsrc/thrift.server.base.html#L49">serve</a><span class="params">(TCancellation <em>cancellation</em> = <span class="defval"><span class="k">null</span></span>)</span> <span class="attrs">[<span class="stc">abstract</span>]</span> <a href="thrift.server.base.html#TServer.serve" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Starts serving.</div></div>
+<div class="cmnt">Blocks until the server finishes, i.e. a serious problem occured or the
+ cancellation request has been triggered.
+<p class="bl"></p>
+ Server implementations are expected to implement cancellation in a best-
+ effort way – usually, it should be possible to immediately stop accepting
+ connections and return after all currently active clients have been
+ processed, but this might not be the case for every conceivable
+ implementation.</div></dd>
+<dt class="decl">TServerEventHandler <a class="symbol _variable" name="TServer.eventHandler" href="htmlsrc/thrift.server.base.html#L52">eventHandler</a> <a href="thrift.server.base.html#TServer.eventHandler" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The server event handler to notify. Null by default.</div></div></dd></dl></dd>
+<dt class="decl"><span class="kw">interface</span> <a class="symbol _interface" name="TServerEventHandler" href="htmlsrc/thrift.server.base.html#L126">TServerEventHandler</a> <a href="thrift.server.base.html#TServerEventHandler" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Handles events from a TServer core.</div></div>
+<dl>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerEventHandler.preServe" href="htmlsrc/thrift.server.base.html#L130">preServe</a><span class="params">()</span> <a href="thrift.server.base.html#TServerEventHandler.preServe" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Called before the server starts accepting connections.</div></div></dd>
+<dt class="decl"><span class="rettyp">Variant</span> <a class="symbol _function" name="TServerEventHandler.createContext" href="htmlsrc/thrift.server.base.html#L135">createContext</a><span class="params">(TProtocol <em>input</em>, TProtocol <em>output</em>)</span> <a href="thrift.server.base.html#TServerEventHandler.createContext" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Called when a new client has connected and processing is about to begin.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerEventHandler.deleteContext" href="htmlsrc/thrift.server.base.html#L141">deleteContext</a><span class="params">(Variant <em>serverContext</em>, TProtocol <em>input</em>, TProtocol <em>output</em>)</span> <a href="thrift.server.base.html#TServerEventHandler.deleteContext" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Called when request handling for a client has been finished – can be used
+ to perform clean up work.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TServerEventHandler.preProcess" href="htmlsrc/thrift.server.base.html#L146">preProcess</a><span class="params">(Variant <em>serverContext</em>, TTransport <em>transport</em>)</span> <a href="thrift.server.base.html#TServerEventHandler.preProcess" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Called when the processor for a client call is about to be invoked.</div></div></dd></dl></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:29 2012.</p>
+</div>
+</div>
+</body>
+</html>

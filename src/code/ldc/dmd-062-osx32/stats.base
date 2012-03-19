@@ -1,0 +1,6 @@
+<td>dmd-062-osx32</td>
+<td class="pass borderleft"><a href="dmd-062-osx32/pass.html">4409</a></td>
+<td class="xfail"><a href="dmd-062-osx32/xfail.html">1912</a></td>
+<td class="fail"><a href="dmd-062-osx32/fail.html">447</a></td>
+<td class="xpass"><a href="dmd-062-osx32/xpass.html">228</a></td>
+<td class="error"><a href="dmd-062-osx32/error.html">16</a></td>

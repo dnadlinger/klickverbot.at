@@ -5,3 +5,5 @@ source: src
 destination: intermediate
 plugins: plugins
 pygments: true
+paginate: 10
+

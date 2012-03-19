@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.transport.buffered</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.transport.buffered">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.transport.buffered"><a href="htmlsrc/thrift.transport.buffered.html" class="symbol">thrift.transport.buffered</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TBufferedTransport" href="htmlsrc/thrift.transport.buffered.html#L31">TBufferedTransport</a> : <span class="bclass">TBaseTransport</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.transport.buffered.html#TBufferedTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Wraps another transport and buffers reads and writes until the internal
+ buffers are exhausted, at which point new data is fetched resp. the
+ accumulated data is written out at once.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TBufferedTransport.this" href="htmlsrc/thrift.transport.buffered.html#L38">this</a><span class="params">(TTransport <em>transport</em>)</span> <a href="thrift.transport.buffered.html#TBufferedTransport.this" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Constructs a new instance, using the default buffer sizes.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>transport</em></td><td>The underlying transport to wrap.</td></tr></table></dd>
+<dt class="decl"><a class="symbol _ctor" name="TBufferedTransport.this:2" href="htmlsrc/thrift.transport.buffered.html#L49">this</a><span class="params">(TTransport <em>transport</em>, size_t <em>bufferSize</em>)</span> <a href="thrift.transport.buffered.html#TBufferedTransport.this:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Constructs a new instance, using the specified buffer size.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>transport</em></td><td>The underlying transport to wrap.</td></tr>
+<tr><td><em>bufferSize</em></td><td>The size of the read and write buffers to use, in bytes.</td></tr></table></dd>
+<dt class="decl"><a class="symbol _ctor" name="TBufferedTransport.this:3" href="htmlsrc/thrift.transport.buffered.html#L61">this</a><span class="params">(TTransport <em>transport</em>, size_t <em>readBufferSize</em>, size_t <em>writeBufferSize</em>)</span> <a href="thrift.transport.buffered.html#TBufferedTransport.this:3" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Constructs a new instance, using the specified buffer size.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>transport</em></td><td>The underlying transport to wrap.</td></tr>
+<tr><td><em>readBufferSize</em></td><td>The size of the read buffer to use, in bytes.</td></tr>
+<tr><td><em>writeBufferSize</em></td><td>The size of the write buffer to use, in bytes.</td></tr></table></dd>
+<dt class="decl">int <a class="symbol _variable" name="TBufferedTransport.DEFAULT_BUFFER_SIZE" href="htmlsrc/thrift.transport.buffered.html#L69">DEFAULT_BUFFER_SIZE</a> <span class="attrs">[<span class="stc">manifest</span>]</span> <a href="thrift.transport.buffered.html#TBufferedTransport.DEFAULT_BUFFER_SIZE" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The default size of the read/write buffers, in bytes.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TBufferedTransport.readAll" href="htmlsrc/thrift.transport.buffered.html#L123">readAll</a><span class="params">(ubyte[] <em>buf</em>)</span> <span class="attrs">[<span class="stc">override</span>]</span> <a href="thrift.transport.buffered.html#TBufferedTransport.readAll" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Shortcut version of readAll.</div></div></dd>
+<dt class="decl"><span class="rettyp">TTransport</span> <a class="symbol _function" name="TBufferedTransport.underlyingTransport" href="htmlsrc/thrift.transport.buffered.html#L198">underlyingTransport</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.transport.buffered.html#TBufferedTransport.underlyingTransport" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The wrapped transport.</div></div></dd></dl></dd>
+<dt class="decl"><span class="kw">alias</span> TWrapperTransportFactory!TBufferedTransport <a class="symbol _alias" name="TBufferedTransportFactory" href="htmlsrc/thrift.transport.buffered.html#L215">TBufferedTransportFactory</a> <a href="thrift.transport.buffered.html#TBufferedTransportFactory" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Wraps given transports into TBufferedTransports.</div></div></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/klickverbot/dil">dil</a> on Wed Feb  8 23:47:29 2012.</p>
+</div>
+</div>
+</body>
+</html>

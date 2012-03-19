@@ -8,6 +8,7 @@ tags:
 - KDE
 - Konsole
 - Linux
+excerpt: "On my laptop I’m currently running Kubuntu 8.04 (Hardy Heron). For additional eye candy goodness I am using the compiz-fusion package from the Kubuntu repositories. Surprisingly, even on the laptop hardware (Asus V1S) everything went smooth"
 ---
 
 On my laptop I'm currently running Kubuntu 8.04 (Hardy Heron). For additional eye candy goodness I am using the [@compiz-fusion@] package from the Kubuntu repositories. Surprisingly, even on the laptop hardware (Asus V1S) everything went smooth out of the box – I could even manage to find some drivers for the webcam and for the finger print scanner.

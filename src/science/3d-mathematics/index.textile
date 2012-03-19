@@ -1,0 +1,53 @@
+---
+layout: code
+title: Mathematische Grundlagen der 3D-Grafik
+description: »Mathematische Grundlagen der 3D-Grafik« – eine Fachbereichsarbeit aus Mathematik, samt einem Software Rasterizer als praktischem Teil.
+prev_title: std.units
+prev_url: /code/units
+---
+
+h1. Mathematische Grundlagen der 3D-Grafik
+
+notextile. <aside><a href="3d-mathematics.pdf" class="download">Get as PDF</a></aside>
+
+p(lead). A fifty-page paper (in German) about the mathematical basics of 3d computer graphics, which I wrote as part of my A-levels. Unfortunately, there is no English version available. The practical part of the project was "d4":/code/d4/, a software rasterizer.
+
+Heutzutage begegnen uns ständig computergenerierte Bilder, sei es in Form von Spezialeffekten oder künstlichen Charakteren in einem Kinofilm, sei es in Computerspielen oder bei der Visualisierung von Bauplänen, lange bevor die ersten Bagger rollen. Diese Möglichkeit, virtuelle Welten im Auge eines Betrachters Realität werden zu lassen, macht die 3D-Grafik in meinen Augen zu einem der interessantesten Anwendungsgebiete der Mathematik.
+
+Im Rahmen meiner Matura in Mathematik bot sich die Gelegenheit, die mathematischen Grundlagen dieses Themenbereiches im Form einer Fachbereichsarbeit mit dem Titel »Mathematische Grundlagen der 3D-Grafik« kurz zusammenzufassen, welche später auch mit dem 1. Schülerpreis der "Österreichischen Mathematischen Gesellschaft":http://www.oemg.ac.at/ ausgezeichnet wurde.
+
+Leider ist die Arbeit aufgrund des begrenzten Umfangs und der nötigen Einführung in die benötigten mathematischen Hilfsmittel (Matrizen, Quaternionen) recht elementar ausgefallen. Ein Auszug aus dem Inhaltsverzeichnis:
+
+<blockquote class="small">
+(columns2)# Vorwort
+# Einleitung
+# Mathematische Grundlagen
+*# Vektoren
+*# Matrizen
+*# Quaternionen
+*# Grundlagen der 3D-Grafik
+## Modellierung
+### Geometrie
+### Oberflächeneigenschaften
+### Texturen
+## Rendering
+### Koordinatentransformationen
+### Rasterung
+### Umsetzung in Hardware
+# Objekt-Transformationen
+## Skalierung
+## Translation
+## Rotation
+### Rotation um die Koordinatenachsen
+### Eulersche Winkel
+### Rotationsmatrix aus transformierten Basisvektoren
+### Darstellung als Quaternion
+# Betrachtungstransformationen
+## View Matrix
+## Projection Matrix
+# Ausblick
+# "Beispielprogramm":/code/d4
+
+</blockquote>
+
+Bei Interesse können Sie gerne die "Arbeit im PDF-Format":3d-mathematics.pdf herunterladen (51&nbsp;Seiten), die "LaTeX-Quellen auf GitHub":http://github.com/klickverbot/3d-mathematics abrufen, oder einen kurzen Artikel zum begleitend in der Programmiersprache D entwickelten "Software Rasterizer _d4_":/code/d4/ einsehen.

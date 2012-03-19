@@ -1,23 +1,16 @@
 ---
-layout: blog
+layout: default
 title: Blog
 description: Personal site of David Nadlinger, featuring a programming-centric blog.
 ---
 
 {% for post in paginator.posts %}
-{% include post-full.html %}
+{% include post-excerpt.html %}
 {% endfor %}
 
-<div id="blog_pagination" class="clearfix">
-{% if paginator.previous_page %}
-  {% if paginator.previous_page == 1 %}
-    <a href="/blog/" id="previous_page">Newer entries</a>
-  {% else %}
-    <a href="/blog/page{{ paginator.previous_page }}" id="previous_page">Newer entries</a>
-  {% endif %}
-{% endif %}
-
-{% if paginator.next_page %}
-  <a href="/blog/page{{ paginator.next_page }}" id="next_page">Older entries</a>
-{% endif %}
-</div>
+<footer>
+  <ul class="pagenav">
+    <li>{% if paginator.next_page %}<a href="{{ paginator.next_page }}">Older</a>{% else %}<s>Older</s>{% endif %}</li>
+    <li>{% if paginator.previous_page %}<a href="{{ paginator.previous_page }}">Newer</a>{% else %}<s>Newer</s>{% endif %}</li>
+   </ul>
+</footer>

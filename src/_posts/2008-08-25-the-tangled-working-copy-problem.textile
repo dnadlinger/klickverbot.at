@@ -4,6 +4,7 @@ title: The Tangled Working Copy Problem
 post_id: 8
 tags:
 - Git
+excerpt: "There is a problem which probably about every developer using a revision control management for their hobby projects has already experienced: The annoying situation of having two or more completely unrelated changes in your working tree"
 ---
 
 There is a problem which probably about every developer using a revision control management for their hobby projects has already experienced: The annoying situation of having two or more completely unrelated changes in your working tree. With its "index" feature, git provides an excellent, if not quite intuitive facility for solving the problem.

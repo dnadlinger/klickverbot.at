@@ -8,14 +8,14 @@ tags:
 excerpt: "The POSIX and Windows <code>getaddrinfo</code> function returns a list of IP addresses and port numbers for a given hostname and service (resp. port), superseding <code>gethostbyname</code> and <code>getservbyname</code>. Besides some flags, it accepts two string parameters. Either one of them is allowed to be <code>null</code>"
 ---
 
-The POSIX and Windows `getaddrinfo` function returns a list of IP addresses and port numbers for a given hostname and service, superseding `gethostbyname` and `getservbyname`. Besides some flags, it accepts two string parameters. Either one of them is allowed to be `null`, representing localhost (or rather 0.0.0.0, depending on `AI_PASSIVE`) respectively an automatically assigned port. Both parameters being `null` at the same time, however, is forbidden, and leads to a `EAI_NONAME` error (`WSAHOST_NOT_FOUND` on Windows). What happens if the strings are empty (`"\0"`) instead of `null`, however, is not covered by the spec and not really documented anywhere.
+The POSIX and Windows `getaddrinfo` function returns a list of IP addresses and port numbers for a given hostname and service (resp. port), superseding `gethostbyname` and `getservbyname`. Besides some flags, it accepts two string parameters. Either one of them is allowed to be `null`, representing localhost (or rather 0.0.0.0, depending on `AI_PASSIVE`) respectively an automatically assigned port. Both parameters being `null` at the same time, however, is forbidden, and leads to a `EAI_NONAME` error (`WSAHOST_NOT_FOUND` on Windows). What happens if the strings are empty (`"\0"`) instead of `null`, however, is not covered by the spec and not really documented anywhere.
 
-It turns out that there are quite a few differences there between the various operating systems, which is obviously likely to cause issues for [Wine](http://winehq.org) (an implementation of the Windows API on Posix/X systems). To get a clear understanding of how the different cases are handled, I put together a little [D](http://dlang.org) program which tests a few combinations of host name, port, and flag parameters (see end of post). The snippet could be written in C just the same, as `getAddressInfo` directly maps to `getaddrinfo`, I just chose D to avoid platform dependencies and writing more boiler plate code.
+It turns out that there are quite a few differences there between the various operating systems, which is obviously likely to cause issues for [Wine](http://winehq.org) (an implementation of the Windows API on Posix/X systems). To get a clear understanding of how the different cases are handled, I put together a little [D](http://dlang.org) program which tests a few combinations of host name, port, and flag parameters (see end of post). The snippet could be written in C just the same, as `getAddressInfo` directly maps to `getaddrinfo`, I just chose D to avoid platform dependencies and writing an unduly large amount of more boilerplate code.
 
 The results are summarized in the following table, where »loopback« means that the IP addresses returned were `127.0.0.1` and `::1`, »catchall« refers to `0.0.0.0` and `::`, »public« means that the actual IP addresses of all available network interfaces were returned, and `NONAME` refers to a lookup error. »hostname« means that the actual fully qualified name of the host that ran the test was used (care: the host part of the FQDN only does usually _not_ resolve on OS X).
 
 <figure>
-  <table class="dstress">
+  <table>
     <thead>
       <tr>
         <th>Host</th>

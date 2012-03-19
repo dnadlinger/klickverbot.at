@@ -1,0 +1,304 @@
+---
+layout: code
+title: LDC
+prev_title: GSoC 2011
+prev_url: /code/gsoc/thrift
+next_title: std.units
+next_url: /code/units
+---
+
+h1. LDC
+
+p(lead). I am a contributor to "LDC":http://dsource.org/projects/ldc, a compiler for the "D programming language":http://d-programming-language.org based on the "LLVM compiler infrastructure":http://llvm.org/. Below, you can find a sligthly compilation of "DStress":http://dsource.org/projects/dstress D1 test results on various platforms.
+
+DStress is a »collection of bug tracking and language conformance test cases«, and knows five possible test results: _PASS_ (the test ran successfully, all checks passed), _XFAIL_ (the test failed, but was expected to do so, due to invalid code being tested for rejection, or platform-specific test pieces not being available), _FAIL_ (the test case failed), _XPASS_ (the test case passed, but should have failed), and _ERROR_ (the compiler hit the memory limit or crashed, linking failed, the built executable crashed, etc.). In the comparison columns, _+_ denotes improvements, _-_ regressions, and _chg_ results changing in the same category (e.g. _ERROR_ -> _XPASS_).
+
+h2. DStress results for OSX 10.6
+
+When interpreting the results below, please note that the DMD executables are built in 32 bit mode (DMD for x86_64 is not yet available on OS X), while LDC targets x86_64 by default. Thus, many of the inline assembler-related DStress test cases, which are specific to x86, are expected to fail (_XFAIL_) for LDC. No additional arguments were passed to the compilers.
+
+     <figure>
+		<table class="dstress">
+			<tr class="head">
+				<th></th>
+				<th colspan="5" class="borderleft">Test results</th>
+				<th colspan="3" class="borderleft">Diff to previous</th>
+				<th colspan="3" class="borderleft">Diff to dmd-067-osx32</th>
+			</tr>
+			<tr>
+				<th></th>
+				<th class="borderleft">PASS</th>
+				<th>XFAIL</th>
+				<th>FAIL</th>
+				<th>XPASS</th>
+				<th>ERROR</th>
+				<th class="borderleft">+</th>
+				<th>-</th>
+				<th>chg</th>
+				<th class="borderleft">+</th>
+				<th>-</th>
+				<th>chg</th>
+			</tr>
+
+<tr class="result">
+<td>dmd-067-osx32</td>
+<td class="pass borderleft"><a href="dmd-067-osx32/pass.html">4785</a></td>
+<td class="xfail"><a href="dmd-067-osx32/xfail.html">1916</a></td>
+<td class="fail"><a href="dmd-067-osx32/fail.html">486</a></td>
+<td class="xpass"><a href="dmd-067-osx32/xpass.html">227</a></td>
+<td class="error"><a href="dmd-067-osx32/error.html">34</a></td>
+<td class="borderleft"><a href="ldc-1950-e2777cdf0763-osx64-to-dmd-067-osx32/improvements.html">52</a></td>
+<td><a href="ldc-1950-e2777cdf0763-osx64-to-dmd-067-osx32/regressions.html">140</a></td>
+<td><a href="ldc-1950-e2777cdf0763-osx64-to-dmd-067-osx32/changes.html">419</a></td>
+<td class="borderleft"></td><td></td><td></td>
+</tr>
+<tr class="odd result">
+<td>ldc-1950-e2777cdf0763-osx64</td>
+<td class="pass borderleft"><a href="ldc-1950-e2777cdf0763-osx64/pass.html">4426</a></td>
+<td class="xfail"><a href="ldc-1950-e2777cdf0763-osx64/xfail.html">2363</a></td>
+<td class="fail"><a href="ldc-1950-e2777cdf0763-osx64/fail.html">394</a></td>
+<td class="xpass"><a href="ldc-1950-e2777cdf0763-osx64/xpass.html">157</a></td>
+<td class="error"><a href="ldc-1950-e2777cdf0763-osx64/error.html">108</a></td>
+<td class="borderleft"><a href="ldc-1946-934fbab920db-osx64-to-ldc-1950-e2777cdf0763-osx64/improvements.html">0</a></td>
+<td><a href="ldc-1946-934fbab920db-osx64-to-ldc-1950-e2777cdf0763-osx64/regressions.html">0</a></td>
+<td><a href="ldc-1946-934fbab920db-osx64-to-ldc-1950-e2777cdf0763-osx64/changes.html">0</a></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-ldc-1950-e2777cdf0763-osx64/improvements.html">140</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1950-e2777cdf0763-osx64/regressions.html">52</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1950-e2777cdf0763-osx64/changes.html">419</a></td>
+</tr>
+<tr class="result">
+<td>ldc-1946-934fbab920db-osx64</td>
+<td class="pass borderleft"><a href="ldc-1946-934fbab920db-osx64/pass.html">4424</a></td>
+<td class="xfail"><a href="ldc-1946-934fbab920db-osx64/xfail.html">2363</a></td>
+<td class="fail"><a href="ldc-1946-934fbab920db-osx64/fail.html">394</a></td>
+<td class="xpass"><a href="ldc-1946-934fbab920db-osx64/xpass.html">157</a></td>
+<td class="error"><a href="ldc-1946-934fbab920db-osx64/error.html">108</a></td>
+<td class="borderleft"><a href="ldc-1926-7d30dcf6d217-osx64-to-ldc-1946-934fbab920db-osx64/improvements.html">0</a></td>
+<td><a href="ldc-1926-7d30dcf6d217-osx64-to-ldc-1946-934fbab920db-osx64/regressions.html">0</a></td>
+<td><a href="ldc-1926-7d30dcf6d217-osx64-to-ldc-1946-934fbab920db-osx64/changes.html">0</a></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-ldc-1946-934fbab920db-osx64/improvements.html">140</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1946-934fbab920db-osx64/regressions.html">52</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1946-934fbab920db-osx64/changes.html">419</a></td>
+</tr>
+<tr class="odd result">
+<td>ldc-1926-7d30dcf6d217-osx64</td>
+<td class="pass borderleft"><a href="ldc-1926-7d30dcf6d217-osx64/pass.html">4424</a></td>
+<td class="xfail"><a href="ldc-1926-7d30dcf6d217-osx64/xfail.html">2363</a></td>
+<td class="fail"><a href="ldc-1926-7d30dcf6d217-osx64/fail.html">394</a></td>
+<td class="xpass"><a href="ldc-1926-7d30dcf6d217-osx64/xpass.html">157</a></td>
+<td class="error"><a href="ldc-1926-7d30dcf6d217-osx64/error.html">108</a></td>
+<td class="borderleft"><a href="ldc-1895-510afbb78dc6-osx64-to-ldc-1926-7d30dcf6d217-osx64/improvements.html">3</a></td>
+<td><a href="ldc-1895-510afbb78dc6-osx64-to-ldc-1926-7d30dcf6d217-osx64/regressions.html">0</a></td>
+<td><a href="ldc-1895-510afbb78dc6-osx64-to-ldc-1926-7d30dcf6d217-osx64/changes.html">0</a></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-ldc-1926-7d30dcf6d217-osx64/improvements.html">140</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1926-7d30dcf6d217-osx64/regressions.html">52</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1926-7d30dcf6d217-osx64/changes.html">419</a></td>
+</tr>
+<tr class="result">
+<td>ldc-1895-510afbb78dc6-osx64</td>
+<td class="pass borderleft"><a href="ldc-1895-510afbb78dc6-osx64/pass.html">4420</a></td>
+<td class="xfail"><a href="ldc-1895-510afbb78dc6-osx64/xfail.html">2363</a></td>
+<td class="fail"><a href="ldc-1895-510afbb78dc6-osx64/fail.html">397</a></td>
+<td class="xpass"><a href="ldc-1895-510afbb78dc6-osx64/xpass.html">157</a></td>
+<td class="error"><a href="ldc-1895-510afbb78dc6-osx64/error.html">108</a></td>
+<td class="borderleft"><a href="ldc-1880-f23b9dc9a787-osx64-to-ldc-1895-510afbb78dc6-osx64/improvements.html">3</a></td>
+<td><a href="ldc-1880-f23b9dc9a787-osx64-to-ldc-1895-510afbb78dc6-osx64/regressions.html">0</a></td>
+<td><a href="ldc-1880-f23b9dc9a787-osx64-to-ldc-1895-510afbb78dc6-osx64/changes.html">0</a></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-ldc-1895-510afbb78dc6-osx64/improvements.html">140</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1895-510afbb78dc6-osx64/regressions.html">55</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1895-510afbb78dc6-osx64/changes.html">419</a></td>
+</tr>
+<tr class="odd result">
+<td>ldc-1880-f23b9dc9a787-osx64</td>
+<td class="pass borderleft"><a href="ldc-1880-f23b9dc9a787-osx64/pass.html">4419</a></td>
+<td class="xfail"><a href="ldc-1880-f23b9dc9a787-osx64/xfail.html">2362</a></td>
+<td class="fail"><a href="ldc-1880-f23b9dc9a787-osx64/fail.html">397</a></td>
+<td class="xpass"><a href="ldc-1880-f23b9dc9a787-osx64/xpass.html">158</a></td>
+<td class="error"><a href="ldc-1880-f23b9dc9a787-osx64/error.html">110</a></td>
+<td class="borderleft"><a href="ldc-1873-1f3303e65191-osx64-to-ldc-1880-f23b9dc9a787-osx64/improvements.html">0</a></td>
+<td><a href="ldc-1873-1f3303e65191-osx64-to-ldc-1880-f23b9dc9a787-osx64/regressions.html">0</a></td>
+<td><a href="ldc-1873-1f3303e65191-osx64-to-ldc-1880-f23b9dc9a787-osx64/changes.html">1</a></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-ldc-1880-f23b9dc9a787-osx64/improvements.html">140</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1880-f23b9dc9a787-osx64/regressions.html">58</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1880-f23b9dc9a787-osx64/changes.html">419</a></td>
+</tr>
+<tr class="result">
+<td>ldc-1873-1f3303e65191-osx64</td>
+<td class="pass borderleft"><a href="ldc-1873-1f3303e65191-osx64/pass.html">4419</a></td>
+<td class="xfail"><a href="ldc-1873-1f3303e65191-osx64/xfail.html">2362</a></td>
+<td class="fail"><a href="ldc-1873-1f3303e65191-osx64/fail.html">398</a></td>
+<td class="xpass"><a href="ldc-1873-1f3303e65191-osx64/xpass.html">158</a></td>
+<td class="error"><a href="ldc-1873-1f3303e65191-osx64/error.html">109</a></td>
+<td class="borderleft"><a href="ldc-1810-2fab0eecc800-osx64-to-ldc-1873-1f3303e65191-osx64/improvements.html">13</a></td>
+<td><a href="ldc-1810-2fab0eecc800-osx64-to-ldc-1873-1f3303e65191-osx64/regressions.html">3</a></td>
+<td><a href="ldc-1810-2fab0eecc800-osx64-to-ldc-1873-1f3303e65191-osx64/changes.html">1</a></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-ldc-1873-1f3303e65191-osx64/improvements.html">140</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1873-1f3303e65191-osx64/regressions.html">58</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1873-1f3303e65191-osx64/changes.html">420</a></td>
+</tr>
+<tr class="odd result">
+<td>ldc-1810-2fab0eecc800-osx64</td>
+<td class="pass borderleft"><a href="ldc-1810-2fab0eecc800-osx64/pass.html">4027</a></td>
+<td class="xfail"><a href="ldc-1810-2fab0eecc800-osx64/xfail.html">2362</a></td>
+<td class="fail"><a href="ldc-1810-2fab0eecc800-osx64/fail.html">380</a></td>
+<td class="xpass"><a href="ldc-1810-2fab0eecc800-osx64/xpass.html">158</a></td>
+<td class="error"><a href="ldc-1810-2fab0eecc800-osx64/error.html">88</a></td>
+<td class="borderleft"><a href="ldc-1703-d8966356d012-osx64-to-ldc-1810-2fab0eecc800-osx64/improvements.html">12</a></td>
+<td><a href="ldc-1703-d8966356d012-osx64-to-ldc-1810-2fab0eecc800-osx64/regressions.html">0</a></td>
+<td><a href="ldc-1703-d8966356d012-osx64-to-ldc-1810-2fab0eecc800-osx64/changes.html">1</a></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-ldc-1810-2fab0eecc800-osx64/improvements.html">116</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1810-2fab0eecc800-osx64/regressions.html">64</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1810-2fab0eecc800-osx64/changes.html">417</a></td>
+</tr>
+<tr class="result">
+<td>ldc-1703-d8966356d012-osx64</td>
+<td class="pass borderleft"><a href="ldc-1703-d8966356d012-osx64/pass.html">4018</a></td>
+<td class="xfail"><a href="ldc-1703-d8966356d012-osx64/xfail.html">2359</a></td>
+<td class="fail"><a href="ldc-1703-d8966356d012-osx64/fail.html">390</a></td>
+<td class="xpass"><a href="ldc-1703-d8966356d012-osx64/xpass.html">159</a></td>
+<td class="error"><a href="ldc-1703-d8966356d012-osx64/error.html">89</a></td>
+<td class="borderleft"><a href="dmd-066-osx32-to-ldc-1703-d8966356d012-osx64/improvements.html">113</a></td>
+<td><a href="dmd-066-osx32-to-ldc-1703-d8966356d012-osx64/regressions.html">72</a></td>
+<td><a href="dmd-066-osx32-to-ldc-1703-d8966356d012-osx64/changes.html">421</a></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-ldc-1703-d8966356d012-osx64/improvements.html">116</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1703-d8966356d012-osx64/regressions.html">76</a></td>
+<td><a href="dmd-067-osx32-to-ldc-1703-d8966356d012-osx64/changes.html">418</a></td>
+</tr>
+<tr class="odd result">
+<td>dmd-066-osx32</td>
+<td class="pass borderleft"><a href="dmd-066-osx32/pass.html">4419</a></td>
+<td class="xfail"><a href="dmd-066-osx32/xfail.html">1916</a></td>
+<td class="fail"><a href="dmd-066-osx32/fail.html">437</a></td>
+<td class="xpass"><a href="dmd-066-osx32/xpass.html">227</a></td>
+<td class="error"><a href="dmd-066-osx32/error.html">14</a></td>
+<td class="borderleft"><a href="dmd-062-osx32-to-dmd-066-osx32/improvements.html">15</a></td>
+<td><a href="dmd-062-osx32-to-dmd-066-osx32/regressions.html">2</a></td>
+<td><a href="dmd-062-osx32-to-dmd-066-osx32/changes.html">0</a></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-dmd-066-osx32/improvements.html">3</a></td>
+<td><a href="dmd-067-osx32-to-dmd-066-osx32/regressions.html">4</a></td>
+<td><a href="dmd-067-osx32-to-dmd-066-osx32/changes.html">1</a></td>
+</tr>
+<tr class="result">
+<td>dmd-062-osx32</td>
+<td class="pass borderleft"><a href="dmd-062-osx32/pass.html">4409</a></td>
+<td class="xfail"><a href="dmd-062-osx32/xfail.html">1912</a></td>
+<td class="fail"><a href="dmd-062-osx32/fail.html">447</a></td>
+<td class="xpass"><a href="dmd-062-osx32/xpass.html">228</a></td>
+<td class="error"><a href="dmd-062-osx32/error.html">16</a></td>
+<td class="borderleft"><a href="dmd-057-osx32-to-dmd-062-osx32/improvements.html">11</a></td>
+<td><a href="dmd-057-osx32-to-dmd-062-osx32/regressions.html">12</a></td>
+<td><a href="dmd-057-osx32-to-dmd-062-osx32/changes.html">0</a></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-dmd-062-osx32/improvements.html">5</a></td>
+<td><a href="dmd-067-osx32-to-dmd-062-osx32/regressions.html">19</a></td>
+<td><a href="dmd-067-osx32-to-dmd-062-osx32/changes.html">1</a></td>
+</tr>
+<tr class="odd result">
+<td>dmd-057-osx32</td>
+<td class="pass borderleft"><a href="dmd-057-osx32/pass.html">4406</a></td>
+<td class="xfail"><a href="dmd-057-osx32/xfail.html">1916</a></td>
+<td class="fail"><a href="dmd-057-osx32/fail.html">453</a></td>
+<td class="xpass"><a href="dmd-057-osx32/xpass.html">228</a></td>
+<td class="error"><a href="dmd-057-osx32/error.html">9</a></td>
+<td class="borderleft"></td><td></td><td></td>
+<td class="borderleft"><a href="dmd-067-osx32-to-dmd-057-osx32/improvements.html">15</a></td>
+<td><a href="dmd-067-osx32-to-dmd-057-osx32/regressions.html">28</a></td>
+<td><a href="dmd-067-osx32-to-dmd-057-osx32/changes.html">1</a></td>
+</tr>
+</table>
+</figure>
+
+h2. Arch Linux x86_64
+
+Please note that the tests for DMD 1.066 were run in 32 bit mode, while the other tests were built for x86_64. No additional arguments were passed to the compilers (besides @-m64@ to DMD 1.067). The changes from ldc-1926 to ldc-1950 are noise resp. due to a DStress update, disregard them.
+
+        <figure>
+		<table class="dstress">
+			<tr class="head">
+				<th></th>
+				<th colspan="5" class="borderleft">Test results</th>
+				<th colspan="3" class="borderleft">Diff to previous</th>
+				<th colspan="3" class="borderleft">Diff to dmd-067-linux64</th>
+			</tr>
+			<tr>
+				<th></th>
+				<th class="borderleft">PASS</th>
+				<th>XFAIL</th>
+				<th>FAIL</th>
+				<th>XPASS</th>
+				<th>ERROR</th>
+				<th class="borderleft">+</th>
+				<th>-</th>
+				<th>chg</th>
+				<th class="borderleft">+</th>
+				<th>-</th>
+				<th>chg</th>
+			</tr>
+
+<tr class="odd result">
+<td>dmd-067-linux64</td>
+<td class="pass borderleft"><a href="dmd-067-linux64/pass.html">4271</a></td>
+<td class="xfail"><a href="dmd-067-linux64/xfail.html">2359</a></td>
+<td class="fail"><a href="dmd-067-linux64/fail.html">624</a></td>
+<td class="xpass"><a href="dmd-067-linux64/xpass.html">152</a></td>
+<td class="error"><a href="dmd-067-linux64/error.html">42</a></td>
+<td class="borderleft"><a href="ldc-1950-e2777cdf0763-linux64-to-dmd-067-linux64/improvements.html">34</a></td>
+<td><a href="ldc-1950-e2777cdf0763-linux64-to-dmd-067-linux64/regressions.html">212</a></td>
+<td><a href="ldc-1950-e2777cdf0763-linux64-to-dmd-067-linux64/changes.html">69</a></td>
+<td class="borderleft"></td><td></td><td></td>
+</tr>
+<tr class="result">
+<td>ldc-1950-e2777cdf0763-linux64</td>
+<td class="pass borderleft"><a href="ldc-1950-e2777cdf0763-linux64/pass.html">4438</a></td>
+<td class="xfail"><a href="ldc-1950-e2777cdf0763-linux64/xfail.html">2370</a></td>
+<td class="fail"><a href="ldc-1950-e2777cdf0763-linux64/fail.html">383</a></td>
+<td class="xpass"><a href="ldc-1950-e2777cdf0763-linux64/xpass.html">155</a></td>
+<td class="error"><a href="ldc-1950-e2777cdf0763-linux64/error.html">102</a></td>
+<td class="borderleft"><a href="ldc-1926-7d30dcf6d217-linux64-to-ldc-1950-e2777cdf0763-linux64/improvements.html">1</a></td>
+<td><a href="ldc-1926-7d30dcf6d217-linux64-to-ldc-1950-e2777cdf0763-linux64/regressions.html">0</a></td>
+<td><a href="ldc-1926-7d30dcf6d217-linux64-to-ldc-1950-e2777cdf0763-linux64/changes.html">1</a></td>
+<td class="borderleft"><a href="dmd-067-linux64-to-ldc-1950-e2777cdf0763-linux64/improvements.html">212</a></td>
+<td><a href="dmd-067-linux64-to-ldc-1950-e2777cdf0763-linux64/regressions.html">34</a></td>
+<td><a href="dmd-067-linux64-to-ldc-1950-e2777cdf0763-linux64/changes.html">69</a></td>
+</tr>
+<tr class="odd result">
+<td>ldc-1926-7d30dcf6d217-linux64</td>
+<td class="pass borderleft"><a href="ldc-1926-7d30dcf6d217-linux64/pass.html">4437</a></td>
+<td class="xfail"><a href="ldc-1926-7d30dcf6d217-linux64/xfail.html">2370</a></td>
+<td class="fail"><a href="ldc-1926-7d30dcf6d217-linux64/fail.html">384</a></td>
+<td class="xpass"><a href="ldc-1926-7d30dcf6d217-linux64/xpass.html">155</a></td>
+<td class="error"><a href="ldc-1926-7d30dcf6d217-linux64/error.html">102</a></td>
+<td class="borderleft"><a href="ldc-1883-e344a0226cdf-linux64-to-ldc-1926-7d30dcf6d217-linux64/improvements.html">6</a></td>
+<td><a href="ldc-1883-e344a0226cdf-linux64-to-ldc-1926-7d30dcf6d217-linux64/regressions.html">0</a></td>
+<td><a href="ldc-1883-e344a0226cdf-linux64-to-ldc-1926-7d30dcf6d217-linux64/changes.html">0</a></td>
+<td class="borderleft"><a href="dmd-067-linux64-to-ldc-1926-7d30dcf6d217-linux64/improvements.html">212</a></td>
+<td><a href="dmd-067-linux64-to-ldc-1926-7d30dcf6d217-linux64/regressions.html">35</a></td>
+<td><a href="dmd-067-linux64-to-ldc-1926-7d30dcf6d217-linux64/changes.html">68</a></td>
+</tr>
+<tr class="result">
+<td>ldc-1883-e344a0226cdf-linux64</td>
+<td class="pass borderleft"><a href="ldc-1883-e344a0226cdf-linux64/pass.html">4432</a></td>
+<td class="xfail"><a href="ldc-1883-e344a0226cdf-linux64/xfail.html">2369</a></td>
+<td class="fail"><a href="ldc-1883-e344a0226cdf-linux64/fail.html">387</a></td>
+<td class="xpass"><a href="ldc-1883-e344a0226cdf-linux64/xpass.html">156</a></td>
+<td class="error"><a href="ldc-1883-e344a0226cdf-linux64/error.html">104</a></td>
+<td class="borderleft"><a href="dmd-066-linux32-to-ldc-1883-e344a0226cdf-linux64/improvements.html">143</a></td>
+<td><a href="dmd-066-linux32-to-ldc-1883-e344a0226cdf-linux64/regressions.html">51</a></td>
+<td><a href="dmd-066-linux32-to-ldc-1883-e344a0226cdf-linux64/changes.html">432</a></td>
+<td class="borderleft"><a href="dmd-067-linux64-to-ldc-1883-e344a0226cdf-linux64/improvements.html">212</a></td>
+<td><a href="dmd-067-linux64-to-ldc-1883-e344a0226cdf-linux64/regressions.html">41</a></td>
+<td><a href="dmd-067-linux64-to-ldc-1883-e344a0226cdf-linux64/changes.html">68</a></td>
+</tr>
+<tr class="odd result">
+<td>dmd-066-linux32</td>
+<td class="pass borderleft"><a href="dmd-066-linux32/pass.html">4799</a></td>
+<td class="xfail"><a href="dmd-066-linux32/xfail.html">1910</a></td>
+<td class="fail"><a href="dmd-066-linux32/fail.html">469</a></td>
+<td class="xpass"><a href="dmd-066-linux32/xpass.html">231</a></td>
+<td class="error"><a href="dmd-066-linux32/error.html">39</a></td>
+<td class="borderleft"></td><td></td><td></td>
+<td class="borderleft"><a href="dmd-067-linux64-to-dmd-066-linux32/improvements.html">174</a></td>
+<td><a href="dmd-067-linux64-to-dmd-066-linux32/regressions.html">95</a></td>
+<td><a href="dmd-067-linux64-to-dmd-066-linux32/changes.html">378</a></td>
+</tr>
+</table>
+</figure>

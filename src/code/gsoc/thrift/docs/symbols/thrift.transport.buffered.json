@@ -1,0 +1,9 @@
+["buffered",1,[],[1,216],[
+["TBufferedTransport",3,[10],[31,210],[
+["this",17,[],[38,40],[]],
+["this",17,[],[49,51],[]],
+["this",17,[],[61,66],[]],
+["DEFAULT_BUFFER_SIZE",11,[21],[69,69],[]],
+["readAll",12,[11],[123,131],[]],
+["underlyingTransport",12,[29],[198,200],[]]]],
+["TBufferedTransportFactory",7,[],[215,215],[]]]]

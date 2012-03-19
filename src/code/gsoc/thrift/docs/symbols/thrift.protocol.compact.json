@@ -1,0 +1,8 @@
+["compact",1,[],[1,696],[
+["TCompactProtocol",3,[10],[33,602],[
+["this",17,[],[46,50],[]],
+["containerSizeLimit",11,[],[73,73],[]],
+["stringSizeLimit",11,[],[85,85],[]]]],
+["tCompactProtocol",12,[],[610,616],[]],
+["TCompactProtocolFactory",3,[],[673,695],[
+["this",17,[],[677,680],[]]]]]]
