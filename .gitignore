@@ -1,3 +1,5 @@
 .pygments-cache
 intermediate
 src/blog/tags
+publish/
+work/

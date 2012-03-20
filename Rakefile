@@ -6,8 +6,9 @@ deploy_dir = "deploy"
 tag_dir = "blog/tags"
 
 task :build do
-  sh "rm -rf _site"
+  sh "rm -rf intermediate publish"
   sh "jekyll"
+  sh "cd build; ant minify"
 end
 
 desc "Serve on Localhost with port 4000"
@@ -20,7 +21,7 @@ task :deploy => :"deploy:live"
 
 namespace :deploy do
   def rsync(host, domain)
-    sh "rsync -rtvz --delete _site/ #{host}:~/#{domain}/"
+    sh "rsync -rtvz --delete publish/ #{host}:~/#{domain}/"
   end
 
   desc "Deploy to live site"
