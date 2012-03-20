@@ -418,13 +418,13 @@ a.more:after {
     font-style: italic;
 }
 
-ul.catnav li, ul.pagenav li {
+ul.catnav > li, ul.pagenav > li {
     display: inline;
 }
-ul.catnav li:before, ul.pagenav li:before {
+ul.catnav > li:before, ul.pagenav > li:before {
 	content: " // ";
 }
-ul.catnav li:first-child:before, ul.pagenav li:first-child:before {
+ul.catnav > li:first-child:before, ul.pagenav >  li:first-child:before {
 	content: normal;
 }
 ul.catnav a, ul.catnav s, ul.pagenav a, ul.pagenav s {
@@ -435,15 +435,15 @@ ul.catnav s, ul.pagenav s {
     color: #444;
 }
 
-ul.catnav li:first-child a:before {
+ul.catnav > li:first-child >  a:before {
     content: "← ";
 }
 
-ul.catnav li:last-child a:before {
+ul.catnav > li:last-child > a:before {
     content: none;
 }
 
-ul.catnav li:last-child a:after {
+ul.catnav > li:last-child > a:after {
     content: " →";
 }
 
