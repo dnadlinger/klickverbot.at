@@ -13,7 +13,7 @@
 
 /* =============================================================================
    HTML5 display definitions
-   ================================================figure========================== */
+   ========================================================================== */
 
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
 audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
@@ -109,7 +109,7 @@ abbr[title] { border-bottom: 1px dotted; }
 
 b, strong { font-weight: bold; }
 
-blockquote { margin: 1em 40px; }
+blockquote { margin: 1em 2em; font-size: 0.8333em; }
 
 dfn { font-style: italic; }
 
@@ -181,7 +181,7 @@ svg:not(:root) { overflow: hidden; }
    Figures
    ========================================================================== */
 
-figure { margin: 1.44em 0; }
+figure { margin: 1em 0; }
 figcaption, .footnote {
     font-size: 0.8333em;
 }
@@ -196,6 +196,8 @@ aside {
     border-width: 1px 0;
     text-align: center;
     margin: 1em 0;
+    font-size: 0.8333em;
+    font-style: italic;
 }
 
 /* =============================================================================
@@ -567,6 +569,10 @@ ul.catnav > li:last-child > a:after {
         padding-top: 1.05em;
     }
 
+    .blog-post > .content > p.lead:first-child {
+        margin-top: -0.2em;
+    }
+
     .blog-excerpt > .content {
         padding-top: 0.37em;
     }
@@ -603,8 +609,8 @@ ul.catnav > li:last-child > a:after {
     }
 
     .content aside {
-        width: 50%;
-        margin: 0 0 0 -50%;
+        width: 30%;
+        margin: 0 0 0 -30%;
         padding: 0 1.44em 0 0;
         border: 0px none;
         float: left;
@@ -741,8 +747,9 @@ ul.catnav > li:last-child > a:after {
 }
 
 a.download {
-    font-size: 1.2em;
+    font-size: 1.44em;
     line-height: 1.44em;
+    font-style: normal;
 }
 
 a.download:before {
