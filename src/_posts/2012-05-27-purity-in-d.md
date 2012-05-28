@@ -44,7 +44,7 @@ int val = 1;
 auto result = readAndIncrement(val) * readAndIncrement(val);
 // assert(val == 3 && result == 2);
 {% endcodeblock %}
-clearly doesn't give the same result if `readAndIncrement` is only evaluated once instead:
+clearly does not give the same result if `readAndIncrement` is only evaluated once instead:
 {% codeblock lang:d %}
 int val = 1;
 auto tmp = readAndIncrement(val);
@@ -213,13 +213,13 @@ Initially, D did not include any special provision for this use case, but a way 
 Conclusion
 ---
 
-To reiterate the statement from the beginning, the importance of the concept of purity lies within the fact that it allows the type system to guarantee that a particular function call will not depend on or modify hidden state. We have seen that the `pure` keyword in D imposes less restrictions than in many other languages, but while the same amount of guarantees can still be given due to the interesting properties of transitive const-ness and immutability, this enables very natural interactions with other language features, and perhaps most importantly, imperative-style code.
+To reiterate the statement from the beginning, the importance of the concept of purity lies within the fact that it allows the type system to assert that a particular function call will not depend on or modify hidden state. We have seen that the `pure` keyword in D imposes less restrictions than in many other languages, but while the same amount of guarantees can still be given due to the interesting properties of transitive const-ness and immutability, this enables very natural interactions with other language features, and perhaps most importantly, imperative-style code.
 
 Where to go for further information? The actual specification for `pure` is not very long, see the [Functions](http://dlang.org/function.html) chapter of the language reference at [dlang.org](http://dlang.org). For background information about the evolution of the current design, the [discussion started by Don Clugston](http://forum.dlang.org/thread/i7bp8o$6po$1@digitalmars.com) which led to the last big change is certainly an interesting read – the [D programming language forums](http://forum.dlang.org/group/digitalmars.D) might also be a good place to ask specific questions about design and implementation of the concepts described here.
 
 
 <footer>
-  <p>Like what you read? <a href="http://twitter.com/?status=@klickverbot:">Let me know</a> what you think or <a href="http://twitter.com/?status=Just read »Purity in D« by @klickverbot: http://klickverbot.at/blog/2012/05/purity-in-d">share the article</a> on Twitter. Also, there is more on  <a href="/blog/tags/D/" title="View all posts tagged with »D«" rel="tag">D</a>.</p>
+  <p>Like what you read? <a href="http://twitter.com/?status=@klickverbot:">Let me know</a> what you think, <a href="http://twitter.com/?status=Just%20read%20»Purity%20in%20D«%20by%20@klickverbot:%20http://klickverbot.at/blog/2012/05/purity-in-d">share the article</a> on Twitter or join the discussions on <a href="http://news.ycombinator.com/item?id=4032248">Hacker News</a> and <a href="http://www.reddit.com/r/programming/comments/u84fc/purity_in_d/">Reddit</a>. Also, there is more on <a href="/blog/tags/D/" title="View all posts tagged with »D«" rel="tag">D</a>.</p>
 </footer>
 
 <p class="footnote" id="fn1" style="margin-top: 2.88em"><a href="#fnr1"><sup>1</sup></a>The consequences of this can be a lot more serious and confusing than one might think: Historically, several printer drivers on Windows modified the FPU flags when issuing a print job without changing them back afterwards. This caused quite a few programs to crash after a document was printed – the perfect case of a hard-to-debug crash occurring only on customer machines…</p>
@@ -230,4 +230,4 @@ Where to go for further information? The actual specification for `pure` is not 
 
 <p class="footnote" id="fn4" markdown="1"><a href="#fnr4"><sup>4</sup></a>This example was picked for its illustrative qualities, but admittedly would probably only work like this for a simple software rasterizer. Besides the question of whether purity is much of a benefit here, if an actual graphics API was used to implement it, extra thought would have to be put into how to handle the GPU state in a pure manner.</p>
 
-<p class="footnote" id="fn5" markdown="1"><a href="#fnr5"><sup>5</sup></a> Just as C++ iterators are a generalization of pointers, D ranges generalize the notion of an array or a slice of data. In its most basic form, a range offers three primitives, `empty`, `front` and `popFront`. This interfaces is completely oblivious to how the underlying data is stored – it could come from a network transport or standard input as well as from a chunk of memory –, and provides an easy to use, yet powerful abstraction for algorithms to work on.</p>
+<p class="footnote" id="fn5" markdown="1"><a href="#fnr5"><sup>5</sup></a> Just as C++ iterators are a generalization of pointers, D ranges generalize the notion of an array or a slice of data. In its most basic form, a range offers three primitives, `empty`, `front` and `popFront`. This interface is completely oblivious to how the underlying data is stored – it could come from a chunk of memory as well as from a network transport or the standard input –, and provides an easy to use, yet powerful abstraction for algorithms to work on.</p>
