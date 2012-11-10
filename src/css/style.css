@@ -104,7 +104,7 @@ html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 10
 
 html, button, input, select, textarea, body { font-family: "Droid Serif", Georgia, "Times New Roman", serif; font-size: 0.96em; ocolor: black; }
 
-body { margin: 0 5%; font-size: 1em; line-height: 1.44em; min-width: 12em;
+body { margin: 0 5%; font-size: 1em; line-height: 1.45em; min-width: 12em;
     /* Make sure long words (e.g. identifiers) never break the design. */
     word-wrap: break-word;
 }
@@ -122,7 +122,7 @@ h1 {
 
 h3 {
     font-size: 1em;
-    line-height: 1.44em;
+    line-height: 1.45em;
     margin: 1em 0 0.44em;
 }
 
@@ -186,7 +186,7 @@ mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
 /* Redeclare monospace font family: h5bp.com/j */
 pre, code, kbd, samp {
     font-family: "M 1m", monospace, serif;
-    font-size: 1.05em;
+    font-size: 1.03em;
     /* letter-spacing: +0.02em; Seems to produce weird rendering bugs on iOS, and no effect on desktop Chrome. */
 }
 
@@ -375,7 +375,7 @@ table.dstress td:first-child {
 
 .lead {
     font-size: 1.2em;
-    line-height: 1.44em;
+    line-height: 1.45em;
 }
 
 #main_header {
@@ -423,7 +423,7 @@ table.dstress td:first-child {
 #intro {
     font-size: 1.2em;
     font-style: italic;
-    line-height: 1.44em;
+    line-height: 1.45em;
     text-align: center;
     margin-bottom: 1em;
     padding: 0 0 0.6em;
@@ -440,7 +440,7 @@ table.dstress td:first-child {
 }
 
 .blog-excerpt > header > h1 {
-    font-size: 1.44em;
+    font-size: 1.45em;
     line-height: 1.4em;
 }
 
@@ -454,7 +454,7 @@ table.dstress td:first-child {
 
 .blog-post h2, .article h2 {
     margin: 1.34em 0 0.66em;
-    font-size: 1.44em;
+    font-size: 1.45em;
     line-height: 1em;
 }
 
@@ -476,11 +476,11 @@ a.more:after {
 }
 
 #blog_feed > footer {
-    margin: 1.44em 0 0;
+    margin: 1.45em 0 0;
 }
 
 .blog-post footer {
-    margin: 1.44em 0 0;
+    margin: 1.45em 0 0;
     font-style: italic;
 }
 
@@ -593,7 +593,7 @@ ul.catnav > li:last-child > a:after {
     }
 
     #main_footer li + li {
-        padding-left: 1.44em;
+        padding-left: 1.45em;
     }
 
     #main_footer li:last-child {
@@ -614,7 +614,7 @@ ul.catnav > li:last-child > a:after {
 /* Two-column layout. */
 @media screen and (min-width: 55em) {
     .blog-post, .article {
-        padding: 1.44em 0 0;
+        padding: 1.45em 0 0;
     }
 
     .blog-post > header, .blog-excerpt > header, .article > header {
@@ -669,13 +669,13 @@ ul.catnav > li:last-child > a:after {
     }
 
     #blog_feed > footer {
-        margin: 1.44em 0 0;
+        margin: 1.45em 0 0;
     }
 
     .content aside {
         width: 30%;
         margin: 0 0 0 -30%;
-        padding: 0 1.44em 0 0;
+        padding: 0 1.45em 0 0;
         border: 0px none;
         float: left;
         text-align: right;
@@ -811,8 +811,8 @@ ul.catnav > li:last-child > a:after {
 }
 
 a.download {
-    font-size: 1.44em;
-    line-height: 1.44em;
+    font-size: 1.45em;
+    line-height: 1.45em;
     font-style: normal;
 }
 
