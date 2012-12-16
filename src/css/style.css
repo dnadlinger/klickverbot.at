@@ -186,7 +186,7 @@ mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
 /* Redeclare monospace font family: h5bp.com/j */
 pre, code, kbd, samp {
     font-family: "M 1m", monospace, serif;
-    font-size: 1.03em;
+    /* font-size: 1.03em; Gets too big with hinting on non-OS X */
     /* letter-spacing: +0.02em; Seems to produce weird rendering bugs on iOS, and no effect on desktop Chrome. */
 }
 
