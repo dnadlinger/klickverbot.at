@@ -17,7 +17,8 @@ Slides used in class and useful external links:
 * [Slides Week 3](slides-week03.pdf)
 * [SVD image "compression" example](svd_imgcompress.zip)
 * [Slides Week 5](slides-week05.pdf)
-* ["Hall effect" linear least squares example code, derived in class](hall_linear_lstsq.py)
+* ["Hall effect" linear least squares example coded in class](hall_linear_lstsq.py)
+* [Notes Week 7](notes-week07.pdf)
 
 * [Matplotlib tutorial](http://www.loria.fr/~rougier/teaching/matplotlib/) (highly recommended!)
 * [NumPy for Matlab Users](http://www.scipy.org/NumPy_for_Matlab_Users)
