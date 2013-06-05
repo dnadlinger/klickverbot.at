@@ -20,6 +20,7 @@ Slides used in class and useful external links:
 * ["Hall effect" linear least squares example coded in class](hall_linear_lstsq.py)
 * [Notes Week 7](notes-week07.pdf)
 * [Parseval's identity/FFT example](fft_l2norm.py)
+* Enhanced templates for Sheet 14, Ex. 2: [tdse_template.py](tdse_template.py), [tdse_gtk_template.py](tdse_gtk_template.py) (the two versions use different matplotlib backends; if the first does not work, try the GTK one)
 
 * [Matplotlib tutorial](http://www.loria.fr/~rougier/teaching/matplotlib/) (highly recommended!)
 * [NumPy for Matlab Users](http://www.scipy.org/NumPy_for_Matlab_Users)
