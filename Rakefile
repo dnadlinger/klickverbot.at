@@ -7,7 +7,7 @@ tag_dir = "blog/tags"
 
 task :build do
   sh "rm -rf intermediate publish"
-  sh "jekyll"
+  sh "jekyll build"
   sh "cd build; ant minify"
 end
 
