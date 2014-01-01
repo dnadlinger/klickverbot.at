@@ -10,7 +10,7 @@ description: Personal site of David Nadlinger, featuring a programming-centric b
 
 <footer>
   <ul class="pagenav">
-    <li>{% if paginator.next_page %}<a href="{{ paginator.next_page }}">Older</a>{% else %}<s>Older</s>{% endif %}</li>
-    <li>{% if paginator.previous_page %}<a href="{{ paginator.previous_page }}">Newer</a>{% else %}<s>Newer</s>{% endif %}</li>
+    <li>{% if paginator.next_page_path %}<a href="{{ paginator.next_page_path }}">Older</a>{% else %}<s>Older</s>{% endif %}</li>
+    <li>{% if paginator.previous_page_path %}<a href="{{ paginator.previous_page_path }}">Newer</a>{% else %}<s>Newer</s>{% endif %}</li>
    </ul>
 </footer>
