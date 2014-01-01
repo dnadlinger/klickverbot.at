@@ -7,8 +7,7 @@ next_title: LDC
 next_url: /code/ldc
 ---
 
-GSoC 2011: An Apache Thrift implementation for&nbsp;D
-=====================================================
+# GSoC 2011: An Apache Thrift implementation for&nbsp;D
 
 <p class="lead" markdown="1">I was lucky enough to be selected to participate in the [Google Summer of Code](http://www.google-melange.com/gsoc/homepage/google/gsoc2011) program this year under the umbrella of [Digital Mars](http://www.google-melange.com/gsoc/org/google/gsoc2011/dprogramminglanguage), during the course of which I worked on an implementation of the [Apache Thrift](http://thrift.apache.org/) framework for/in the [D programming language](http://d-programming-language.org/).</p>
 
