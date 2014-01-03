@@ -13,7 +13,7 @@ end
 
 desc "Serve on Localhost with port 4000"
 task :default do
-  sh "jekyll --server --auto"
+  sh "jekyll serve --watch"
 end
 
 desc "Deploy to default site"
