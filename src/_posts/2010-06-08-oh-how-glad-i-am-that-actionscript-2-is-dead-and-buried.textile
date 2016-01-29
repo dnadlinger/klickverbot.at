@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Oh, how glad I am that ActionScript 2 is dead and buried\xE2\x80\xA6"
+title: "Oh, how glad I am that ActionScript 2 is dead and buried…"
 post_id: 154
 tags:
 - ActionScript

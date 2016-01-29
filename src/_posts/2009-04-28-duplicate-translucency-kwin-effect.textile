@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Duplicate \xC2\xBBTranslucency\xC2\xAB KWin effect"
+title: "Duplicate »Translucency« KWin effect"
 post_id: 15
 tags:
 - KDE
