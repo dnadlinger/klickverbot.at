@@ -3,7 +3,11 @@ url: http://klickverbot.at
 permalink: /blog/:year/:month/:title
 source: src
 destination: intermediate
-plugins: plugins
-pygments: true
+plugins_dir: plugins
+highlighter: pygments
+gems:
+  - jekyll-paginate
+  - jekyll-textile-converter
 paginate: 10
 paginate_path: /blog/page/:num
+markdown: kramdown
