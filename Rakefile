@@ -39,7 +39,7 @@ task :tags do
 
   options = Jekyll.configuration({})
   site = Jekyll::Site.new(options)
-  site.read_posts('')
+  site.read
 
   # Remove tags directory before regenerating
   FileUtils.rm_rf("#{source_dir}/#{tag_dir}")
@@ -63,7 +63,7 @@ HTML
     File.open("#{source_dir}/#{tag_dir}/#{tag}/atom.xml", 'w+') do |file|
       file.puts <<-ATOM
 ---
-layout: nil
+layout: null
 ---
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
