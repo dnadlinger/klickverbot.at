@@ -1,6 +1,6 @@
 title: David Nadlinger
 url: http://klickverbot.at
-permalink: /blog/:year/:month/:title
+permalink: /blog/:year/:month/:title/
 source: src
 destination: intermediate
 plugins_dir: plugins
