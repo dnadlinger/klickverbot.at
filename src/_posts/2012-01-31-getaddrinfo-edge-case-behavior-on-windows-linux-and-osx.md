@@ -5,10 +5,12 @@ tags:
 - D
 - Sockets
 - Wine
-excerpt: "The POSIX and Windows <code>getaddrinfo</code> function returns a list of IP addresses and port numbers for a given hostname and service (resp. port), superseding <code>gethostbyname</code> and <code>getservbyname</code>. Besides some flags, it accepts two string parameters. Either one of them is allowed to be <code>null</code>"
+excerpt: "An often-needed piece of functionality in network programming is to resolve human-readable host or port names to their numerical equivalent, for example in order to pass the latter to operating system socket APIs. The <code>getaddrinfo</code> function fills this role on POSIX and Windows. Apart from some flags, it accepts…"
 ---
 
-The POSIX and Windows `getaddrinfo` function returns a list of IP addresses and port numbers for a given hostname and service (resp. port), superseding `gethostbyname` and `getservbyname`. Besides some flags, it accepts two string parameters. Either one of them is allowed to be `null`, representing localhost (or rather 0.0.0.0, depending on `AI_PASSIVE`) respectively an automatically assigned port. Both parameters being `null` at the same time, however, is forbidden, and leads to a `EAI_NONAME` error (`WSAHOST_NOT_FOUND` on Windows). What happens if the strings are empty (`"\0"`) instead of `null`, however, is not covered by the spec and not really documented anywhere.
+An often-needed piece of functionality in network programming is to resolve human-readable host or port names to their numerical equivalent, for example in order to pass the latter to operating system socket APIs. The `getaddrinfo` function fills this role on POSIX and Windows. Apart from some flags, it accepts two string parameters for host and service (port) names and returns a list of corresponding IP addresses and port numbers, superseding the older `gethostbyname` and `getservbyname` functions.
+
+Either of its string parameters is allowed to be `null`, representing the local host/all interfaces (depending on whether `AI_PASSIVE` is specified) and an automatically assigned port, respectively. Both parameters being `null` at the same time, however, is disallowed by the specification, and leads to a `EAI_NONAME` error on Posix or `WSAHOST_NOT_FOUND` on Windows. What happens if the strings are empty (`"\0"`) instead of `null`, however, is left open by RFC 2553, and not really mentioned in the operating system API documentation either.
 
 It turns out that there are quite a few differences there between the various operating systems, which is obviously likely to cause issues for [Wine](http://winehq.org) (an implementation of the Windows API on Posix/X systems). To get a clear understanding of how the different cases are handled, I put together a little [D](http://dlang.org) program which tests a few combinations of host name, port, and flag parameters (see end of post). The snippet could be written in C just the same, as `getAddressInfo` directly maps to `getaddrinfo`, I just chose D to avoid platform dependencies and writing an unduly large amount of more boilerplate code.
 
@@ -278,9 +280,9 @@ There were also some less significant differences in behavior which are mostly n
 
 In any case, as a result I have prepared a patch for Wine to emulate at least the succeeding/failing behavior of the Winsock incarnation of `getaddrinfo` on Linux and OS X, which should solve the bigger part of the related problems. There ideally shouldn't be any Windows software relying on details beyond that (such as the actual number/layout of addresses returned), but who knows…
 
-{% codeblock lang:d D program used for gathering the data (longer than necessary to get semi-nice output). %}
+{% codeblock lang:d D program used for gathering the data (longer than necessary for somewhat nicely formatted output). %}
 import std.algorithm, std.conv, std.range, std.socket, std.stdio;
-alias AddressInfoFlags AIF;
+alias AIF = AddressInfoFlags;
 void main() {
   foreach (host; [null, "", "localhost", Socket.hostName()])
   foreach (port; [null, "", "0", "80"])
@@ -290,20 +292,14 @@ void main() {
       port ? "'" ~ port ~ "'" : "null", " (", flags, "): "
     );
     try {
-      writeln(
-        join(
-          map!q{text(a.address, " (", a.protocol, ")")}(
-            sort!q{a.family < b.family}(
-              getAddressInfo(host, port, flags)
-            )
-          ),
-          ", "
-        )
-      );
+      getAddressInfo(host, port, flags)
+        .sort!((a, b) => a.family < b.family)
+        .map!(a => text(a.address, " (", a.protocol, ")"))
+        .join(", ")
+        .writeln;
     } catch (Exception e) {
       writefln("[%s]", e.msg);
     }
   }
 }
 {% endcodeblock %}
-
