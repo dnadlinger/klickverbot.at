@@ -691,7 +691,7 @@ ul.catnav > li:last-child > a:after {
         margin-left: -50%;
     }
 
-    .content figure > div, .content figure > table, .content figure > img, .content figure > pre {
+    .content figure > div, .content figure > table, .content figure > img, .content figure > pre, .content figure > a > img {
         width: 66.666%;
         float: right;
     }
@@ -787,6 +787,7 @@ ul.catnav > li:last-child > a:after {
         font-size: 157.74%;
     }
 }
+
 
 /* =============================================================================
    Code highlighting
