@@ -377,6 +377,7 @@ table.dstress td:first-child {
     text-transform: lowercase;
     font-variant: small-caps;
     font-size: 120%;
+    letter-spacing: 0.04em;
 }
 
 .lead {
