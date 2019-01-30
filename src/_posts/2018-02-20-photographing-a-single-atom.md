@@ -50,7 +50,7 @@ A collection of some further links:
 
  - The atom appears bigger due to imperfection in the lens and camera ([optical aberrations](https://en.wikipedia.org/wiki/Optical_aberration), plus the focus is slightly off). There seems to be a small amount of camera shake as well (the camera was mounted to the optical table in a somewhat precarious fashion using a cheap tripod head).
 
- - Since ions repell each other, one can take pretty pictures of interesting configurations of glowing atoms using a microscope. See for example [our group website](https://www2.physics.ox.ac.uk/research/ion-trap-quantum-computing-group), or the much fancier pictures by the groups at [<span class="sc">PTB</span> Braunschweig](http://www.quantummetrology.de/iontraps/projects.html) and [<span class="sc">NIST</span> Boulder](https://www.nist.gov/news-events/news/2016/06/nists-super-quantum-simulator-entangles-hundreds-ions).
+ - Since ions repell each other, one can take pretty pictures of interesting configurations of glowing atoms using a microscope. See for example [our group website](https://www2.physics.ox.ac.uk/research/ion-trap-quantum-computing-group), or the much fancier pictures by the groups at [<span class="sc">PTB</span> Braunschweig](http://www.quantummetrology.de/quaccs/research/multi-ion-clocks/) and [<span class="sc">NIST</span> Boulder](https://www.nist.gov/news-events/news/2016/06/nists-super-quantum-simulator-entangles-hundreds-ions).
 
  - The photo was captured on August 7th, 2017, with a Canon EOS 5D Mark II and an <span class="sc">EF</span> 50 mm f/1.8 lens at 30s exposure time and f/4 (plus some extension tubes, and two flash units with colour gels).
  
