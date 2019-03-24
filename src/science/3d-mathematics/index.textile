@@ -50,4 +50,4 @@ Leider ist die Arbeit aufgrund des begrenzten Umfangs und der nötigen Einführu
 
 </blockquote>
 
-Bei Interesse können Sie gerne die "Arbeit im PDF-Format":3d-mathematics.pdf herunterladen (51&nbsp;Seiten), die "LaTeX-Quellen auf GitHub":http://github.com/klickverbot/3d-mathematics abrufen, oder einen kurzen Artikel zum begleitend in der Programmiersprache D entwickelten "Software Rasterizer _d4_":/code/d4/ einsehen.
+Bei Interesse können Sie gerne die "Arbeit im PDF-Format":3d-mathematics.pdf herunterladen (51&nbsp;Seiten), die "LaTeX-Quellen auf GitHub":http://github.com/dnadlinger/3d-mathematics abrufen, oder einen kurzen Artikel zum begleitend in der Programmiersprache D entwickelten "Software Rasterizer _d4_":/code/d4/ einsehen.

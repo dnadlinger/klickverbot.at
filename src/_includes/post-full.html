@@ -17,7 +17,7 @@
   {% endif %}
   {% unless post.no_footer %}
   <footer>
-    Like what you read? <a href="http://twitter.com/?status=@klickverbot:">Let me know</a> what you think or <a href="http://twitter.com/?status=Just read »{{ post.title }}« by @klickverbot: {{ site.url }}{{ post.url }}">share the article</a> on Twitter.{% if post.nonempty_tags.size > 0 %} Also, there is more on {% for tag_name in post.nonempty_tags %}{% unless forloop.first %}{% if forloop.last %} and{% else %},{% endif %}{% endunless %} <a href="/blog/tags/{{ tag_name | uri_escape }}/" title="View all posts tagged with »{{ tag_name }}«" rel="tag">{{ tag_name }}</a>{% endfor %}.{% endif %}
+    Like what you read? <a href="http://twitter.com/?status=@dnadlinger:">Let me know</a> what you think or <a href="http://twitter.com/?status=Just read »{{ post.title }}« by @dnadlinger: {{ site.url }}{{ post.url }}">share the article</a> on Twitter.{% if post.nonempty_tags.size > 0 %} Also, there is more on {% for tag_name in post.nonempty_tags %}{% unless forloop.first %}{% if forloop.last %} and{% else %},{% endif %}{% endunless %} <a href="/blog/tags/{{ tag_name | uri_escape }}/" title="View all posts tagged with »{{ tag_name }}«" rel="tag">{{ tag_name }}</a>{% endfor %}.{% endif %}
   </footer>
   {% endunless %}
   </div>

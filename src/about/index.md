@@ -17,7 +17,7 @@ Contact
 
 The best way to contact me is probably via mail at [da...@klickverbot.at](mailto:da...@klickverbot.at) (as a measure against address harvesting, please replace the dots with the three last characters of my first name). I generally try to answer any requests within at least a day or two.
 
-Besides that, you will usually find me going by the moniker _klickverbot_ on various online services – e.g. on [Twitter](http://twitter.com/klickverbot), [GitHub](https://github.com/klickverbot), [Bitbucket](https://bitbucket.org/klickverbot), or the [Freenode](http://freenode.net/) IRC network (I'll often be idling in [#d](irc://irc.freenode.net/d)).
+Besides that, you will usually find me going by the moniker _klickverbot_ on various online services – e.g. on [Twitter](http://twitter.com/klickverbot), [GitHub](https://github.com/dnadlinger), [Bitbucket](https://bitbucket.org/klickverbot), or the [Freenode](http://freenode.net/) IRC network (I'll often be idling in [#d](irc://irc.freenode.net/d)).
 
 
 Colophon

@@ -22,7 +22,7 @@ Another addition is `TZlibTransport`, which wraps another transport to compress 
 Some deserialization micro-optimizations
 ----------------------------------------
 
-The next thing I worked on were some further optimizations motivated the `serialization_benchmark`. To recapitulate, it is a [trivially simply application](https://github.com/klickverbot/thrift/blob/d-gsoc/lib/d/test/serialization_benchmark.d) which just serializes a struct (`OneOfEach` from `DebugProtoTest.thrift` to be precise) to a `TMemoryBuffer` and then reads the data back into the struct again, repeating both parts a number of times to be able to get meaningful timing results. Here are my related changes:
+The next thing I worked on were some further optimizations motivated the `serialization_benchmark`. To recapitulate, it is a [trivially simply application](https://github.com/dnadlinger/thrift/blob/d-gsoc/lib/d/test/serialization_benchmark.d) which just serializes a struct (`OneOfEach` from `DebugProtoTest.thrift` to be precise) to a `TMemoryBuffer` and then reads the data back into the struct again, repeating both parts a number of times to be able to get meaningful timing results. Here are my related changes:
 
  * First, I replaced `TMemoryBuffer` with the new `TInputRangeTransport` to avoid copying the data on each iteration of the reading loop. Because the initial copying to the memory buffer took only ~1–2% of the overall time anyway, this didn't have a great speed impact.
 

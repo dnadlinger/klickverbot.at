@@ -14,7 +14,7 @@ Let me apologize for not being terribly motivated to write a blog post right now
 
 Anyway, back to topic, the usual summary of the recent changes to my Thrift GSoC project:
 
- * The most important item on the list from an user point of view are probably the _documentation_ improvements: The project now has a [Getting Started page](https://github.com/klickverbot/thrift/wiki/Getting-Started-with-Thrift-and-D), and I have made a complete pass through all the DDoc docs, a build of which is [available here](http://klickverbot.at/code/gsoc/thrift/docs/) (I still have to whip up a nice design, but it should do for the moment).
+ * The most important item on the list from an user point of view are probably the _documentation_ improvements: The project now has a [Getting Started page](https://github.com/dnadlinger/thrift/wiki/Getting-Started-with-Thrift-and-D), and I have made a complete pass through all the DDoc docs, a build of which is [available here](http://klickverbot.at/code/gsoc/thrift/docs/) (I still have to whip up a nice design, but it should do for the moment).
 
  * More interesting from a coding perspective are the additions of two _new `thrift.server` implementations_, `TThreadedServer` and `TTaskPoolServer`. The former is a naive implementation of a threaded server which just spawns a new worker thread per client connection, while the latter uses a `std.parallelism` thread pool to process the queued client connections (the maximum number of active connections is configurable). I also added a D version of the `StressTest` server for sanity checking.
 
