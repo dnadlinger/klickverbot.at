@@ -20,13 +20,13 @@ desc "Deploy to default site"
 task :deploy => :"deploy:live"
 
 namespace :deploy do
-  def rsync(host, domain)
-    sh "rsync -rtvz --delete publish/ #{host}:~/#{domain}/"
-  end
+  # def rsync(host, domain)
+  #   sh "rsync -rtvz --delete publish/ #{host}:~/#{domain}/"
+  # end
 
   desc "Deploy to live site"
   task :live => :build do
-    rsync("klickverbot.at", "klickverbot.at")
+    sh "gh-pages --dotfiles --dist publish -o github"
   end
 end
 
