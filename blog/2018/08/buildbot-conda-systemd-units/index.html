@@ -1,0 +1,43 @@
+<!doctype html> <html lang=en> <head> <meta charset=utf-8> <link rel=stylesheet href='/css/250adbc.css'> <title>Systemd units for Buildbot in Conda | David Nadlinger</title> <meta name=viewport content="width=device-width; initial-scale=1.0"> <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script> <link rel="openid.server" href="http://openid.klickverbot.at/"/> <link rel="openid2.provider" href="http://openid.klickverbot.at/"/> </head> <body> <header id=main_header> <h1><span><a href="/">David Nadlinger</a></span></h1> <nav role=navigation> <ul> <li><a href="/blog">Blog</a></li> <li><a href="/code">Code</a></li> <li><a href="/about">About</a></li> </ul> </nav> </header> <div role=main id=main_content> <article class=blog-post> <header> <h1><a href="/blog/2018/08/buildbot-conda-systemd-units/">Systemd units for Buildbot in Conda</a></h1> <section class=metadata> on <time datetime="2018-08-25T00:00:00+01:00">25 Aug 2018</time> </section> <ul class=pagenav> <li><a href="/blog/2018/02/photographing-a-single-atom/">Older</a></li> <li><s>Newer</s></li> </ul> </header> <div class=content> <p>Buildbot is a Python framework for continuous integration systems. In <a href="https://www2.physics.ox.ac.uk/research/ion-trap-quantum-computing-group">my research group</a> we are deploying it in a <a href="https://conda.io/">Conda</a> environment, which we also use to manage all the different moving parts of our Python-centric control infrastructure on both Windows and Linux. To start up the master and worker services, the corresponding Conda environment needs to be activated first. This is easiest to achieve using simple wrapper scripts.</p> <p>For this, let’s assume we’ve created a <code>bb</code> user, with the master and worker configurations in its home directory (<code>~/master</code> and <code>~/worker</code>). First, create a wrapper script to start up the master process:</p> <figure class=code> <div class=highlight><pre><span class="c">#!/bin/bash</span>
+<span class="nb">set</span> -eo pipefail
+
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/anaconda3/bin:<span class="nv">$PATH</span>
+<span class="nb">source </span>activate buildbot
+buildbot start --nodaemon master
+</pre></div><figcaption><span>~bb/start-master.sh </span></figcaption> </figure> <p>This assumes Conda has been installed into <code>~bb/anaconda3</code>, and the environment with the Buildbot installation is called <code>buildbot</code>. <code>master</code> is the name of the configuration directory, and <code>--nodaemon</code> prevents daemonisation (i.e. keeps the process running in the foreground).</p> <p>Make the script executable, and create a Systemd unit file that invokes it:</p> <figure class=code> <div class=highlight><pre><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Buildbot master service</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+
+<span class="k">[Service]</span>
+<span class="na">User</span><span class="o">=</span><span class="s">bb</span>
+<span class="na">Group</span><span class="o">=</span><span class="s">bb</span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/home/bb</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/home/bb/start-master.sh</span>
+<span class="na">ExecReload</span><span class="o">=</span><span class="s">/bin/kill -HUP $MAINPID</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</pre></div><figcaption><span>/etc/systemd/system/buildbot-master.service </span></figcaption> </figure> <p>To start the master process, run</p> <figure class=code> <div class=highlight><pre>systemctl start buildbot-master
+</pre></div></figure> <p>and to do so every time the system boots:</p> <figure class=code> <div class=highlight><pre>systemctl <span class="nb">enable </span>buildbot-master
+</pre></div></figure> <hr/> <p>The analogous configuration for the worker process is</p> <figure class=code> <div class=highlight><pre><span class="c">#!/bin/bash</span>
+<span class="nb">set</span> -eo pipefail
+
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/anaconda3/bin:<span class="nv">$PATH</span>
+<span class="nb">source </span>activate buildbot
+buildbot-worker start --nodaemon worker
+</pre></div><figcaption><span>~bb/start-worker.sh </span></figcaption> </figure> <p>and</p> <figure class=code> <div class=highlight><pre><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Buildbot worker service</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+
+<span class="k">[Service]</span>
+<span class="na">User</span><span class="o">=</span><span class="s">bb</span>
+<span class="na">Group</span><span class="o">=</span><span class="s">bb</span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/home/bb</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/home/bb/start-worker.sh</span>
+<span class="na">ExecReload</span><span class="o">=</span><span class="s">/bin/kill -HUP $MAINPID</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</pre></div><figcaption><span>/etc/systemd/system/buildbot-worker.service </span></figcaption> </figure> <p>Start it using</p> <figure class=code> <div class=highlight><pre>systemctl <span class="nb">enable </span>buildbot-worker
+systemctl start buildbot-worker
+</pre></div></figure> <hr/> <p>This is it; Buildbot is now run automatically when the system boots. To avoid starting the graphical user interface on a desktop Ubuntu install, run <code>systemctl set-default multi-user.target</code>.</p> <footer> Like what you read? <a href="http://twitter.com/?status=@dnadlinger:">Let me know</a> what you think or <a href="http://twitter.com/?status=Just read »Systemd units for Buildbot in Conda« by @dnadlinger: http://klickverbot.at/blog/2018/08/buildbot-conda-systemd-units/">share the article</a> on Twitter. Also, there is more on <a href="/blog/tags/Linux/" title="View all posts tagged with »Linux«" rel=tag>Linux</a>. </footer> </div> </article> </div> <footer id=main_footer> <ul> <li><a class=twitter href="//twitter.com/dnadlinger">Follow me on Twitter</a></li> <li><a class=mail href="/about">Contact me</a></li> <li><a class=rss href="/blog/atom.xml">Blog feed</a></li> </ul> </footer> </body> </html>

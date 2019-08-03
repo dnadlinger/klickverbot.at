@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>David Nadlinger</title>
+ <link href="http://klickverbot.at/blog/tags/GSoC/atom.xml" rel="self"/>
+ <link href="http://klickverbot.at/"/>
+ <updated>2019-08-03T18:16:12+01:00</updated>
+ <id>http://klickverbot.at/blog/tags/GSoC/</id>
+ <author>
+   <name>David Nadlinger</name>
+   <email>atom@klickverbot.at</email>
+ </author>
+
+ 
+ <entry>
+   <title>Thrift now officially supports D!</title>
+   <link href="http://klickverbot.at/blog/2012/03/thrift-now-officially-supports-d/"/>
+   <updated>2012-03-27T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2012/03/thrift-now-officially-supports-d</id>
+   <content type="html">&lt;p class=&quot;lead&quot;&gt;&lt;a href=&quot;http://thrift.apache.org&quot;&gt;Thrift&lt;/a&gt; is a cross-language serialization and RPC framework, originally developed for internal use at Facebook, and now an &lt;a href=&quot;http://apache.org&quot;&gt;Apache Software Foundation&lt;/a&gt; project. I started working on support for the &lt;a href=&quot;http://dlang.org&quot;&gt;D programming language&lt;/a&gt; during &lt;a href=&quot;http://www.klickverbot.at/code/gsoc/thrift/&quot;&gt;Google Summer of Code 2011&lt;/a&gt;, and at the end of last week, the implementation was finally incorporated into the main project.&lt;/p&gt;
+
+&lt;p&gt;First, let me thank Jake Farrell and everybody else on the Thrift team who was involved in &lt;a href=&quot;https://issues.apache.org/jira/browse/THRIFT-1500&quot;&gt;THRIFT-1500&lt;/a&gt;; reviewing a ~719 kB patch certainly isn’t an easy thing to do. But now that the work is in, what can you (as a Thrift user) expect from the implementation?&lt;/p&gt;
+
+&lt;p&gt;Feature-wise, the library should roughly be up to par with the other major implementations (i.e. C++ and Java):&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;p&gt;&lt;em&gt;Protocols:&lt;/em&gt; Binary, Compact and JSON. The Dense protocol has not been implemented yet – it is only supported by the C++ implementation and I am not sure about its relevance nowadays (but if you are at a certain well-known company and it turns out that you still need the feature for new projects, let me know; adding support for it should not be hard).&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;em&gt;Transports:&lt;/em&gt; Socket, SSL, HTTP and log file reader/writer implementations (plus your familiar helpers, i.e. buffered/framed/memory-buffer/piped/zlib...)&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;em&gt;Servers:&lt;/em&gt; several single- and multithreaded variants (including a libevent-based non-blocking implementation)&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;em&gt;Clients:&lt;/em&gt; Both a synchronous and an asynchronous (future-based interface with one or more libevent-backed worker threads) implementation are provided. Additionally, several pooling implementations for redundancy as well as aggregation use cases are available.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The implementation makes heavy use of D’s metaprogramming capatibilties and is also able to work without code generated off-line from &lt;code&gt;.thrift&lt;/code&gt; files, if so desired. There are also a few experimental gimmicks, such as the capatibility to generate Thrift IDL files from existing D types at compile time. Soon to come:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;p&gt;&lt;em&gt;Unix domain sockets:&amp;nbsp;&lt;/em&gt; Currently, the D implementation only supports IPv4 and IPv6 TCP sockets, because that is what the D standard library does, but starting with the next release, it will also support Unix domain sockets (if really needed, the lack of support in `std.socket` could be worked around without much effort, though).&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;@safe&lt;/code&gt;&lt;em&gt;-ty annotations:&amp;nbsp;&lt;/em&gt; The D language features built-in memory safety annotations. The majority of the methods in the D Thrift library should be memory safe (except for e.g. `TTransport.borrow`), so marking it as such allowed Thrift to be used in D programs where safety is enforced without requiring the user to mark the Thrift calls as `@trusted`.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So, how to get started? As said above, the source code has been mergerd from my &lt;a href=&quot;https://github.com/dnadlinger/thrift&quot;&gt;personal GitHub repo&lt;/a&gt; to the &lt;code&gt;trunk&lt;/code&gt; of the &lt;a href=&quot;http://thrift.apache.org/developers/&quot;&gt;main ASF repo&lt;/a&gt;, and as soon as the currently ongoing rework of the official Thrift site is completed, the &lt;a href=&quot;https://github.com/dnadlinger/thrift/wiki/Getting-Started-with-Thrift-and-D&quot;&gt;Getting Started with Thrift and D&lt;/a&gt; and &lt;a href=&quot;https://github.com/dnadlinger/thrift/wiki/Building-Thrift-D-on-Windows&quot;&gt;Building Thrift/D on Windows&lt;/a&gt; pages will follow along. A recent build of the &lt;a href=&quot;http://www.klickverbot.at/code/gsoc/thrift/docs/&quot;&gt;API docs&lt;/a&gt; is currently available here on my website. If you find any bugs, be sure to file them at the &lt;a href=&quot;https://issues.apache.org/jira/browse/THRIFT&quot;&gt;Thrift JIRA&lt;/a&gt;.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>D/Thrift: Performance and other random things</title>
+   <link href="http://klickverbot.at/blog/2011/08/d-thrift-gsoc-performance-and-other-random-things/"/>
+   <updated>2011-08-01T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2011/08/d-thrift-gsoc-performance-and-other-random-things</id>
+   <content type="html">&lt;p&gt;This week, I will try to keep the post short, while still informative – I spent way too much time being unproductive due to hard to track down bugs already to be in the mood for writing up extensive ramblings. So, on to the meat of the recent changes (besides the usual little cleanup commits here and there):&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Async client design&lt;/em&gt;: Yes, even though it took me quite some time to come up with the original one, I had completely missed the fact that it would be unreasonably difficult to extend the support code with resource types other than sockets – long story short, &lt;code&gt;TAsyncSocketManager&lt;/code&gt; now inherits from &lt;code&gt;TAsyncManager&lt;/code&gt;, instead of being a part of it. Also, I split &lt;code&gt;TFuture&lt;/code&gt; into two parts, a &lt;code&gt;TFuture&lt;/code&gt; interface for accessing the result, and a &lt;code&gt;TPromise&lt;/code&gt; implementation for actually setting/storing it, and only the &lt;code&gt;TFuture&lt;/code&gt; part is returned from the async client methods. The &lt;a href=&quot;/code/gsoc/thrift/docs/thrift.async.base.html&quot;&gt;thrift.async docs&lt;/a&gt; are actually useful now.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Async socket timeouts&lt;/em&gt;: Correctly handling the state of the connection after a &lt;code&gt;read&lt;/code&gt;/&lt;code&gt;write&lt;/code&gt; timeout turned out to be a surprisingly tough problem to solve (allowing other request to be executed on the same connection after a timeout could lead to strange results). In the end, I settled for just closing the connection, which is a simple yet effective solution. To correctly implement this, I also had to finally kill the &lt;code&gt;TTransport.isOpen&lt;/code&gt; related contracts and replace them with exceptions in the right places, leading to modified/clarified &lt;em&gt;&lt;code&gt;isOpen&lt;/code&gt; semantics&lt;/em&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The &lt;em&gt;non-blocking server&lt;/em&gt; now handles one-way calls correctly, and modifying the task pool after it is running no longer leads to undefined results. In the process, I have also turned the static &lt;code&gt;event&lt;/code&gt; struct allocations into dynamic ones, since this should have no measurable performance impact, but removes the dependence on the (unstable, per the &lt;code&gt;libevent&lt;/code&gt; docs) struct layout.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;D now also has a &lt;code&gt;TPipedTransport&lt;/code&gt;, which forwards a copy of all data read/written to another transport, useful e.g. for logging requests/responses to disk.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The biggest chunk of time was actually spent on &lt;em&gt;performance investigations&lt;/em&gt;: While I was pretty certain that the D serialization code should not perform any worse than its C++ counterpart already, the difference in speed merely being compiler-dependent, I wanted to prove this fact so that I could cross this item from the list. This involved updating &lt;a href=&quot;http://dsource.org/projects/ldc&quot;&gt;LDC&lt;/a&gt; to the 2.054 frontend (only to discover that Alexey Prokhin decided to start work on it at the same time I did, the related commits in the &lt;a href=&quot;https://bitbucket.org/lindquist/ldc&quot;&gt;main repository&lt;/a&gt; are his now), fixing some LDC-specific druntime bugs, etc&lt;sup class=&quot;footnote&quot; id=&quot;fnr1&quot;&gt;&lt;a href=&quot;#fn1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Unfortunately, I couldn’t test GDC because of &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=6411&quot;&gt;issue 6411&lt;/a&gt;, but without further ado, here are the results:&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure&gt;
+  &lt;table class=&quot;firstname&quot;&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;&amp;nbsp;&lt;/th&gt;
+        &lt;th&gt;Writing / kHz&lt;/th&gt;
+        &lt;th&gt;Reading / kHz&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;DMD v2.054, -O -release -inline&lt;/td&gt;
+        &lt;td&gt;2&amp;thinsp;051&lt;/td&gt;
+        &lt;td&gt;1&amp;thinsp;030&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;GCC 4.6.1 (C++), -O2, templates&lt;/td&gt;
+        &lt;td&gt;5&amp;thinsp;667&lt;/td&gt;
+        &lt;td&gt;1&amp;thinsp;050&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;LDC, -O3 -release&lt;/td&gt;
+        &lt;td&gt;2&amp;thinsp;300&lt;/td&gt;
+        &lt;td&gt;1&amp;thinsp;077&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;LDC, -output-ll / opt -O3&lt;/td&gt;
+        &lt;td&gt;5&amp;thinsp;500&lt;/td&gt;
+        &lt;td&gt;3&amp;thinsp;150&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;LDC, -output-ll / opt -std-compile-opts&lt;/td&gt;
+        &lt;td&gt;6&amp;thinsp;700&lt;/td&gt;
+        &lt;td&gt;1&amp;thinsp;950&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;At this point, I will disregard my earlier resolution and again get into the nitty-gritty details – the rest of this post can easily be summarized as &lt;em&gt;the D version is indeed up to par with C++, when it is equally well optimized&lt;/em&gt;, but if you are curious about the details, read on.&lt;/p&gt;
+
+&lt;p&gt;If you read the performance figures from my last post, the first thing you will probably notice is that the C++ reading performance figure is about four times lower now. This isn’t a mistake; noting the comparatively slim advantage of the C++ version, I made a &lt;a href=&quot;https://github.com/dnadlinger/thrift/commit/e7ab6c3b14b31c0241a1d37e674d3fefcbb53276&quot;&gt;change&lt;/a&gt; to it quite some time ago, which avoids allocating a new &lt;code&gt;TMemoryBuffer&lt;/code&gt; instance on every loop iteration (the D version also reuses it). Without really considering the implications, though, I also moved the construction of the &lt;code&gt;OneOfEach&lt;/code&gt; struct out of the loop. This seemed like a minor detail to me, but in fact, it enabled reuse of the &lt;code&gt;std::string&lt;/code&gt;-internal buffers for the string members of the struct, which is unrealistic (e.g. for a pretty similar situation in the non-blocking server, there is no buffer reuse possible as well).&lt;/p&gt;
+
+&lt;p&gt;In a situation where a big part of the time is spent actually allocating and copying around memory, this makes a big difference. To test this assumption about the big influence of memory allocations, I compiled a version of the D benchmark where a static buffer for the strings was used instead of reallocating them every time, and indeed, the reading performance was more than twice as high.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;std::string&lt;/code&gt; implementation of the GCC STL seems to be fairly inefficient in this case, because the best D result (which uses GC-allocated memory), is almost three times faster than it for the reading part. It is possible that there are some further optimizations which could improve performance (&lt;code&gt;-O3&lt;/code&gt; didn’t change things for the better, in case you are wondering), but as my goal wasn’t to squeeze every last bit of performance out of this synthetic benchmark, I didn’t investigate this issue any further.&lt;/p&gt;
+
+&lt;p&gt;But now to the D results: Simply switching to LDC 2 instead of DMD didn’t give any great speedups, because &lt;code&gt;readAll()&lt;/code&gt; wasn’t inlined by it either, thus leaving all the memory copying unoptimized, as discussed in the last post. To see how much of a difference this would really make, I compiled the D code to LLVM IR files and manually ran the optimizer/code generator/linker on them, with the plan being to manually add the &lt;code&gt;alwaysinline&lt;/code&gt; attribute to the relevant pieces of IR:&lt;/p&gt;
+
+&lt;figure&gt;&lt;pre&gt;&lt;code&gt;ldc2 -c -output-ll -oq -w -release -I../src -Igen-d ….d
+llvm-link *.ll -o benchmark.bc
+opt {-O3, -std-compile-opts} benchmark.bc -o benchmark_opt.bc
+llvm-ld -native -llphobos2 -ldl -lm -lrt benchmark_opt.bc
+&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;I then discovered that the method calls in question were properly inlined by the stand-alone &lt;code&gt;opt&lt;/code&gt; without any manual intervention anyway. I am not really sure why this happens; the inliner cost limits could be more liberal in this case, or the optimization passes being scheduled in a different way than inside LDC could have an impact, or maybe it’s connected to the fact that &lt;code&gt;TMemoryBuffer&lt;/code&gt; and the caller are in different modules (to my understanding, LTO &lt;em&gt;shouldn’t&lt;/em&gt; be required to optimize in this case, but it may well be that I am mistaken here).&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;LDC -output-ll&lt;/code&gt; rows in the above table correspond to the benchmark compiled this way, with the &lt;code&gt;-std-compile-opts&lt;/code&gt; and &lt;code&gt;-O3&lt;/code&gt; flags passed to &lt;code&gt;opt&lt;/code&gt;, respectively. This is a nice example of how important compiler optimizations for this, again, synthetic benchmark really are: for the reading part of the benchmark, &lt;code&gt;-O3&lt;/code&gt; gives a nice speed boost because of the more aggressive inlining (&lt;code&gt;-std-compile-opts&lt;/code&gt; doesn’t touch &lt;code&gt;TBinaryProtocol.readFieldBegin()&lt;/code&gt;, which is called 15 times per loop iteration and contains some code that can completely be optimized out), but for the writing part, its result is actually &lt;em&gt;slower&lt;/em&gt;, presumably because of locality effects (the call graphs are identical).&lt;/p&gt;
+
+&lt;p&gt;The only change related to benchmark performance I made since the last post was an LDC-specific workaround to stop manifest constants from incorrectly being leaked from the CTFE codegen process into the writing functions. I think the above results are justification enough to stop worrying about raw serialization performance – the results when using the Compact instead of the Binary protocol are similar – and moving on to more important topics&lt;sup class=&quot;footnote&quot; id=&quot;fnr2&quot;&gt;&lt;a href=&quot;#fn2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p class=&quot;footnote&quot; id=&quot;fn1&quot;&gt;&lt;a href=&quot;#fnr1&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; &lt;s&gt;If you are curious about LDC 2, you can get the source I used from the &lt;a href=&quot;https://bitbucket.org/lindquist/ldc&quot;&gt;official hg repo&lt;/a&gt;, and the LDC-specific &lt;a href=&quot;https://github.com/dnadlinger/druntime/tree/ldc2&quot;&gt;druntime&lt;/a&gt; and &lt;a href=&quot;https://github.com/dnadlinger/phobos/tree/ldc2&quot;&gt;Phobos&lt;/a&gt; source from my clones at GitHub&lt;/s&gt;. LDC is &lt;a href=&quot;https://github.com/ldc-developers/ldc&quot;&gt;officially on GitHub&lt;/a&gt; now.&lt;/p&gt;
+
+&lt;p class=&quot;footnote&quot; id=&quot;fn2&quot;&gt;&lt;a href=&quot;#fnr2&quot;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt; Such as performance-testing the actual server implementations, but I don't expect any big surprises there, and I am not sure how to reliably benchmark the network-related code – running server and clients on the same machine is probably a bad idea?&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>D/Thrift: Non-Blocking Server, Async Client, and more</title>
+   <link href="http://klickverbot.at/blog/2011/07/d-thrift-gsoc-nonblocking-server-async-client-and-more/"/>
+   <updated>2011-07-15T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2011/07/d-thrift-gsoc-nonblocking-server-async-client-and-more</id>
+   <content type="html">&lt;p&gt;First of all, the usual apologies for publishing this post later than I originally planned to. No, seriously, drafting a solid asynchronous client implementation ended up being a lot more work than I originally anticipated, but I wanted to discuss my ideas in this status report. Now, the post turned out way too large anyway, but I guess that’s what I deserve. ;)&lt;/p&gt;
+
+&lt;p&gt;Also, a quick notice beforehand: A week ago, DMD 2.054 was released. It is the first version to include, amongst a wealth of other improvements, Don’s necessary CTFE fixes and my &lt;code&gt;std.socket&lt;/code&gt; additions. This means that it is no longer necessary to use a Git build to use Thrift with D, you can just go to &lt;a href=&quot;http://www.digitalmars.com/d/download.html&quot;&gt;digitalmars.com&lt;/a&gt; and fetch the latest package for your OS.&lt;/p&gt;
+
+&lt;h2 id=&quot;small-but-useful-additions&quot;&gt;Small but useful additions&lt;/h2&gt;
+
+&lt;p&gt;But before discussing the intricacies of non-blocking I/O, to the mundane helper transports that found their way into the D library: The first addition was a simple &lt;code&gt;TInputRangeTransport&lt;/code&gt; which, as the name says, just reads data from a generic &lt;code&gt;ubyte&lt;/code&gt; input range, with some optimizations for the case where the source is a plain &lt;code&gt;ubyte[]&lt;/code&gt; (&lt;code&gt;std.algorithm.put&lt;/code&gt; is currently unnecessarily slow if both ranges are sliceable, I didn’t have time to prepare a fix for Phobos yet). It can e.g. be used in cases where want to deserialize some data from a memory buffer, and don’t need to write anything back (which is where &lt;code&gt;TMemoryBuffer&lt;/code&gt; would be used).&lt;/p&gt;
+
+&lt;p&gt;Another addition is &lt;code&gt;TZlibTransport&lt;/code&gt;, which wraps another transport to compress (deflate) data before writing it to the underlying transport, and decompress (inflate) it after reading. This is implemented by directly using zlib (via the C interface) instead of using &lt;code&gt;std.zlib&lt;/code&gt;, because the API of the latter would have made it impossible to avoid needlessly allocating buffers all the time. Thankfully, the C++ library already included a zlib-based implementation, saving me from working out the various corner cases.&lt;/p&gt;
+
+&lt;h2 id=&quot;some-deserialization-micro-optimizations&quot;&gt;Some deserialization micro-optimizations&lt;/h2&gt;
+
+&lt;p&gt;The next thing I worked on were some further optimizations motivated the &lt;code&gt;serialization_benchmark&lt;/code&gt;. To recapitulate, it is a &lt;a href=&quot;https://github.com/dnadlinger/thrift/blob/d-gsoc/lib/d/test/serialization_benchmark.d&quot;&gt;trivially simply application&lt;/a&gt; which just serializes a struct (&lt;code&gt;OneOfEach&lt;/code&gt; from &lt;code&gt;DebugProtoTest.thrift&lt;/code&gt; to be precise) to a &lt;code&gt;TMemoryBuffer&lt;/code&gt; and then reads the data back into the struct again, repeating both parts a number of times to be able to get meaningful timing results. Here are my related changes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;First, I replaced &lt;code&gt;TMemoryBuffer&lt;/code&gt; with the new &lt;code&gt;TInputRangeTransport&lt;/code&gt; to avoid copying the data on each iteration of the reading loop. Because the initial copying to the memory buffer took only ~1–2% of the overall time anyway, this didn’t have a great speed impact.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The next change was to provide a shortcut version of &lt;code&gt;TTransport.readAll()&lt;/code&gt; for &lt;code&gt;TInputRangeTransport&lt;/code&gt; (and &lt;code&gt;TMemoryBuffer&lt;/code&gt; as well). Previously, the generic &lt;code&gt;TBaseTransport&lt;/code&gt; version which just calls &lt;code&gt;read()&lt;/code&gt; in a loop was used – because the method is called about 50 times per reading loop iteration, replacing it with a simple slice assignment gave a ~20% speedup on the reading part of the serialization benchmark.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Furthermore, I nuked the protocol-level »read length« limit implemented for the Binary and Compact protocols. This was not much from an optimization perspective as simply due to the fact that limiting the total amount of data read really belongs at the transport level in my eyes (it was only present because of a, uhm, misguided attempt to draw inspiration from the Java library). Incidentally, this gave another ~15% speedup in the reading benchmark. I will add support for limiting the container and string size Really Soon™ (just as for C++, to be able to somehow cap the amount of memory allocated due to network input), but one more branch per container/string read should have a negligible performance impact.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Finally, I removed a few instances where memory was unnecessarily zero-initialized (only to be completely overwritten later) in the reading code. For the integer buffers (used for byte order conversion) this gave a small but measurable (&amp;lt;5%) performance boost, and for the binary/string reading (which is both larger in size and exercised more often during the benchmark) another ~8% speedup.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;profiling-results&quot;&gt;Profiling results&lt;/h2&gt;
+
+&lt;p&gt;So, after all these (de)serialization micro-optimizations (I improved the writing part when first working on performance), how does the D implementation compare to its natural competitor, the C++ one? Well, frankly not too well at this point. Before discussing my findings in more detail, the performance results as measured on an x86_64 Arch Linux VM&lt;sup class=&quot;footnote&quot; id=&quot;fnr1&quot;&gt;&lt;a href=&quot;#fn1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, hosted on my MacBook Pro (Intel Core i7-620M 2.66 GHz, OS X 10.6), by running each part 10 000 000 times and averaging over it (the results are in 1 000 operations per second, so both implementations can perform on the order of a million reads/writes per second):&lt;/p&gt;
+
+&lt;figure&gt;
+  &lt;table class=&quot;firstname&quot;&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;&amp;nbsp;&lt;/th&gt;
+        &lt;th&gt;Writing / kHz&lt;/th&gt;
+        &lt;th&gt;Reading / kHz&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;DMD v2.054, -O -release -inline&lt;/td&gt;
+        &lt;td&gt;2&amp;thinsp;051&lt;/td&gt;
+        &lt;td&gt;1&amp;thinsp;170&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;GCC 4.6.1, -O2&lt;/td&gt;
+        &lt;td&gt;4&amp;thinsp;624&lt;/td&gt;
+        &lt;td&gt;2&amp;thinsp;053&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;GCC 4.6.1, -O2, templates&lt;/td&gt;
+        &lt;td&gt;5&amp;thinsp;667&lt;/td&gt;
+        &lt;td&gt;4&amp;thinsp;509&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The first GCC row shows the result of the vanilla build (what you get by simply doing &lt;code&gt;cd lib/cpp/test; make Benchmark; ./Benchmark&lt;/code&gt;), while for the »templates« row, I added the (undocumented?) &lt;code&gt;templates&lt;/code&gt; flag to the generator invocation (&lt;code&gt;thrift -gen cpp:templates&lt;/code&gt;), which causes the struct reading/writing methods to be templated on the actual protocol type, much like what I implemented for D. In this benchmark, eliminating any indirections naturally has a huge impact on the performance.&lt;/p&gt;
+
+&lt;p&gt;So, why has the D version less than half the throughput for writing, and is almost four times slower on reading? Let me first point out that the actual code for the C++ and D implementations is, from a semantic point of view, virtually the same (with the exception of D using garbage collected memory for &lt;code&gt;string&lt;/code&gt;/&lt;code&gt;binary&lt;/code&gt; data). I think I have arrived at a point where the single largest factor influencing the performance of the serialization code is the compiler used, or to be more exact, how well it optimizes the code.&lt;/p&gt;
+
+&lt;p&gt;What follows are a few result from my profiling sessions (Valgrind 3.6.1, visualized using KCachegrind&lt;sup class=&quot;footnote&quot; id=&quot;fnr2&quot;&gt;&lt;a href=&quot;#fn2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;) which corroborate with my assumption that compiler optimizations are the culprit here. Let’s first have a look at the profiler results for the reading part of the benchmark (this time, the loops were run only a million times each):&lt;/p&gt;
+
+&lt;figure class=&quot;bigimg&quot;&gt;&lt;img alt=&quot;KCachegrind showing profiling results for the reading part of the C++ benchmark.&quot; src=&quot;/blog/2011/07/d-thrift-gsoc-nonblocking-server-async-client-and-more/cpp-readonly.png&quot; /&gt;&lt;figcaption&gt;C++ reading time profile.&lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;bigimg&quot;&gt;&lt;img alt=&quot;KCachegrind showing profiling results for the reading part of the D benchmark.&quot; src=&quot;/blog/2011/07/d-thrift-gsoc-nonblocking-server-async-client-and-more/d-readonly.png&quot; /&gt;&lt;figcaption&gt;D reading time profile.&lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;I only included the top six functions (by time spent in them) here for the sake of brevity, but for both implementations, the »long tail« of calls in the flat profile are actually runtime helper functions, mostly startup initialization code and memory management-related things used for reading the string functions (for D, GC calls show up prominently, because the benchmark allocates three million strings, which triggers almost 50 collections in between).&lt;/p&gt;
+
+&lt;p&gt;This also means that the compiler has done a pretty good job at combining all tiny deserialization functions into the top-level struct reading function by inlining – with one glaring difference: DMD chose not to inline &lt;code&gt;TInputRangeTransport.readAll()&lt;/code&gt;, which is ultimately called when deserializing each and every member to read the actual bytes off the wire (or in this case, from memory), thus yielding to 49 million additional function calls. To make matters worse, this also means that the number of bytes requested each time (e.g. 4 for an integer) is not known at compile time, which also means that the generic &lt;code&gt;memcpy&lt;/code&gt; implementation has to be called each time. On the other hand, the C++ implementation only calls &lt;code&gt;memcpy&lt;/code&gt; in those situations where the number of bytes copied really depends on a runtime value, which is the case for strings which are intrinsically variable-length (the other memcpy calls are called during initialization and initially writing the struct to the buffer).&lt;/p&gt;
+
+&lt;p&gt;Profiling the writing part shows similar results:&lt;/p&gt;
+
+&lt;figure class=&quot;bigimg&quot;&gt;&lt;img alt=&quot;KCachegrind showing profiling results for the writing part of the C++ benchmark.&quot; src=&quot;/blog/2011/07/d-thrift-gsoc-nonblocking-server-async-client-and-more/cpp-writeonly.png&quot; /&gt;&lt;figcaption&gt;C++ writing time profile.&lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;bigimg&quot;&gt;&lt;img alt=&quot;KCachegrind showing profiling results for the writing part of the D benchmark.&quot; src=&quot;/blog/2011/07/d-thrift-gsoc-nonblocking-server-async-client-and-more/d-writeonly.png&quot; /&gt;&lt;figcaption&gt;D writing time profile.&lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;Again, for the C++ version, everything is inlined into &lt;code&gt;OneOfEach.write()&lt;/code&gt;, in which over 80% of the time are actually spent, and just as for the reading part, the only instance where &lt;code&gt;memcpy()&lt;/code&gt; is not inlined&lt;sup class=&quot;footnote&quot; id=&quot;fnr3&quot;&gt;&lt;a href=&quot;#fn3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; is for strings. On the other hand, the D version is optimized &lt;em&gt;almost&lt;/em&gt; as well as the C++ version, with the only exception of &lt;code&gt;TMemoryBuffer.write()&lt;/code&gt; not being inlined, which again prevents &lt;code&gt;memcpy&lt;/code&gt; from being optimized (the other function showing up, &lt;code&gt;reset()&lt;/code&gt;, only resets output buffer once per iteration, this is inlined into &lt;code&gt;main&lt;/code&gt; in the C++ version).&lt;/p&gt;
+
+&lt;p&gt;So, to recapitulate, I am not sure whether DMD would be able to replace a &lt;code&gt;memcpy()&lt;/code&gt; call with optimized asm in the first place, but not knowing the length at compile-time prevents that anyway. I am pretty sure that this difference of about a hundred million function calls and not being able to write optimized text for the short (2, 4, 8, …) byte copies accounts for a large part of the performance gap.&lt;/p&gt;
+
+&lt;p&gt;This assumption is supported by data gathered from a case where GCC chose to not inline &lt;code&gt;TBufferBase::write()&lt;/code&gt; (which is the common path of &lt;code&gt;TMemoryBuffer::write()&lt;/code&gt;). Interestingly, this actually happens at &lt;code&gt;-O3&lt;/code&gt;, which is a &lt;em&gt;higher&lt;/em&gt; optimization level than &lt;code&gt;-O2&lt;/code&gt; used above (I suppose because of some additional optimizations performed on it, which causes its inlining costs to rise high enough not to be inlined). Just for comparison, here are again the five top functions from the profile:&lt;/p&gt;
+
+&lt;figure class=&quot;bigimg&quot;&gt;&lt;img alt=&quot;KCachegrind showing profiling results for the writing part of the C++ benchmark compiled with -O3.&quot; src=&quot;/blog/2011/07/d-thrift-gsoc-nonblocking-server-async-client-and-more/cpp-writeonly-o3.png&quot; /&gt;&lt;figcaption&gt;C++ writing time profile when compiled with &lt;code&gt;-O3&lt;/code&gt;, causing &lt;code&gt;TBufferBase::write()&lt;/code&gt; to be no longer inlined.&lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;Just as for D, because of this &lt;code&gt;memcpy&lt;/code&gt; cannot be optimized away either. And unsurprisingly, this causes the performance to go through the floor as well, the executable only reaches 2 519 thousand operations per second now. The D version is still a bit slower with only 2 051 kHz, but it is on a comparable level now.&lt;/p&gt;
+
+&lt;p&gt;So, to finally come to a conclusion, most of the performance gap between C++ and D presumedly comes from DMD not inlining a key function and thus not being able to optimize away &lt;code&gt;memcpy&lt;/code&gt; calls as well. An obvious experiment would be to try a different compiler like GDC or LDC, both of which are known to generally optimize better than DMD does. Unfortunately, both of them are currently at front-end version 2.052, but my Thrift code currently requires 2.054.&lt;/p&gt;
+
+&lt;p&gt;There are two possible solutions to this, either sprinkle workarounds all over the Thrift code to be able to use the older DMD frontend and Phobos versions for the benchmark, or update the frontend of GDC or LDC to 2.054. While the former would be entirely feasible, I think I update the LDC frontend once I have some time to spare, as this will also be useful for other D projects (choosing LDC because I am already familiar with its codebase).&lt;/p&gt;
+
+&lt;h2 id=&quot;libevent-based-non-blocking-server&quot;&gt;Libevent-based non-blocking server&lt;/h2&gt;
+
+&lt;p&gt;If I didn’t lose you during all the talk about micro-optimization above, let me hereby present you the two main additions to the library during the last two weeks: a &lt;em&gt;non-blocking server implementation&lt;/em&gt; and a Future-based &lt;em&gt;asynchronous client&lt;/em&gt; interface.&lt;/p&gt;
+
+&lt;p&gt;I am not sure if I ever stated it explicitly (the timeline only has »event-based I/O Phobos lib?« in parentheses), but I was hoping to be able to come up with a small general-purpose non-blocking I/O library written in D as a by-product of this project. The obvious time to start working on it would have been when implementing the non-blocking server, But after considering several possible designs, I realized that I did not yet know the problem domain well enough to come up with something that is not just a cheap libevent/Boost.Asio rehash, but where I’m still sure that it performs well enough for a production-grade Thrift server implementation.&lt;/p&gt;
+
+&lt;p&gt;Thus, I went with simply porting the C++ libevent-based server implementation over to D, which has the benefits of being battle-proved, so that I have something which I can advise people to use in production code without feeling guilty. There are a few instances where I needed to manually add a GC root for some memory passed to libevent, but other than that, the code is reasonably clean, even though it surely could be prettier if a native D »event loop« was used.&lt;/p&gt;
+
+&lt;p&gt;A word of warning for Windows users: While libevent is linked dynamically as well, thus making it easy to just use DLL builds on Windows, there are some pieces of the socket code not yet tested for WinSock. Currently, I am not even sure if all of the code compiles on Windows, but I will perform some test on Windows shortly to ensure all the new additions work there as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;coroutine-based-tasyncclient&quot;&gt;Coroutine-based &lt;code&gt;TAsyncClient&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Using an asynchronous/concurrent approach for network-related code with its intrinsic I/O latency seems like a very obvious thing to do, but to my knowledge e.g. the C++ libraries currently do not provide a generic async client implementation, which is the part of the reason I did not tackle this earlier.&lt;/p&gt;
+
+&lt;p&gt;After getting accustomed with the general idea of non-blocking I/O, it seemed to be a good time to finally work on the topic. What I basically wanted to implement was a way to off-load client-side request/response handling, possibly for multiple connections, to a worker thread, providing a &lt;a href=&quot;http://en.wikipedia.org/wiki/Futures_and_promises&quot;&gt;future-based&lt;/a&gt; interface to the client code. For multiplexing handling multiple connections per worker thread, I wanted to experiment with a coroutine-based design.&lt;/p&gt;
+
+&lt;p&gt;As mentioned in the beginning of this report, coming up with a solid design took me a bit longer than expected, but as of now, &lt;code&gt;thrift.codegen&lt;/code&gt; includes a fully functional &lt;code&gt;TAsyncClient&lt;/code&gt; implementing such a scheme, also using libevent to have a portable means for handling non-blocking I/O. The new &lt;code&gt;thrift.async&lt;/code&gt; package contains the related helper code, such as &lt;code&gt;TAsyncSocket&lt;/code&gt; representing a non-blocking socket.&lt;/p&gt;
+
+&lt;p&gt;The new code is not yet well-documented or tested, and is still missing some important features like the ability to set timeouts on operations, but I have successfully tested basic use cases.&lt;/p&gt;
+
+&lt;h2 id=&quot;plans-for-the-second-gsoc-half&quot;&gt;Plans for the second GSoC half&lt;/h2&gt;
+
+&lt;p&gt;Which finally brings me to the end of this post: As my project fortunately passed the mid-term evaluations, it is now time to discuss how to go forward during the second part of the Summer of Code.&lt;/p&gt;
+
+&lt;p&gt;During the next week, I will work on some of the obviously unfinished things like async client documentation and tests, and will add a few missing utilities such as a &lt;code&gt;tee&lt;/code&gt;-like transport which can be used to transparently log requests.&lt;/p&gt;
+
+&lt;p&gt;Speaking of documentation, this currently is a big issue for both the D implementation and, to a lesser extent, Thrift in general. However, as of now, I have worked sufficiently long on the code that I am effectively blind for what kinds of documentation a typical user would benefit the most from – more detailed API docs? Simple stand-alone examples with well-commented code? Tutorials? It would be great if you could let me know what you think would be useful.&lt;/p&gt;
+
+&lt;p&gt;With the non-blocking server implementation being completed, only the »performance« and »documentation« items from my original timeline remain, besides some general clean-up work being left to do. However, Nitay, my mentor, suggested a few other things which could be worth looking into, such as a generalized client for querying multiple servers, to be used for things like redundancy, load distribution, data verification, etc. I will discuss this in more detail and then update the timeline accordingly.&lt;/p&gt;
+
+&lt;p class=&quot;footnote&quot; id=&quot;fn1&quot;&gt;&lt;a href=&quot;#fnr1&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; Why test in a Linux VM (Virtual Box 4.0.8) rather than directly on my OS X development box? Because Linux x86_64 is probably where most of the server-side deployments will end up, only an ancient GCC is available on OS X, DMD is still 32 bit-only there, and Valgrind/Callgrind which I used for profiling is not really usable on OS X 10.6. I am aware that using a VM might skew the results a bit, but I think the impact shouldn't be too large. Incidentally, the tests compiled and ran in the Linux VM generally performed better faster than on the host.&lt;/p&gt;
+
+&lt;p class=&quot;footnote&quot; id=&quot;fn2&quot;&gt;&lt;a href=&quot;#fnr2&quot;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt; I patched KCachegrind to elide the middle of the symbol name for better readability in width-limited screenshots, and used my &lt;a href=&quot;https://gist.github.com/1069843&quot;&gt;own little demangling tool&lt;/a&gt; for the D results.&lt;/p&gt;
+
+&lt;p class=&quot;footnote&quot; id=&quot;fn3&quot;&gt;&lt;a href=&quot;#fnr3&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt; Technically, GCC handles &lt;code&gt;memcpy&lt;/code&gt; as compiler built-ins, so inlining might not be precisely the right term, but the effect (avoiding a function call) is the same.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>D/Thrift: Docs, Servers, Tests</title>
+   <link href="http://klickverbot.at/blog/2011/07/d-thrift-gsoc-docs-servers-tests/"/>
+   <updated>2011-07-04T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2011/07/d-thrift-gsoc-docs-servers-tests</id>
+   <content type="html">&lt;p&gt;Dear Reader,&lt;/p&gt;
+
+&lt;p&gt;Let me apologize for not being terribly motivated to write a blog post right now, but I was lucky enough to catch the flu last week with temperatures between 25 °C and 35 °C outside, and while the fever has gone by now, I am still depleting my tissue stock at an insanely high rate…&lt;/p&gt;
+
+&lt;p&gt;Anyway, back to topic, the usual summary of the recent changes to my Thrift GSoC project:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;The most important item on the list from an user point of view are probably the &lt;em&gt;documentation&lt;/em&gt; improvements: The project now has a &lt;a href=&quot;https://github.com/dnadlinger/thrift/wiki/Getting-Started-with-Thrift-and-D&quot;&gt;Getting Started page&lt;/a&gt;, and I have made a complete pass through all the DDoc docs, a build of which is &lt;a href=&quot;http://klickverbot.at/code/gsoc/thrift/docs/&quot;&gt;available here&lt;/a&gt; (I still have to whip up a nice design, but it should do for the moment).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;More interesting from a coding perspective are the additions of two &lt;em&gt;new &lt;code&gt;thrift.server&lt;/code&gt; implementations&lt;/em&gt;, &lt;code&gt;TThreadedServer&lt;/code&gt; and &lt;code&gt;TTaskPoolServer&lt;/code&gt;. The former is a naive implementation of a threaded server which just spawns a new worker thread per client connection, while the latter uses a &lt;code&gt;std.parallelism&lt;/code&gt; thread pool to process the queued client connections (the maximum number of active connections is configurable). I also added a D version of the &lt;code&gt;StressTest&lt;/code&gt; server for sanity checking.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Another server-related change is the addition of server and processor &lt;em&gt;event handlers&lt;/em&gt;, which can be used to hook custom code into various points during the server/request lifecycle, e.g. for collecting diagnostic data. Data can be persisted between the calls by saving them as connection/call »context«, which is a &lt;code&gt;Variant&lt;/code&gt; the server code passes around for you (I went with variants over e.g. templating the server code on the context object type simply to avoid adding another layer of complexity for a non-essential feature).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I added a standalone test case exercising the different transport types (socket, file, memory buffer) combined with the various wrapper transports (buffered, framed), modeled after the C++ &lt;code&gt;TransportTest&lt;/code&gt;. This has uncovered a number of (sometimes not-so-) subtle defects in the transport implementations which have been fixed (TSocket not handling &lt;code&gt;EINTR&lt;/code&gt;, framed/memory buffer &lt;code&gt;borrow()&lt;/code&gt; would also return smaller than requested, &lt;code&gt;TFileReaderTransport&lt;/code&gt; not tailing files correctly, …).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Build system improvements: The stand-alone test cases are now organized in a much less cumbersome scheme, and DDoc documentation is generated for the library by default. &lt;code&gt;lib/d/README&lt;/code&gt; now has instructions on how to generate a self-signed certificate for SSL socket testing.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you are on OS X, you might want to manually apply &lt;a href=&quot;https://github.com/D-Programming-Language/phobos/pull/131&quot;&gt;Phobos pull request 131&lt;/a&gt; until it is merged into Git master to avoid your servers crashing due to an unhandled &lt;code&gt;SIGPIPE&lt;/code&gt; (you can also just set &lt;code&gt;signal(SIGPIPE, …)&lt;/code&gt; to &lt;code&gt;SIG_IGN&lt;/code&gt; in your startup code).&lt;/p&gt;
+
+&lt;p&gt;I have also added a list of not yet scheduled ideas to the &lt;a href=&quot;/code/gsoc/thrift/&quot;&gt;project page&lt;/a&gt;. Implementing a ZLib compression transport is currently the top item on my list, after which I will start to work on a non-blocking server implementation as planned. An asynchronous version of &lt;code&gt;TClient&lt;/code&gt; is something I certainly want to implement, but I am planning to defer work on it until I have tackled the non-blocking server, as I could end up using the same approach (e.g. &lt;code&gt;libevent&lt;/code&gt;) for it.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>D/Thrift: Compact, JSON protocols, performance</title>
+   <link href="http://klickverbot.at/blog/2011/06/d-thrift-gsoc-protocols-compact-json-performance/"/>
+   <updated>2011-06-22T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2011/06/d-thrift-gsoc-protocols-compact-json-performance</id>
+   <content type="html">&lt;p&gt;Another week of my Google Summer of Code project passed by, and so you are reading another status update. I am not including any core D development-related news this time, first because I didn’t do much DMD/Phobos work last week, and second because it gets tedious to list everything here – feel free to see my GitHub activity stream for more information. But still, thanks to Sean Kelly for quickly fixing the &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=6135&quot;&gt;OS X threading/GC race condition&lt;/a&gt; I encountered the week before.&lt;/p&gt;
+
+&lt;p&gt;One of my targets last week was to do some preliminary performance investigations and using the insights gained to modify the protocol interface accordingly before I implement additional protocols. For this, I used the &lt;code&gt;DebugProtoTest.thrift&lt;/code&gt;-based serialization performance test already implemented for C++ and Java (see the &lt;a href=&quot;https://github.com/dnadlinger/thrift/blob/d-gsoc/lib/d/test/serialization_benchmark/benchmark.d&quot;&gt;D version at GitHub&lt;/a&gt;, a more intensive look at performance, including creation of some more extensive benchmarks is planned for later).&lt;/p&gt;
+
+&lt;p&gt;Ironically, the change with the biggest impact on the writing performance didn’t have anything to do with the protocol interface at all: When first writing &lt;code&gt;TMemoryBuffer&lt;/code&gt;, I simply implemented &lt;code&gt;write()&lt;/code&gt; as D array appending operation, because I didn’t want to spend much time on optimizing it yet, and I figured that as long as there would not be too many reallocations, it should be reasonably fast for testing purposes. Array appending translates to a non-inlined and not really cheap D runtime call, however, and &lt;code&gt;TMemoryBuffer.write()&lt;/code&gt; unsurprisingly happens to be the single most called function in the whole writing part of the benchmark. After changing &lt;code&gt;TMemoryBuffer&lt;/code&gt; to manual &lt;code&gt;malloc&lt;/code&gt;/&lt;code&gt;free&lt;/code&gt;-style memory management, the writing part finished in &lt;em&gt;less than 30%&lt;/em&gt; of the time.&lt;/p&gt;
+
+&lt;p&gt;I tried to switch to &lt;code&gt;GC.malloc&lt;/code&gt; instead of manual freeing afterwards because it would make getting a buffer content slice safe and the small memory allocation overhead should not really be a problem for typical &lt;code&gt;TMemoryBuffer&lt;/code&gt; use cases (it does not matter at all in this benchmark because the required amount of memory is pre-allocated), but I encountered some strange data corruption issues in the other larger test cases I have yet to track down. Most probably, I just missed some subtleties when treating &lt;code&gt;GC.realloc&lt;/code&gt; as a drop-in &lt;code&gt;realloc&lt;/code&gt;/&lt;code&gt;free&lt;/code&gt; replacement, but I just didn’t find a way to pin-point the issue.&lt;/p&gt;
+
+&lt;p&gt;For the next step, I tackled the design of the &lt;code&gt;TProtocol&lt;/code&gt; interface: When building the first prototype for the library, I had the ad-hoc idea of passing in delegates to the aggregate reading/writing functions for processing their members. I figured that this would make the interface nicer as all the &lt;code&gt;*Begin()/*End()&lt;/code&gt; pairs could be collapsed into a single call, the struct member reading loop could be moved into the protocol itself instead of being duplicated over and over again (although this is not a real benefit besides a slight code size reduction because it is generated code anyway), and implementing protocols like JSON would be easier since the structural information would not have been completely lost compared to a »flat« interface.&lt;/p&gt;
+
+&lt;p&gt;I was, however, aware of the fact that this could pose a performance problem, and indeed some experimenting showed that DMD generated suboptimal code for delegate literals and was not really able to them, even for &lt;code&gt;scope&lt;/code&gt;d delegates. From a compiler point of view, this is not really surprising as generating better code would require a fair bit of analysis to be done, but still I decided to switch to a more simplistic protocol design for the time being – even more so, as I realized that my design idea would not really simplify implementing JSON-like protocols anyway. I chose to go with the C++/Java interface verbatim, as it is proven to work (and having a similar interface across multiple languages has its own merits as well), and with the changes in, I measured a &lt;em&gt;20% speedup&lt;/em&gt;, even though no inlining was possible due to virtual calls all over the place yet. (In hindsight, it might have been better to implement the template mechanism first, so that the actual impact of the protocol API change would have been more visible. Maybe I’ll revert the binary protocol back to the old interface and re-run the test to get precise numbers at some point in the future.)&lt;/p&gt;
+
+&lt;p&gt;Finally, I implemented a way to specify the concrete transport/protocol types used in the application at compile-time using templates (similar to C++ and the &lt;code&gt;templates&lt;/code&gt; Thrift compiler argument), thus eliminating most virtual calls and enable the compiler to inline calls all over the library. I expected to see a dramatic speedup here as well – when not specifying the protocol/transport type, the writing loop in the C++ benchmark is only half as fast –, but instead I saw »only« a &lt;em&gt;40% speedup&lt;/em&gt; overall, with the C++ version still being significantly faster.&lt;/p&gt;
+
+&lt;p&gt;When comparing profiling data for the optimized C++ and D versions, I noticed that in the D version &lt;code&gt;_memcpy&lt;/code&gt; gets called ten times as often as in the C++ version – GCC, being able to inline the &lt;code&gt;write()&lt;/code&gt; calls, is able to replace the calls with optimized routines for shorter lengths, and since both versions spend most of their time actually copying data around at this point, this yields a huge advantage.&lt;/p&gt;
+
+&lt;p&gt;After that, I did not make any further attempts at optimizing the D version, since performance was not my primary goal at this stage anyway – the basic design seems to be solid, and what left are micro-optimizations. When focussing on performance later in the term, I will certainly create more benchmarks, and also try to optimize the languages I will compare D to (C++ and Java, most likely) – for example, the current C++ serialization benchmark from the official HEAD does a lot of unneeded work in the reading loop, moving out the initialization code makes it run twice as fast. I will also have a look at using GDC and LDC instead of DMD for their more sophisticated backends, and document the exact performance findings on various platforms.&lt;/p&gt;
+
+&lt;p&gt;Even though I am not going to write that much about it, I spent the bigger part of my time on non-performance related work: Generated structs now have an appropriate &lt;code&gt;toString()&lt;/code&gt; and &lt;code&gt;opEquals()&lt;/code&gt; implementation, the D ThriftTest client actually checks the data it sends/receives instead of just flooding the console with messages (no idea why this hasn’t already been implemented for C++ and Java), and last but not least, I implemented the Compact and JSON protocols for D. This completes the protocol section, as I do not plan to implement the &lt;em&gt;Dense&lt;/em&gt; protocol unless there is much time left to spend during the end of the term (as previously discussed).&lt;/p&gt;
+
+&lt;p&gt;During the next (or rather: this) week, I am going to work on documentation, integrate a number of test cases I have already lying around with the repository/build system, and implement a simple multithreaded server.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>D/Thrift GSoC: Growing the library</title>
+   <link href="http://klickverbot.at/blog/2011/06/d-thrift-gsoc-growing-the-library/"/>
+   <updated>2011-06-14T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2011/06/d-thrift-gsoc-growing-the-library</id>
+   <content type="html">&lt;p&gt;First, let me apologize for not posting an update last week – I had a busy time, but regardless I will try to let you know about the state of affairs regularly in the future. Now, what were I working on? I updated my &lt;a href=&quot;/code/gsoc/thrift/&quot;&gt;project page&lt;/a&gt; based on the timeline previously discussed at my project mailing list, and – besides me being a day late, more below – it is still valid. These were the main points I worked on:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Build system integration&lt;/em&gt;: The D library is now integrated with the Thrift Autoconf/Automake build system. If a working D2 compiler is detected, the &lt;code&gt;libthriftd&lt;/code&gt; static library containing all the modules is now built on issuing &lt;code&gt;make&lt;/code&gt; along with the rest of Thrift. &lt;code&gt;make check&lt;/code&gt; runs the unit tests for each D module and builds the standalone test executables (i.e. &lt;code&gt;ThriftTest&lt;/code&gt; for now).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Socket transport enhancements&lt;/em&gt;: Implemented &lt;code&gt;interrupt()&lt;/code&gt; for the server socket which can be used to notify a server waiting on a blocking socket for connections about shutdown, added socket timeouts, properly handle exceptions thrown by &lt;code&gt;std.socket&lt;/code&gt;, …&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Added a D implementation of &lt;em&gt;&lt;code&gt;TMemoryBuffer&lt;/code&gt;&lt;/em&gt;, which is widely internally used and a nice tool for writing unit tests as well. Implemented the &lt;em&gt;Framed&lt;/em&gt; transport in D.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Implemented &lt;em&gt;&lt;code&gt;TFileReaderTransport&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code&gt;TFileWriterTransport&lt;/code&gt;&lt;/em&gt;, the D equivalent to the C++ &lt;code&gt;TFileTransport&lt;/code&gt;. I separated the two components because I could not really think of a situation in which you would use both at once, and conflating the two would complicate the state space (I am not even sure if the C++ implementation does what it is supposed to if read/write calls are interleaved) and make the implementation unnecessarily complex. The &lt;code&gt;TFileWriterTransport&lt;/code&gt; implementation performs the actual file I/O in a separate worker thread, which communicates with the main thread using a message passing approach (leveraging D’s &lt;code&gt;std.concurrency&lt;/code&gt; module).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;A simple &lt;em&gt;HTTP client/server transport&lt;/em&gt;, closely modeled after the C++ implementation.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;An &lt;em&gt;SSL client/server socket&lt;/em&gt; implementation using the OpenSSL library, which is linked in dynamically (primarily for easy Windows compatibility). The actual implementation is pretty much a direct port of the C++ &lt;code&gt;TSSLSocket&lt;/code&gt;, but I had to quickly write the D2 bindings for OpenSSL first. For now, the bindings live in &lt;code&gt;thrift.util.openssl&lt;/code&gt;, as I only included the subset of functions I needed for Thrift, but I might move them out in the future.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As always, you can find the changes &lt;a href=&quot;https://github.com/dnadlinger/thrift&quot;&gt;on my GitHub fork&lt;/a&gt;. I also spent a sizable chunk of my time on contributing some improvements and fixed to the D compiler and standard library projects. As for the issues I mentioned two weeks ago, kudos to Don Clugston for promptly fixing CTFE issues &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=6077&quot;&gt;6077&lt;/a&gt; and  &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=6078&quot;&gt;6078&lt;/a&gt;, and my &lt;a href=&quot;https://github.com/D-Programming-Language/dmd/pull/77&quot;&gt;DMD pull request 77&lt;/a&gt; and &lt;a href=&quot;https://github.com/D-Programming-Language/phobos/pull/65&quot;&gt;Phobos pull request 65&lt;/a&gt; were also merged in the meantime.&lt;/p&gt;
+
+&lt;p&gt;During the last two weeks, I worked on Phobos pull requests &lt;a href=&quot;https://github.com/D-Programming-Language/phobos/pull/73&quot;&gt;73&lt;/a&gt; (adds &lt;code&gt;std.socket.socketpair&lt;/code&gt;), &lt;a href=&quot;https://github.com/D-Programming-Language/phobos/pull/87&quot;&gt;87&lt;/a&gt; (better &lt;code&gt;std.file&lt;/code&gt; error messages), &lt;a href=&quot;https://github.com/D-Programming-Language/phobos/pull/90&quot;&gt;90&lt;/a&gt; (fixes a mailbox handling bug in &lt;code&gt;std.concurrency&lt;/code&gt; – took me quite some time to track down as it caused sporadic deadlocks in my unit tests), &lt;a href=&quot;https://github.com/D-Programming-Language/phobos/pull/99&quot;&gt;99&lt;/a&gt; (adds timeout handling and hostname lookup to &lt;code&gt;std.socket&lt;/code&gt; – I still don’t know why WinSock adds 500 ms to the &lt;code&gt;recv()&lt;/code&gt; timeout), &lt;a href=&quot;https://github.com/D-Programming-Language/druntime/pull/28&quot;&gt;druntime pull request 28&lt;/a&gt; (adds a Posix &lt;code&gt;netdb.h&lt;/code&gt; module) and &lt;a href=&quot;https://github.com/D-Programming-Language/dmd/pull/118&quot;&gt;DMD pull request 118&lt;/a&gt; (finally removes the &lt;code&gt;_DH&lt;/code&gt; flag).&lt;/p&gt;
+
+&lt;p&gt;Furthermore, I collaborated with Daniel Murphy on fixing the long-standing issue that function pointers are not properly typechecked, resulting in &lt;a href=&quot;https://github.com/D-Programming-Language/dmd/pull/96&quot;&gt;DMD pull request 96&lt;/a&gt; and [druntime pull request 26] (https://github.com/D-Programming-Language/druntime/pull/26). I have also started to work the dreaded DMD &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=314&quot;&gt;bug 314&lt;/a&gt;. While the basic fix is in place – that’s how I found the bug in &lt;a href=&quot;https://github.com/D-Programming-Language/phobos/pull/102&quot;&gt;Phobos pull request 102&lt;/a&gt; – (I adapted the D1/LDC changes by Christian Kamm to D2/DMD), I still need to add some more tests and solve a few more complex cases. Unfortunately, I also hit two new issues which I have not been able to fix yet: &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=6108&quot;&gt;6108&lt;/a&gt;, a DMD contract inheritance bug, and &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=6135&quot;&gt;6135&lt;/a&gt;, a druntime OSX threading/GC crash.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>D/Thrift GSoC: First results</title>
+   <link href="http://klickverbot.at/blog/2011/05/d-thrift-gsoc-first-results/"/>
+   <updated>2011-05-29T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2011/05/d-thrift-gsoc-first-results</id>
+   <content type="html">&lt;p&gt;The first week of my &lt;a href=&quot;/code/gsoc/thrift/&quot;&gt;&lt;em&gt;D/Thrift&lt;/em&gt; project&lt;/a&gt; as part of the &lt;a href=&quot;http://d-programming-language.org&quot;&gt;D programming language&lt;/a&gt; &lt;a href=&quot;http://www.google-melange.com/gsoc/org/google/gsoc2011/dprogramminglanguage&quot;&gt;Google Summer of Code 2011&lt;/a&gt; is over, and I am happy to be able to share some first results. If you are not sure what I am talking about yet: &lt;a href=&quot;http://thrift.apache.org&quot;&gt;Apache Thrift&lt;/a&gt;, originally developed for internal use at &lt;a href=&quot;http://facebook.com&quot;&gt;Facebook&lt;/a&gt;, is both a data serialization/RPC protocol and its reference implementation. In short, it works by defining data types and services interface in a language-agnostic interface definition file. Then, a compiler is used for generating code from that &lt;code&gt;.thrift&lt;/code&gt; file (currently written in C++), using target language support libraries which contain the actual serialization protocol/RPC implementation. Currently, Thrift supports a large number of languages including C++, Java, PHP and Python.&lt;/p&gt;
+
+&lt;p&gt;It was clear from the beginning that I would stick with this approach for my implementation, not only because the informal project goal is to establish D as an equal target language besides the existing ones, but simply because one of the main strengths of Thrift is that you can use the same interface definition for all target languages, with the compiler doing all the heavy lifting for you. I did, however, want to leverage the powerful metaprogramming capabilities of D (compile-time reflection, &lt;abbr title=&quot;Compile Time Function Execution&quot;&gt;CTFE&lt;/abbr&gt;, string mixins) to lift as much work off the »ahead-of-time« C++ code generator as possible, having the option to use the Thrift libraries beyond the traditional scope of the project for ad-hoc extension of existing D data types and interfaces with serialization/RPC functionality at the back of my mind.&lt;/p&gt;
+
+&lt;p&gt;My primary goal during the first week was to evaluate the feasibility of this approach by quickly implementing the basic parts of each Thrift component. In more detail, the sub-goals I tackled during the last week were:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create a preliminary implementation the central parts of the support library (&lt;code&gt;TBinaryProtocol&lt;/code&gt;, &lt;code&gt;TBufferedTransport&lt;/code&gt;, &lt;code&gt;TSocket&lt;/code&gt;, …) using the C++ and Java implementations as reference to be able to directly test the progressing D implementation against other languages.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Implement the general and client-specific parts of compile-time code generation (struct reading/writing, method arguments/result struct generation &lt;code&gt;TClient&lt;/code&gt;, …), using a hand-crafted Thrift tutorial interface to test it against the Java server.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Implement &lt;code&gt;TSimpleServer&lt;/code&gt; and related basic server functionality (e.g. &lt;code&gt;TServerSocket&lt;/code&gt;) to be able to test server code generation.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Complete missing server-side code generation bits (&lt;code&gt;TProcessor&lt;/code&gt;, server-side arguments/result structs, …), again using a hand-crafted interface to test it against the Java Thrift calculator tutorial client.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Add D code generation to the Thrift compiler, and run the compiler against all the test interface files coming with Thrift (&lt;code&gt;test/*.thrift&lt;/code&gt;) to catch any obvious issues.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Implement a &lt;code&gt;ThriftTest&lt;/code&gt; server and client in D to exercise the more advanced serialization code paths and fix any bugs, testing it against the C++ implementation.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So far, no major problems popped up, and I was able to complete the above list as planned. I did, however, hit a few bugs in DMD, which is, on the other hand, doesn’t come as a total surprise because I am heavily using the metaprogramming facilities. I have been able to find workarounds for all of the issues, but it nevertheless took me quite some time to track them down initially: issues &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=6069&quot;&gt;6069&lt;/a&gt;, &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=6077&quot;&gt;6077&lt;/a&gt;, &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=6078&quot;&gt;6078&lt;/a&gt;, &lt;a href=&quot;https://github.com/D-Programming-Language/dmd/pull/77&quot;&gt;DMD pull request 77&lt;/a&gt; and – this one is merely an enhancement – &lt;a href=&quot;https://github.com/D-Programming-Language/phobos/pull/65&quot;&gt;Phobos pull request 65&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you want to have a look at the code, feel free to head to &lt;a href=&quot;https://github.com/dnadlinger/thrift/tree/d-gsoc&quot;&gt;my GitHub Thrift fork&lt;/a&gt;, where I regularly push my work to. And just to give you a short glimpse of the very basic features (a lot more is already implemented), this is how you could implement a simple calculator server/client which adds two numbers using the Thrift library, without using any generated code.&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;c1&quot;&gt;// This could also be generated from a .thrift file and contain&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// structs, exceptions, etc.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calculator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Calculator&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;figcaption&gt;&lt;span&gt;Shared module containing the interface the server offers and the client consumes. &lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;server&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calculator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thrift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;codegen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;processor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thrift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;protocol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;binary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thrift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;protocol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;processor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thrift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;server&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;simple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thrift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buffered&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thrift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;serversocket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CalculatorHandler&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Calculator&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Expose a CalculatorHandler instance at port 9090.&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;protocolFactory&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TBinaryProtocolFactory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;processor&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TServiceProcessor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Calculator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CalculatorHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;serverTransport&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TServerSocket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9090&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;transportFactory&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TBufferedTransportFactory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TSimpleServer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;processor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;serverTransport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;transportFactory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;protocolFactory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;server&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;serve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;figcaption&gt;&lt;span&gt;Server implementation, accepting connections on port 9090 using the binary protocol. &lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calculator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thrift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;codegen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thrift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;protocol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;binary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thrift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buffered&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thrift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Set up a client for the Calculator interface and try to&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// connect to localhost:9090.&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TSocket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;localhost&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9090&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;transport&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TBufferedTransport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TBinaryProtocol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Calculator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;protocol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;transport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// Call the server&amp;#39;s add() method and print the result.&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lhs&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rhs&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;writefln&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;%s + %s = %s&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;figcaption&gt;&lt;span&gt;Client implementation. Note how the interface defined above in the &lt;code&gt;calculator&lt;/code&gt; module is passed to TClient as a template parameter, which then generates the necessary RPC code. &lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Random D development news</title>
+   <link href="http://klickverbot.at/blog/2011/04/random-d-development-news/"/>
+   <updated>2011-04-26T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2011/04/random-d-development-news</id>
+   <content type="html">&lt;p&gt;During the last couple of weeks, I didn&amp;#8217;t really find time to update this blog. Nevertheless, however, I was able to spare some time for work on a couple open source projects related to the &lt;a href=&quot;http://d-programming-language.org&quot;&gt;D programming language&lt;/a&gt;. But first, let me quickly summarize some great changes that will be in the next &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; release:&lt;/p&gt;
+&lt;p&gt;Don Clugston has basically &lt;a href=&quot;https://github.com/D-Programming-Language/dmd/pull/23&quot;&gt;re-implemented &lt;span class=&quot;caps&quot;&gt;CTFE&lt;/span&gt;&lt;/a&gt; to fix a whole slew of compile-time function execution bugs, among which is the dreaded &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=1330&quot;&gt;bug 1330&lt;/a&gt;. There are still some regressions compared to &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; 2.052 (like &lt;a href=&quot;http://lists.puremagic.com/pipermail/dmd-internals/2011-April/001448.html&quot;&gt;this one&lt;/a&gt;, which breaks QtD), but apart from those, it&amp;#8217;s a big step towards getting &lt;span class=&quot;caps&quot;&gt;CTFE&lt;/span&gt; out of the »experimental feature« category. The new architecture will also make implementing reference types easier, but this is still a long way off. Then next &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;/Phobos release will also include the new &lt;a href=&quot;http://cis.jhu.edu/~dsimcha/d/phobos/std_parallelism.html&quot;&gt;std.parallelism&lt;/a&gt; module by David Simcha, some GC optimizations and a large amount of other improvements (among which is the addition of the &lt;a href=&quot;https://github.com/D-Programming-Language/dmd/commit/2e261cd640e5266c569ad224ffbfe229a0315d97&quot;&gt;parent trait&lt;/a&gt;, so that QtD doesn&amp;#8217;t need a patched &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; any longer) – due to the GitHub migration and the larger part of x86_64 support being done, the perceived development speed in the core community really went up a notch.&lt;/p&gt;
+&lt;p&gt;As for my own (insignificant, compared to the above) contributions, I did some work on &lt;a href=&quot;http://dsource.org/projects/ldc&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;&lt;/a&gt; during the last few days, porting it to &lt;a href=&quot;http://llvm.org/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt; 2.9&lt;/a&gt; and bringing the front-end in sync with &lt;a href=&quot;http://digitalmars.com/d/1.0/changelog.html&quot;&gt;&lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; 1.067&lt;/a&gt; – you can find the changes in the default branch over at &lt;a href=&quot;https://bitbucket.org/lindquist/ldc&quot;&gt;Bitbucket&lt;/a&gt;. The &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; updates also contained some changes to the varargs &lt;span class=&quot;caps&quot;&gt;ABI&lt;/span&gt; on x86_64 and other areas of the runtime interface, which I didn&amp;#8217;t merge yet, because it would require an update to Tango as well. I am not aware of any regressions so far (see the &lt;a href=&quot;/code/ldc/&quot;&gt;DStress results&lt;/a&gt;), but feel free to ping me in case of any problems.&lt;/p&gt;
+&lt;p&gt;There were also some updates and bug fixes to D support in &lt;a href=&quot;http://swig.org&quot;&gt;&lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt;&lt;/a&gt;, most notably support for the &lt;a href=&quot;http://swig.org/Doc2.0/D.html#D_nspace&quot;&gt;nspace feature&lt;/a&gt;, which allows you to map C++ namespaces to D packages/modules (it doesn&amp;#8217;t work for free functions and global variables yet, but this is a general &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; restriction that could be easily lifted, just ask me if you need it). There was another &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; release in the meantime, version 2.0.3, but it was only a »quick backup« by the maintainer before he merged some intrusive Python changes. I was caught pretty much off-guard by it and had no time for real testing and thus, it contains some bugs (mainly related to nspace support when split-proxy mode is not activated, thanks to Jonathan Pfau for the reports) – please use &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; trunk instead.&lt;/p&gt;
+&lt;p&gt;Another little project I recently worked on is &lt;a href=&quot;/code/units/&quot;&gt;std.units&lt;/a&gt;, an units of measurement implementation for D. This topic came up several times on the NG previously, and every time it was suggested to add units support with Phobos, so I have merged the work into my Phobos fork. Please note, however, that this is in no way a formal review request yet. There are still a couple of items left on my to-do list, but before I am tackling the remaining issues, I&amp;#8217;d greatly appreciate some feedback (see the thread on the D newsgroup, &lt;a href=&quot;http://www.digitalmars.com/webnews/newsgroups.php?art_group=digitalmars.D&amp;amp;article_id=134590&quot; title=&quot;Phobos?&quot;&gt;&lt;span class=&quot;caps&quot;&gt;RFC&lt;/span&gt;: Units of measurement for D&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Finally, a personal note: Yesterday, I received notice that I was accepted to work on my &lt;a href=&quot;/code/gsoc/thrift&quot;&gt;Apache Thrift project&lt;/a&gt; under the umbrella of Digital Mars as part of the &lt;a href=&quot;http://www.google-melange.com/gsoc/homepage/google/gsoc2011&quot;&gt;Google Summer of Code 2011&lt;/a&gt; – thanks a lot to everybody who supported my proposals for their trust in me! I know that the expectations are high, and will do my very best to live up to them.&lt;/p&gt;</content>
+ </entry>
+ 
+</feed>

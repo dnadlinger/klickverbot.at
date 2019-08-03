@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.transport.ssl</title>
+  <link href="css/docstyle.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.transport.ssl">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.transport.ssl"><a href="htmlsrc/thrift.transport.ssl.html" class="symbol">thrift.transport.ssl</a></h1>
+
+<div class="summary"><div class="cmnt">OpenSSL socket implementation, in large parts ported from C++.</div></div>
+<dl>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TSSLSocket" href="htmlsrc/thrift.transport.ssl.html#L49">TSSLSocket</a> : <span class="bclass">TSocket</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.transport.ssl.html#TSSLSocket" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">SSL encrypted socket implementation using OpenSSL.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TSSLSocket.this" href="htmlsrc/thrift.transport.ssl.html#L58">this</a><span class="params">(TSSLContext <em>context</em>, Socket <em>socket</em>)</span> <a href="thrift.transport.ssl.html#TSSLSocket.this" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Creates an instance that wraps an already created, connected (!) socket.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>context</em></td><td>The SSL socket context to use. A reference to it is stored so
+     that it doesn't get cleaned up while the socket is used.</td></tr>
+<tr><td><em>socket</em></td><td>Already created, connected socket object.</td></tr></table></dd>
+<dt class="decl"><a class="symbol _ctor" name="TSSLSocket.this:2" href="htmlsrc/thrift.transport.ssl.html#L75">this</a><span class="params">(TSSLContext <em>context</em>, string <em>host</em>, ushort <em>port</em>)</span> <a href="thrift.transport.ssl.html#TSSLSocket.this:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Creates a new unconnected socket that will connect to the given host
+ on the given port.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>context</em></td><td>The SSL socket context to use. A reference to it is stored so
+     that it doesn't get cleaned up while the socket is used.</td></tr>
+<tr><td><em>host</em></td><td>Remote host.</td></tr>
+<tr><td><em>port</em></td><td>Remote port.</td></tr></table></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TSSLSocket.serverSide" href="htmlsrc/thrift.transport.ssl.html#L182">serverSide</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.transport.ssl.html#TSSLSocket.serverSide" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSSLSocket.serverSide:2" href="htmlsrc/thrift.transport.ssl.html#L187">serverSide</a><span class="params">(bool <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.transport.ssl.html#TSSLSocket.serverSide:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether to use client or server side SSL handshake protocol.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSSLSocket.accessManager" href="htmlsrc/thrift.transport.ssl.html#L194">accessManager</a><span class="params">(TAccessManager <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.transport.ssl.html#TSSLSocket.accessManager" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The access manager to use.</div></div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TSSLContext" href="htmlsrc/thrift.transport.ssl.html#L231">TSSLContext</a> <a href="thrift.transport.ssl.html#TSSLContext" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Represents an OpenSSL context with certification settings, etc. and handles
+ initialization/teardown.</div></div>
+<div class="cmnt">OpenSSL is initialized when the first instance of this class is created
+ and shut down when the last one is destroyed (thread-safe).</div>
+<dl>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSSLContext.ciphers" href="htmlsrc/thrift.transport.ssl.html#L268">ciphers</a><span class="params">(string <em>enable</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.transport.ssl.html#TSSLContext.ciphers" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Ciphers to be used in SSL handshake process.</div></div>
+<div class="cmnt">The string must be in the colon-delimited OpenSSL notation described in
+ ciphers(1), for example: "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH".</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSSLContext.authenticate" href="htmlsrc/thrift.transport.ssl.html#L278">authenticate</a><span class="params">(bool <em>required</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.transport.ssl.html#TSSLContext.authenticate" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether peer is required to present a valid certificate.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSSLContext.loadCertificate" href="htmlsrc/thrift.transport.ssl.html#L297">loadCertificate</a><span class="params">(string <em>path</em>, string <em>format</em> = <span class="defval"><span class="sl">"PEM"</span></span>)</span> <a href="thrift.transport.ssl.html#TSSLContext.loadCertificate" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Load server certificate.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>Path to the certificate file.</td></tr>
+<tr><td><em>format</em></td><td>Certificate file format. Defaults to PEM, which is currently
+     the only one supported.</td></tr></table></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSSLContext.loadTrustedCertificates" href="htmlsrc/thrift.transport.ssl.html#L343">loadTrustedCertificates</a><span class="params">(string <em>path</em>)</span> <a href="thrift.transport.ssl.html#TSSLContext.loadTrustedCertificates" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Load trusted certificates from specified file (in PEM format).</div></div>
+<div class="cmnt">Params.
+   path = Path to the file containing the trusted certificates.</div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSSLContext.randomize" href="htmlsrc/thrift.transport.ssl.html#L361">randomize</a><span class="params">()</span> <a href="thrift.transport.ssl.html#TSSLContext.randomize" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Called during OpenSSL initialization to seed the OpenSSL entropy pool.</div></div>
+<div class="cmnt">Defaults to simply calling RAND_poll(), but it can be overwritten if a
+ different, perhaps more secure implementation is desired.</div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TSSLContext.serverSide" href="htmlsrc/thrift.transport.ssl.html#L368">serverSide</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.transport.ssl.html#TSSLContext.serverSide" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSSLContext.serverSide:2" href="htmlsrc/thrift.transport.ssl.html#L373">serverSide</a><span class="params">(bool <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.transport.ssl.html#TSSLContext.serverSide:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether to use client or server side SSL handshake protocol.</div></div></dd>
+<dt class="decl"><span class="rettyp">TAccessManager</span> <a class="symbol _function" name="TSSLContext.accessManager" href="htmlsrc/thrift.transport.ssl.html#L380">accessManager</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.transport.ssl.html#TSSLContext.accessManager" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSSLContext.accessManager:2" href="htmlsrc/thrift.transport.ssl.html#L388">accessManager</a><span class="params">(TAccessManager <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.transport.ssl.html#TSSLContext.accessManager:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The access manager to use.</div></div></dd>
+<dt class="decl"><span class="rettyp">string</span> <a class="symbol _function" name="TSSLContext.getPassword" href="htmlsrc/thrift.transport.ssl.html#L408">getPassword</a><span class="params">(int <em>size</em>)</span> <span class="attrs">[<span class="prot">protected</span>, <span class="stc">nothrow</span>]</span> <a href="thrift.transport.ssl.html#TSSLContext.getPassword" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Override this method for custom password callback. It may be called
+ multiple times at any time during a session as necessary.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>size</em></td><td>Maximum length of password, including null byte.</td></tr></table></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TSSLContext.overrideDefaultPasswordCallback" href="htmlsrc/thrift.transport.ssl.html#L418">overrideDefaultPasswordCallback</a><span class="params">()</span> <span class="attrs">[<span class="prot">protected</span>]</span> <a href="thrift.transport.ssl.html#TSSLContext.overrideDefaultPasswordCallback" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Notifies OpenSSL to use getPassword() instead of the default password
+ callback with getPassword().</div></div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TAccessManager" href="htmlsrc/thrift.transport.ssl.html#L539">TAccessManager</a> <a href="thrift.transport.ssl.html#TAccessManager" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Decides whether a remote host is legitimate or not.</div></div>
+<div class="cmnt">It is usually set at a TSSLContext, which then passes it to all the created
+ TSSLSockets.</div>
+<dl>
+<dt class="decl"><span class="kw">enum</span> <a class="symbol _enum" name="TAccessManager.Decision" href="htmlsrc/thrift.transport.ssl.html#L541">Decision</a> <a href="thrift.transport.ssl.html#TAccessManager.Decision" class="plink">¶</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="TAccessManager.Decision.DENY" href="htmlsrc/thrift.transport.ssl.html#L542">DENY</a> <a href="thrift.transport.ssl.html#TAccessManager.Decision.DENY" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Deny access.</div></div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TAccessManager.Decision.SKIP" href="htmlsrc/thrift.transport.ssl.html#L543">SKIP</a> <a href="thrift.transport.ssl.html#TAccessManager.Decision.SKIP" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Cannot decide, move on to next check (deny if last).</div></div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TAccessManager.Decision.ALLOW" href="htmlsrc/thrift.transport.ssl.html#L544">ALLOW</a> <a href="thrift.transport.ssl.html#TAccessManager.Decision.ALLOW" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Allow access.</div></div></dd></dl></dd>
+<dt class="decl"><span class="rettyp">Decision</span> <a class="symbol _function" name="TAccessManager.verify" href="htmlsrc/thrift.transport.ssl.html#L557">verify</a><span class="params">(Address <em>address</em>)</span> <a href="thrift.transport.ssl.html#TAccessManager.verify" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Determines whether a peer should be granted access or not based on its
+ IP address.</div></div>
+<div class="cmnt">Called once after SSL handshake is completes successfully and before peer
+ certificate is examined.
+<p class="bl"></p>
+ If a valid decision (ALLOW or DENY) is returned, the peer certificate
+ will not be verified.</div></dd>
+<dt class="decl"><span class="rettyp">Decision</span> <a class="symbol _function" name="TAccessManager.verify:2" href="htmlsrc/thrift.transport.ssl.html#L572">verify</a><span class="params">(string <em>host</em>, const(char)[] <em>certHost</em>)</span> <a href="thrift.transport.ssl.html#TAccessManager.verify:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Determines whether a peer should be granted access or not based on a
+ name from its certificate.</div></div>
+<div class="cmnt">Called every time a DNS subjectAltName/common name is extracted from the
+ peer's certificate.</div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>host</em></td><td>The actual host name string from the socket connection.</td></tr>
+<tr><td><em>certHost</em></td><td>A host name string from the certificate.</td></tr></table></dd>
+<dt class="decl"><span class="rettyp">Decision</span> <a class="symbol _function" name="TAccessManager.verify:3" href="htmlsrc/thrift.transport.ssl.html#L587">verify</a><span class="params">(Address <em>address</em>, ubyte[] <em>certAddress</em>)</span> <a href="thrift.transport.ssl.html#TAccessManager.verify:3" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Determines whether a peer should be granted access or not based on an IP
+ address from its certificate.</div></div>
+<div class="cmnt">Called every time an IP subjectAltName is extracted from the peer's
+ certificate.</div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>address</em></td><td>The actual address from the socket connection.</td></tr>
+<tr><td><em>certHost</em></td><td>A host name string from the certificate.</td></tr></table></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TDefaultClientAccessManager" href="htmlsrc/thrift.transport.ssl.html#L596">TDefaultClientAccessManager</a> : <span class="bclass">TAccessManager</span> <a href="thrift.transport.ssl.html#TDefaultClientAccessManager" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Default access manager implementation, which just checks the host name
+ resp. IP address of the connection against the certificate.</div></div>
+</dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TSSLException" href="htmlsrc/thrift.transport.ssl.html#L663">TSSLException</a> : <span class="bclass">TTransportException</span> <a href="thrift.transport.ssl.html#TSSLException" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">SSL-level exception.</div></div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TSSLException.this" href="htmlsrc/thrift.transport.ssl.html#L665">this</a><span class="params">(string <em>msg</em>, string <em>file</em> = <span class="defval"><span class="st">__FILE__</span></span>, size_t <em>line</em> = <span class="defval"><span class="st">__LINE__</span></span>, Throwable <em>next</em> = <span class="defval"><span class="k">null</span></span>)</span> <a href="thrift.transport.ssl.html#TSSLException.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd></dl></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/dnadlinger/dil">dil</a> on Wed Feb  8 23:47:30 2012.</p>
+</div>
+</div>
+</body>
+</html>

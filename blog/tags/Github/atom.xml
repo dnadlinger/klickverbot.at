@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>David Nadlinger</title>
+ <link href="http://klickverbot.at/blog/tags/Github/atom.xml" rel="self"/>
+ <link href="http://klickverbot.at/"/>
+ <updated>2019-08-03T18:16:12+01:00</updated>
+ <id>http://klickverbot.at/blog/tags/Github/</id>
+ <author>
+   <name>David Nadlinger</name>
+   <email>atom@klickverbot.at</email>
+ </author>
+
+ 
+ <entry>
+   <title>Git on Windows</title>
+   <link href="http://klickverbot.at/blog/2008/10/git-on-windows/"/>
+   <updated>2008-10-12T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2008/10/git-on-windows</id>
+   <content type="html">&lt;p&gt;Just found &lt;a href=&quot;http://kylecordes.com/2008/04/30/git-windows-go/&quot;&gt;an excellent writeup&lt;/a&gt; by Kyle Cordes about using Git on Windows.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Getting started with git</title>
+   <link href="http://klickverbot.at/blog/2008/08/getting-started-with-git/"/>
+   <updated>2008-08-02T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2008/08/getting-started-with-git</id>
+   <content type="html">&lt;p&gt;Recently, I decided to have a look at the revision control system &lt;a href=&quot;http://git-scm.com&quot;&gt;Git&lt;/a&gt; and the »social code hosting service« &lt;a href=&quot;http://github.com&quot;&gt;GitHub&lt;/a&gt;, which is currently hyped in large parts of the open source community (git is used for the Linux kernel, Ruby on Rails, &amp;#8230;). At first, I felt pretty overwhelmed, because the differences to other SCMs like Subversion were bigger than I had expected. But now, having read the excellent blog post &lt;a href=&quot;http://b.lesseverything.com/2008/3/25/got-git-howto-git-and-github&quot;&gt;Got git?&lt;/a&gt; by Steven Bristol, I am starting to understand the concepts and the motivation behind it.&lt;/p&gt;
+&lt;p&gt;Frankly, I am still not quite sure if the &amp;#8220;doing it distributed&amp;#8221; paradigm will really establish itself in everyday coding work, but for open source projects git looks very promising at least.&lt;/p&gt;</content>
+ </entry>
+ 
+</feed>

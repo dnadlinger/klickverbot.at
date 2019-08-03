@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>David Nadlinger</title>
+ <link href="http://klickverbot.at/blog/tags/Mercurial/atom.xml" rel="self"/>
+ <link href="http://klickverbot.at/"/>
+ <updated>2019-08-03T18:16:12+01:00</updated>
+ <id>http://klickverbot.at/blog/tags/Mercurial/</id>
+ <author>
+   <name>David Nadlinger</name>
+   <email>atom@klickverbot.at</email>
+ </author>
+
+ 
+ <entry>
+   <title>git reset using Mercurial</title>
+   <link href="http://klickverbot.at/blog/2011/01/git-reset-using-mercurial/"/>
+   <updated>2011-01-09T00:00:00+00:00</updated>
+   <id>http://klickverbot.at/blog/2011/01/git-reset-using-mercurial</id>
+   <content type="html">&lt;p&gt;I am mainly a &lt;a href=&quot;http://git-scm.com&quot;&gt;Git&lt;/a&gt; user, but lately I have been working with &lt;a href=&quot;http://mercurial.selenic.com/&quot;&gt;Mercurial&lt;/a&gt; from time to time. I have been mostly using it for basic committing though, so I still occasionally end up with a commit I did not mean to create like this when performing more advanced operations. But undoing that can&amp;#8217;t be too hard, right?&lt;/p&gt;
+&lt;p&gt;For example, I recently toyed around with &lt;a href=&quot;http://mercurial.selenic.com/wiki/MqExtension&quot;&gt;Mercurial Queues&lt;/a&gt; to emulate Git&amp;#8217;s staging area, one of the features that seem trivial, but which you don&amp;#8217;t want to miss at any cost once you are used to it. Doing so, while being at, let&amp;#8217;s say, revision &lt;code&gt;1000&lt;/code&gt;, I accidentally created two changesets, &lt;code&gt;1001&lt;/code&gt; and &lt;code&gt;1002&lt;/code&gt;. Now, how do I get rid of these while still keeping the contents of them in the working copy? Using Git, this would just be &lt;code&gt;git reset HEAD~2&lt;/code&gt;. But unfortunately, Mercurial seems to make your life somewhat hard in this case, this is what I came up with (please leave me a message in the comments in case I missed an easier way):&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;hg update -r1000&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;This sets the working copy to the last »good« revision, only to …&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;hg revert &amp;#8212;all -r1002&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;… bring the changes from the two commits back to the working copy (but without committing them this time), so we can now …&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;hg strip &amp;#8212;force 1001&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;… strip the two changesets from the history.&lt;/p&gt;
+&lt;p&gt;I am perfectly aware of the fact that any other &lt;span class=&quot;caps&quot;&gt;SCM&lt;/span&gt; tool will probably seem clumsy at first if I am used to Git (besides the fact that Git seems to be a natural fit for the way I think about versioning), but I still wonder whether there a deeper reason for Mercurial not to support this more directly.&lt;/p&gt;</content>
+ </entry>
+ 
+</feed>

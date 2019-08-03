@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>David Nadlinger</title>
+ <link href="http://klickverbot.at/blog/tags/Konsole/atom.xml" rel="self"/>
+ <link href="http://klickverbot.at/"/>
+ <updated>2019-08-03T18:16:12+01:00</updated>
+ <id>http://klickverbot.at/blog/tags/Konsole/</id>
+ <author>
+   <name>David Nadlinger</name>
+   <email>atom@klickverbot.at</email>
+ </author>
+
+ 
+ <entry>
+   <title>KDE Konsole corruption when Compiz is active</title>
+   <link href="http://klickverbot.at/blog/2008/09/kde-konsole-corruption-when-compiz-is-active/"/>
+   <updated>2008-09-03T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2008/09/kde-konsole-corruption-when-compiz-is-active</id>
+   <content type="html">&lt;p&gt;On my laptop I&amp;#8217;m currently running Kubuntu 8.04 (Hardy Heron). For additional eye candy goodness I am using the &lt;code&gt;compiz-fusion&lt;/code&gt; package from the Kubuntu repositories. Surprisingly, even on the laptop hardware (Asus V1S) everything went smooth out of the box – I could even manage to find some drivers for the webcam and for the finger print scanner.&lt;/p&gt;
+&lt;p&gt;Well, everything worked fine except for one little detail: When I had an active Konsole session on one cube face, for example a log file, and continued to work on another side of the cube, the Konsole output would often be broken when I switched back to it. It would look as if the output had been scrolled, but the non-scrolled output hadn&amp;#8217;t been cleared from the window. This problem could be fixed by forcing the window to refresh, e.g. by switching to another (Konsole) tab.&lt;/p&gt;
+&lt;p&gt;In their 169.XX driver series, nVidia added a config option called &lt;code&gt;UseCompositeWrapper&lt;/code&gt;, which can help to sort out this kind of redraw problems. Fortunately, enabling this via adding the following line to the &lt;code&gt;Device&lt;/code&gt; section of my &lt;code&gt;xorg.conf&lt;/code&gt; was enough to solve the problem:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Option &quot;UseCompositeWrapper&quot; &quot;true&quot;
+&lt;/code&gt;&lt;/pre&gt;</content>
+ </entry>
+ 
+</feed>

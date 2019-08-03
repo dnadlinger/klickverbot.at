@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>David Nadlinger</title>
+ <link href="http://klickverbot.at/blog/tags/FPGA/atom.xml" rel="self"/>
+ <link href="http://klickverbot.at/"/>
+ <updated>2019-08-03T18:16:12+01:00</updated>
+ <id>http://klickverbot.at/blog/tags/FPGA/</id>
+ <author>
+   <name>David Nadlinger</name>
+   <email>atom@klickverbot.at</email>
+ </author>
+
+ 
+ <entry>
+   <title>Testing Verilog AXI4-Lite Peripherals</title>
+   <link href="http://klickverbot.at/blog/2016/01/testing-verilog-axi4-lite-peripherals/"/>
+   <updated>2016-01-30T00:00:00+00:00</updated>
+   <id>http://klickverbot.at/blog/2016/01/testing-verilog-axi4-lite-peripherals</id>
+   <content type="html">&lt;p class=&quot;lead&quot;&gt;Chips that combine one or more processor cores and FPGA fabric into one integrated system have become quite popular recently, the most well-known product being Xilinx’ ARM-based &lt;a href=&quot;http://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html&quot;&gt;&lt;em&gt;Zynq&lt;/em&gt;&lt;/a&gt; series. The standardized AXI buses connecting them make it trivial to bring custom IP cores into the processor address space. This post describes how to interface with it from a standalone Verilog test-bench.&lt;/p&gt;
+
+&lt;p&gt;The popularity these combined systems-on-a-chip have been enjoying lately in research labs is certainly in part due to the ease in which programmable logic can be connected to the CPU cores, as compared to having to design and implement an interface between a discrete ARM processor and a stand-alone FPGA chip. This is due to the fact that the Zynq chips feature several internal interconnects between the ARM cores and the programmable logic fabric (including access to the DDR system memory and cache coherency control). These buses follow ARM’s open AMBA AXI4 standard, which is available in several flavors: the base &lt;em&gt;AXI4&lt;/em&gt; protocol, which defines a high-performance memory-mapped interface, &lt;em&gt;AXI4-Stream&lt;/em&gt;, which realizes a unidirectional data flow with handshaking, and &lt;em&gt;AXI4-Lite&lt;/em&gt;, which is similar to AXI4 but lacks advanced features like buffering, multiple widths and bursts. Each given device implementing one of these protocols can act as either a master or a slave.&lt;/p&gt;
+
+&lt;p&gt;Here, we will concern ourselves only with perhaps the simplest case, an AXI4-Lite slave. A typical example for this would be a low-bandwidth control channel from the ARM CPU to a custom IP core. Implementing such a device is quite easy as the Xilinx development environment includes tooling to generate the code for interfacing with the AXI bus (although it seems that, compared to the average programmer, FPGA designers lack any sensibility for writing &lt;em&gt;pretty&lt;/em&gt; or even just consistently formatted code). But of course, this leaves the question of how to verify that the IP core reacts correctly to these commands – as it is usually the case for HDL design, you certainly don’t want to run the time-consuming synthesis process and re-flash the hardware on every iteration in the debugging process, only to then find yourself in an environment where it is hard to diagnose errors anyway unless you had enough foresight to litter the code with ChipScope debug probes in all the right places.&lt;/p&gt;
+
+&lt;p&gt;These days, I use &lt;a href=&quot;http://iverilog.icarus.com/&quot;&gt;Icarus Verilog&lt;/a&gt; for most all of my simulation needs, except when some proprietary IP is involved for which no functional model is available outside the vendor tools. It is an open source project that provides a Verilog parser, optimizer and virtual machine, and together with a waveform viewer such as &lt;a href=&quot;xxx&quot;&gt;GtkWave&lt;/a&gt; makes for a nice light-weight testing environment. For small-ish projects, it tends to have already finished the simulation before the clunky and bug-ridden vendor tools such as Xilinx &lt;em&gt;isim&lt;/em&gt; would have even completed starting up.&lt;/p&gt;
+
+&lt;p&gt;Co-simulating the code to run on the ARM CPU and the FPGA design is certainly possible – maybe by using Verilator and piping data flow on the AXI buses back and forth between the domains, or by bringing out the “big guns”, i.e. system-level verification tools made by companies like Cadence. The most straightforward solution, however, is certainly to test the core in question in isolation, while just manually handling the necessary AXI communication in the test-bench.&lt;/p&gt;
+
+&lt;p&gt;Owing to the simplicity of the AXI4-Lite protocol, such functionality is not hard to implement. The “AMBA® AXI™ and ACE™ Protocol Specification” – available on the ARM website after logging in, and certainly floating around in other places as well – is quite clear and well-written. Interestingly, however, none of the templates provided by Xilinx seem to include the relevant pieces of HDL. So, without further ado, here is a Verilog task that reads a single word from the bus and compares it to the expected value:&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;automatic&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enforce_axi_read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;C_S_AXI_ADDR_WIDTH&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;C_S_AXI_DATA_WIDTH&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expected_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;begin&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_araddr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_arvalid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_rready&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s_axi_arready&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s_axi_rvalid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s_axi_rdata&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expected_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;begin&lt;/span&gt;
+      &lt;span class=&quot;nb&quot;&gt;$display&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Error: Mismatch in AXI4 read at %x: &amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&amp;quot;expected %x, received %x&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;expected_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s_axi_rdata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+    &lt;span class=&quot;p&quot;&gt;@(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;posedge&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s_axi_aclk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_arvalid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_rready&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;endtask&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;figcaption&gt;&lt;span&gt;Reading a word from the AXI4-Lite bus and comparing it to an expected result. &lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;All the &lt;code&gt;s_axi_…&lt;/code&gt; signals are supposed to be hooked up to the corresponding ports of the unit under tests, as they would be in an auto-generated test-bench module. To use it, simply insert &lt;code&gt;enforce_axi_read(&amp;lt;addr&amp;gt;, &amp;lt;data&amp;gt;);&lt;/code&gt; at the appropriate point in your test sequence.&lt;/p&gt;
+
+&lt;p&gt;In the same vein, the following task writes a data word to the given address:&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;automatic&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axi_write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;C_S_AXI_ADDR_WIDTH&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;C_S_AXI_DATA_WIDTH&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;begin&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_wdata&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_awaddr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_awvalid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_wvalid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s_axi_awready&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s_axi_wready&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;p&quot;&gt;@(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;posedge&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s_axi_aclk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_awvalid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s_axi_wvalid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;endtask&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;figcaption&gt;&lt;span&gt;Writing a word to the AXI4-Lite bus. &lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;As a final note, be aware that these tasks are not at all intended to verify the protocol-level implementation of the AXI interface itself. A verified boilerplate solution, such as the one auto-generated by the Xilinx tools, would be used most of the time anyway. However, it might be interesting to know that ARM offers a set of &lt;a href=&quot;http://infocenter.arm.com/help/topic/com.arm.doc.dui0534b/DUI0534B_amba_4_axi4_protocol_assertions_ug.pdf&quot;&gt;AXI 4 Protocol Assertion&lt;/a&gt; cores that can be inserted into the design to verify that the bus signalling conforms to the specification.&lt;/p&gt;
+</content>
+ </entry>
+ 
+</feed>

@@ -1,0 +1,17 @@
+["base",1,[],[1,229],[
+["TAsyncManager",4,[],[75,167],[
+["execute",12,[],[107,112],[]],
+["delay",12,[],[148,148],[]],
+["stop",12,[],[166,166],[]]]],
+["TAsyncTransport",4,[],[179,184],[
+["asyncManager",12,[29],[183,183],[]]]],
+["TAsyncSocketManager",4,[],[189,207],[
+["addOneshotListener",12,[],[201,202],[]],
+["addOneshotListener",12,[],[205,206],[]]]],
+["TAsyncEventType",9,[],[212,215],[
+["READ",10,[],[213,213],[]],
+["WRITE",10,[],[214,214],[]]]],
+["TSocketEventListener",7,[],[220,220],[]],
+["TAsyncEventReason",9,[],[225,228],[
+["NORMAL",10,[],[226,226],[]],
+["TIMED_OUT",10,[],[227,227],[]]]]]]

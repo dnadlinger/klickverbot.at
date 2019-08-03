@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>David Nadlinger</title>
+ <link href="http://klickverbot.at/blog/tags/LDC/atom.xml" rel="self"/>
+ <link href="http://klickverbot.at/"/>
+ <updated>2019-08-03T18:16:12+01:00</updated>
+ <id>http://klickverbot.at/blog/tags/LDC/</id>
+ <author>
+   <name>David Nadlinger</name>
+   <email>atom@klickverbot.at</email>
+ </author>
+
+ 
+ <entry>
+   <title>The State of LDC on Windows</title>
+   <link href="http://klickverbot.at/blog/2013/05/the-state-of-ldc-on-windows/"/>
+   <updated>2013-05-31T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2013/05/the-state-of-ldc-on-windows</id>
+   <content type="html">&lt;p class=&quot;lead&quot;&gt;LDC is one of the three major D compilers. It uses the same frontend as DMD, the reference implementation of the language, but leverages LLVM for optimization and code generation. While it has been stable on Linux and OS X for quite some time, support for the Windows operating system family was virtually non-existent so far. There have been substantial advances recently, and this post gives an overview of the current situation.&lt;/p&gt;
+
+&lt;p&gt;Before going on to discuss the present status, though, let me quickly answer the inevitable question: Why did it take so long? It is not that the importance of Windows as a target platform would not have been recognized by the D community (or the LDC contributors in particular). Instead, the reason for the lack on of a working Windows port was caused by the fact that LLVM itself did not support all the required operating system specific features.  Notably, exception handling was not implemented at all on Windows for a long time.&lt;/p&gt;
+
+&lt;p&gt;This applies to 32-bit variants of Windows (&lt;em&gt;Win32&lt;/em&gt;) as well as to the newer 64-bit operating systems (&lt;em&gt;Win64&lt;/em&gt;), but interestingly the reasons for this are completely different. In the latter case, the problem was just that nobody took the time to implement the (table-driven) Win64 exception handling scheme in the LLVM backend. This is not so surprising, as most of the big companies sponsoring LLVM development are not using LLVM on Windows, or in an application domain that does not require features such as native exception handling or thread-local storage support.&lt;/p&gt;
+
+&lt;p&gt;However, Kai Nacke has tackled this problem recently, among with a number of other LLVM issues blocking development of the Visual Studio-based Win64 port of LDC. A patch fixing the bulk of the bugs in the exception handling implementation is currently under review on the LLVM development mailing list, and Kai has &lt;a href=&quot;http://forum.dlang.org/post/vscpokspiejlckivqsuq@forum.dlang.org&quot;&gt;prepared a binary preview version of LDC&lt;/a&gt; with all the latest patches. For more information, you can also visit the &lt;a href=&quot;http://wiki.dlang.org/Building_and_hacking_LDC_on_Windows_using_MSVC&quot;&gt;Building and hacking LDC on Windows using MSVC&lt;/a&gt; page on the LDC wiki.&lt;/p&gt;
+
+&lt;p&gt;The rest of this post will discuss the situation specifically on Win32/MinGW. Here, the root problem is that Structured Exception Handling (&lt;em&gt;SEH&lt;/em&gt;), the default exception handling mechanism on 32-bit Windows, is covered by a &lt;a href=&quot;http://patft.uspto.gov/netacgi/nph-Parser?Sect1=PTO1&amp;amp;Sect2=HITOFF&amp;amp;d=PALL&amp;amp;p=1&amp;amp;u=%2Fnetahtml%2FPTO%2Fsrchnum.htm&amp;amp;r=1&amp;amp;f=G&amp;amp;l=50&amp;amp;s1=5,628,016.PN.&amp;amp;OS=PN/5,628,016&amp;amp;RS=PN/5,628,016&quot;&gt;Borland-held patent&lt;/a&gt;. It will not expire until next year, and while Borland seems to dismiss any related concerns, the GCC and LLVM projects have decided to not include an implementation of SEH in their compiler backends for fear of legal trouble.&lt;/p&gt;
+
+&lt;p&gt;Recently, however, support for DWARF 2-style exception handling appeared in GCC/MinGW. Here, the Windows-“native” SEH is forgone for the same table-based exception handling scheme that is also used on Linux.	The downside of this approach is obviously that it doesn’t integrate with SEH exceptions raised by the OS or other C libraries. But even if it is theoretically possible to catch those from D, this (DMD) feature isn’t really used widely, and as such virtually all D projects should be oblivious to the exception handling mechanism used under the hood.&lt;/p&gt;
+
+&lt;h2 id=&quot;status-overview&quot;&gt;Status Overview&lt;/h2&gt;
+
+&lt;p&gt;So, what can you expect from LDC on Win32/MinGW today? First, the good parts:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Exception handling&lt;/em&gt; works, and all the related test cases that also pass on the various Posixen also pass on Win32/MinGW. Why this qualification? Just like GDC, LDC unfortunately doesn’t implement all the fine details of D’s exception chaining mechanism on any platform yet.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Thread-local storage (TLS)&lt;/em&gt; support is solid. Seeing this item on the list might surprise you, as TLS is central to each and every D2 application. However, it regularly turns out to be a pain point when porting D to new platforms, as it is typically not so important for other native languages. Thus, the related parts of the toolchains are typically less well tested, and LLVM on MinGW unfortunately was no exception here. At this point, however, my fixes to TLS support have arrived in the upstream versions of both mingw-w64 and LLVM, so no custom patches are required any longer (this is also the reason why LDC requires a very recent version of both).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The &lt;em&gt;DMD, druntime and Phobos&lt;/em&gt; test suites mostly pass, and some smaller applications I tested build and work just fine. This notably includes most functionality associated with 80-bit &lt;code&gt;real&lt;/code&gt;s (aka &lt;code&gt;long double&lt;/code&gt;), which is notoriously problematic as the Microsoft Visual C/C++ runtime (&lt;em&gt;MSVCRT&lt;/em&gt;) does not support this type of floating point numbers at all.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;LDC is sufficiently ABI-compatible to DMD on 32-bit Windows that virtually all of the inline assembly code in druntime and Phobos works without changes. This only covers a surprisingly small part of the total ABI though, so even if DMD emitted COFF object files, it would still be a hopeless endeavor to try and link object files produced by the two compiles together, just as it is on the other operating systems.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now, for the less pleasant points:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;There are still a few issues related to floating-point math, particularly with complex 80-bit numbers. Single tests in &lt;code&gt;std.complex&lt;/code&gt;, &lt;code&gt;std.math&lt;/code&gt;, &lt;code&gt;std.mathspecial&lt;/code&gt; and &lt;code&gt;std.internal.math.gammafunction&lt;/code&gt;still fail, and &lt;code&gt;core.stdc.fenv&lt;/code&gt; is not implemented properly yet. It seems to be likely that most of these problems are again caused by functions lacking from MSVCRT respectively their MinGW replacements (one specific example is &lt;code&gt;fmodl&lt;/code&gt;, which seems to cause interesting ABI issues).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The &lt;code&gt;core.sys.windows.dll&lt;/code&gt; tests do not build, and while this would be easy to work around, DLL creation is entirely untested at this point.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;While MinGW theoretically supports COM, the &lt;code&gt;std.windows.iunknown&lt;/code&gt; tests do not link yet because of missing symbols. There is likely an easy fix, but interfacing with COM has not been tested at all.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;There are also still two rather disconcerting test failures in &lt;code&gt;core.time&lt;/code&gt; and &lt;code&gt;rt.util.container&lt;/code&gt; which have not been tracked down yet.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;LDC currently relies on using the MinGW &lt;code&gt;as&lt;/code&gt; for emitting object files, as the LLVM integrated assembler does not correctly support writing the DWARF exception handling tables yet. This is suboptimal, as it causes several issues with non-ASCII characters in symbol names and generally has a negative effect on compiler performance. It currently also causes an issue with building the &lt;code&gt;std.algorithm&lt;/code&gt; unit tests in debug mode, where the humongous symbol names (in the tens of kilo(!)bytes) overflow some &lt;code&gt;as&lt;/code&gt;-internal data structures.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;And most importantly, LDC/MinGW is still virtually untested on larger real-world applications. There will certainly be a number of bugs which have not been caught by any of the test suites.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h2&gt;
+
+&lt;p&gt;So, how to try out LDC on Windows? The easiest thing would be to just download the latest binary (preview) release. For this, first grab a &lt;em&gt;very recent&lt;/em&gt; mingw32-w64 snapshot, &lt;a href=&quot;http://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/rubenvb/gcc-4.8-dw2-release/i686-w64-mingw32-gcc-dw2-4.8.0-win32_rubenvb.7z/download&quot;&gt;such as this one&lt;/a&gt; (&lt;em&gt;rubenvb&lt;/em&gt; personal build, &lt;em&gt;.7z&lt;/em&gt;, ~27 MB) and extract it to an arbitrary location. It is important that you pick one built with Dwarf 2 exception handling enabled; when in doubt, just use the above one.&lt;/p&gt;
+
+&lt;p&gt;Then, download and extract the latest &lt;a href=&quot;http://d32gngvpvl2pi1.cloudfront.net/ldc2-0.11.0-beta3-mingw-x86.7z&quot;&gt;LDC binary release for MinGW&lt;/a&gt; (&lt;em&gt;.7z&lt;/em&gt;, ~8.5 MB). It is a “DMD-style” package that should work from any location without any extra installation steps. Before invoking LDC, you need to make sure that the MinGW &lt;code&gt;bin&lt;/code&gt; directory is on your path, though. This is easiest to achieve by starting a shell using &lt;code&gt;mingw32env.cmd&lt;/code&gt; in the MinGW root directory, or of course using a MSYS shell altogether.&lt;/p&gt;
+
+&lt;p&gt;If you prefer building LDC from source yourself, a guide on &lt;a href=&quot;http://wiki.dlang.org/Building_LDC_on_MinGW_x86&quot;&gt;building LDC on MinGW x86&lt;/a&gt; is available on the wiki. Any help with LDC/MinGW development would be very much appreciated!&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Random D development news</title>
+   <link href="http://klickverbot.at/blog/2011/04/random-d-development-news/"/>
+   <updated>2011-04-26T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2011/04/random-d-development-news</id>
+   <content type="html">&lt;p&gt;During the last couple of weeks, I didn&amp;#8217;t really find time to update this blog. Nevertheless, however, I was able to spare some time for work on a couple open source projects related to the &lt;a href=&quot;http://d-programming-language.org&quot;&gt;D programming language&lt;/a&gt;. But first, let me quickly summarize some great changes that will be in the next &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; release:&lt;/p&gt;
+&lt;p&gt;Don Clugston has basically &lt;a href=&quot;https://github.com/D-Programming-Language/dmd/pull/23&quot;&gt;re-implemented &lt;span class=&quot;caps&quot;&gt;CTFE&lt;/span&gt;&lt;/a&gt; to fix a whole slew of compile-time function execution bugs, among which is the dreaded &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=1330&quot;&gt;bug 1330&lt;/a&gt;. There are still some regressions compared to &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; 2.052 (like &lt;a href=&quot;http://lists.puremagic.com/pipermail/dmd-internals/2011-April/001448.html&quot;&gt;this one&lt;/a&gt;, which breaks QtD), but apart from those, it&amp;#8217;s a big step towards getting &lt;span class=&quot;caps&quot;&gt;CTFE&lt;/span&gt; out of the »experimental feature« category. The new architecture will also make implementing reference types easier, but this is still a long way off. Then next &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;/Phobos release will also include the new &lt;a href=&quot;http://cis.jhu.edu/~dsimcha/d/phobos/std_parallelism.html&quot;&gt;std.parallelism&lt;/a&gt; module by David Simcha, some GC optimizations and a large amount of other improvements (among which is the addition of the &lt;a href=&quot;https://github.com/D-Programming-Language/dmd/commit/2e261cd640e5266c569ad224ffbfe229a0315d97&quot;&gt;parent trait&lt;/a&gt;, so that QtD doesn&amp;#8217;t need a patched &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; any longer) – due to the GitHub migration and the larger part of x86_64 support being done, the perceived development speed in the core community really went up a notch.&lt;/p&gt;
+&lt;p&gt;As for my own (insignificant, compared to the above) contributions, I did some work on &lt;a href=&quot;http://dsource.org/projects/ldc&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;&lt;/a&gt; during the last few days, porting it to &lt;a href=&quot;http://llvm.org/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt; 2.9&lt;/a&gt; and bringing the front-end in sync with &lt;a href=&quot;http://digitalmars.com/d/1.0/changelog.html&quot;&gt;&lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; 1.067&lt;/a&gt; – you can find the changes in the default branch over at &lt;a href=&quot;https://bitbucket.org/lindquist/ldc&quot;&gt;Bitbucket&lt;/a&gt;. The &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; updates also contained some changes to the varargs &lt;span class=&quot;caps&quot;&gt;ABI&lt;/span&gt; on x86_64 and other areas of the runtime interface, which I didn&amp;#8217;t merge yet, because it would require an update to Tango as well. I am not aware of any regressions so far (see the &lt;a href=&quot;/code/ldc/&quot;&gt;DStress results&lt;/a&gt;), but feel free to ping me in case of any problems.&lt;/p&gt;
+&lt;p&gt;There were also some updates and bug fixes to D support in &lt;a href=&quot;http://swig.org&quot;&gt;&lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt;&lt;/a&gt;, most notably support for the &lt;a href=&quot;http://swig.org/Doc2.0/D.html#D_nspace&quot;&gt;nspace feature&lt;/a&gt;, which allows you to map C++ namespaces to D packages/modules (it doesn&amp;#8217;t work for free functions and global variables yet, but this is a general &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; restriction that could be easily lifted, just ask me if you need it). There was another &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; release in the meantime, version 2.0.3, but it was only a »quick backup« by the maintainer before he merged some intrusive Python changes. I was caught pretty much off-guard by it and had no time for real testing and thus, it contains some bugs (mainly related to nspace support when split-proxy mode is not activated, thanks to Jonathan Pfau for the reports) – please use &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; trunk instead.&lt;/p&gt;
+&lt;p&gt;Another little project I recently worked on is &lt;a href=&quot;/code/units/&quot;&gt;std.units&lt;/a&gt;, an units of measurement implementation for D. This topic came up several times on the NG previously, and every time it was suggested to add units support with Phobos, so I have merged the work into my Phobos fork. Please note, however, that this is in no way a formal review request yet. There are still a couple of items left on my to-do list, but before I am tackling the remaining issues, I&amp;#8217;d greatly appreciate some feedback (see the thread on the D newsgroup, &lt;a href=&quot;http://www.digitalmars.com/webnews/newsgroups.php?art_group=digitalmars.D&amp;amp;article_id=134590&quot; title=&quot;Phobos?&quot;&gt;&lt;span class=&quot;caps&quot;&gt;RFC&lt;/span&gt;: Units of measurement for D&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Finally, a personal note: Yesterday, I received notice that I was accepted to work on my &lt;a href=&quot;/code/gsoc/thrift&quot;&gt;Apache Thrift project&lt;/a&gt; under the umbrella of Digital Mars as part of the &lt;a href=&quot;http://www.google-melange.com/gsoc/homepage/google/gsoc2011&quot;&gt;Google Summer of Code 2011&lt;/a&gt; – thanks a lot to everybody who supported my proposals for their trust in me! I know that the expectations are high, and will do my very best to live up to them.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Installing DMD, LDC, Tango and DSSS on (K)Ubuntu Jaunty</title>
+   <link href="http://klickverbot.at/blog/2009/07/installing-dmd-ldc-tango-and-dsss-on-kubuntu-jaunty/"/>
+   <updated>2009-07-28T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2009/07/installing-dmd-ldc-tango-and-dsss-on-kubuntu-jaunty</id>
+   <content type="html">&lt;p&gt;For quite a while now, I am using the &lt;a href=&quot;http://en.wikipedia.org/wiki/D_(programming_language)&quot;&gt;D programming language&lt;/a&gt;, version 1 (I have not looked at D2 yet, it is said to be still rather unstable). Even though I like it very much for its syntactical quality and the language itself is reasonably mature, I must admit that setting up the toolchain correctly can still be a very cumbersome task to do, especially when you are new to D.&lt;/p&gt;
+&lt;p&gt;This post describes an installation routine that should provide you with a working D development environment containing &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;, &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;, Tango and &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt; on (K)Ubuntu Jaunty. Please note that it assumes your system to be »clean« – if you have already installed any D-related software, it is probably advisable to remove it completely to prevent any problems with, for instance, stale files. &lt;!--more--&gt;&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir -p ~/tmp&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
+&lt;br /&gt;
+wget http://ftp.digitalmars.com/dmd.1.050.zip&lt;br /&gt;
+unzip dmd.1.050.zip&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;dmd/linux/bin/&lt;br /&gt;
+chmod +x dmd dumpobj obj2asm rdmd&lt;br /&gt;
+sudo cp dmd dmd.conf dumpobj obj2asm rdmd /usr/local/bin/&lt;br /&gt;
+&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
+svn co http://svn.dsource.org/projects/tango/trunk tango&lt;br /&gt;
+&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;tango/&lt;br /&gt;
+sudo &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;dmd build/build.sh &amp;#8212;lib-install-dir /usr/local/lib&lt;br /&gt;
+sudo cp -rf user/object.di user/rt user/std user/tango /usr/local/include/d/&lt;br /&gt;
+&lt;br /&gt;
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;[Environment]\nDFLAGS=-I/usr/local/include/d -defaultlib=tango-base-dmd -debuglib=tango-base-dmd -L-ltango-user-dmd -version=Tango -version=Posix&amp;quot; &amp;gt; /usr/local/bin/dmd.conf&amp;#39;&lt;/span&gt;&lt;br /&gt;
+&lt;br /&gt;
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# dsss\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu jaunty main&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;&lt;br /&gt;
+sudo apt-get install dsss&lt;br /&gt;
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=dmd-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;You should now be able to build your D/Tango programs with &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; and &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;I would suggest giving &lt;a href=&quot;http://www.dsource.org/projects/ldc&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;&lt;/a&gt; at least a short glance, a fairly young compiler project which leverages &lt;a href=&quot;http://llvm.org/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt;&lt;/a&gt; as its code generating backend. It is maturing very quickly and allows you to make use of the various features the &lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt; compiler infrastructure provides, the most noticeable probably being its excellent optimization routines. Fortunately, there are current binary packages available at launchpad, so all that is needed to &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt; is:&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# ldc-daily\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu karmic main\ndeb http://archive.ubuntu.com/ubuntu karmic main universe&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;&lt;br /&gt;
+sudo apt-get update&lt;br /&gt;
+&lt;br /&gt;
+sudo apt-get install ldc-daily libtango-ldc-daily-dev&lt;br /&gt;
+&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
+wget -O ldc-posix-tango http://www.dsource.org/projects/ldc/browser/ldc-posix-tango?format&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;raw&lt;br /&gt;
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;sed &amp;quot;s:ldc.rebuild.conf:/etc/ldc/ldc.rebuild.conf:&amp;quot;  /etc/drebuild/ldc-posix-tango&amp;#39;&lt;/span&gt;&lt;br /&gt;
+&lt;br /&gt;
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=ldc-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;Note that the above commands install a daily snapshot of &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;, which I would recommend to use due to the currently fast development of &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;. In order not to break you Jaunty installation, please &lt;em&gt;&lt;strong&gt;do not forget&lt;/strong&gt; to comment out the official »karmic« repositories&lt;/em&gt; (which contain some dependencies for &lt;code&gt;ldc-daily&lt;/code&gt;) in your &lt;code&gt;/etc/apt/sources.list&lt;/code&gt; and run &lt;code&gt;apt-get update&lt;/code&gt; after the installation is completed.&lt;/p&gt;
+&lt;p&gt;Both compilers are set up to use Tango, do &lt;em&gt;not&lt;/em&gt; install Tango via &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;! If you want to switch compilers, just activate the corresponding profile in &lt;code&gt;/etc/drebuild/default&lt;/code&gt; and do not forget to rebuild any D libraries you might have compiled and installed with the old compiler (just run &lt;code&gt;dsss net install … &lt;/code&gt;for the ones you installed using &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;).&lt;/p&gt;
+&lt;p class=&quot;update&quot;&gt;Since I wrote this post, Tango received yet another big structural change to its codebase (amongst other changes, the core and user libraries have been merged). Now, you should use the supplied &lt;em&gt;»bob«&lt;/em&gt; tool now to build tango. Additionally, Karmic is now stable so you might have to adapt the &lt;span class=&quot;caps&quot;&gt;APT&lt;/span&gt; repository-related instructions.&lt;/p&gt;</content>
+ </entry>
+ 
+</feed>

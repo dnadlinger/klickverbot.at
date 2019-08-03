@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>David Nadlinger</title>
+ <link href="http://klickverbot.at/blog/tags/Ruby/atom.xml" rel="self"/>
+ <link href="http://klickverbot.at/"/>
+ <updated>2019-08-03T18:16:12+01:00</updated>
+ <id>http://klickverbot.at/blog/tags/Ruby/</id>
+ <author>
+   <name>David Nadlinger</name>
+   <email>atom@klickverbot.at</email>
+ </author>
+
+ 
+ <entry>
+   <title>Distributing Rails Applications</title>
+   <link href="http://klickverbot.at/blog/2008/06/distributing-rails-applications/"/>
+   <updated>2008-06-20T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2008/06/distributing-rails-applications</id>
+   <content type="html">&lt;p&gt;I just found &lt;a href=&quot;http://www.erikveen.dds.nl/distributingrubyapplications/rails.html&quot;&gt;this little tutorial&lt;/a&gt; on how to package your Rails application into a neat archive for showing it to your customers.&lt;/p&gt;
+&lt;p&gt;I guess it will come in quite handy for me in a few weeks because I am developing a small application for a friend of mine at the moment, who is not a developer, but wants to run the application locally on his Windows box.&lt;/p&gt;</content>
+ </entry>
+ 
+</feed>

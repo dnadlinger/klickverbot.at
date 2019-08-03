@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>David Nadlinger</title>
+ <link href="http://klickverbot.at/blog/tags/Sockets/atom.xml" rel="self"/>
+ <link href="http://klickverbot.at/"/>
+ <updated>2019-08-03T18:16:12+01:00</updated>
+ <id>http://klickverbot.at/blog/tags/Sockets/</id>
+ <author>
+   <name>David Nadlinger</name>
+   <email>atom@klickverbot.at</email>
+ </author>
+
+ 
+ <entry>
+   <title><code>getaddrinfo</code> cross-platform edge case behavior</title>
+   <link href="http://klickverbot.at/blog/2012/01/getaddrinfo-edge-case-behavior-on-windows-linux-and-osx/"/>
+   <updated>2012-01-31T00:00:00+00:00</updated>
+   <id>http://klickverbot.at/blog/2012/01/getaddrinfo-edge-case-behavior-on-windows-linux-and-osx</id>
+   <content type="html">&lt;p&gt;An often-needed piece of functionality in network programming is to resolve human-readable host or port names to their numerical equivalent, for example in order to pass the latter to operating system socket APIs. The &lt;code&gt;getaddrinfo&lt;/code&gt; function fills this role on POSIX and Windows. Apart from some flags, it accepts two string parameters for host and service (port) names and returns a list of corresponding IP addresses and port numbers, superseding the older &lt;code&gt;gethostbyname&lt;/code&gt; and &lt;code&gt;getservbyname&lt;/code&gt; functions.&lt;/p&gt;
+
+&lt;p&gt;Either of its string parameters is allowed to be &lt;code&gt;null&lt;/code&gt;, representing the local host/all interfaces (depending on whether &lt;code&gt;AI_PASSIVE&lt;/code&gt; is specified) and an automatically assigned port, respectively. Both parameters being &lt;code&gt;null&lt;/code&gt; at the same time, however, is disallowed by the specification, and leads to a &lt;code&gt;EAI_NONAME&lt;/code&gt; error on Posix or &lt;code&gt;WSAHOST_NOT_FOUND&lt;/code&gt; on Windows. What happens if the strings are empty (&lt;code&gt;&quot;\0&quot;&lt;/code&gt;) instead of &lt;code&gt;null&lt;/code&gt;, however, is left open by RFC 2553, and not really mentioned in the operating system API documentation either.&lt;/p&gt;
+
+&lt;p&gt;It turns out that there are quite a few differences there between the various operating systems, which is obviously likely to cause issues for &lt;a href=&quot;http://winehq.org&quot;&gt;Wine&lt;/a&gt; (an implementation of the Windows API on Posix/X systems). To get a clear understanding of how the different cases are handled, I put together a little &lt;a href=&quot;http://dlang.org&quot;&gt;D&lt;/a&gt; program which tests a few combinations of host name, port, and flag parameters (see end of post). The snippet could be written in C just the same, as &lt;code&gt;getAddressInfo&lt;/code&gt; directly maps to &lt;code&gt;getaddrinfo&lt;/code&gt;, I just chose D to avoid platform dependencies and writing an unduly large amount of more boilerplate code.&lt;/p&gt;
+
+&lt;p&gt;The results are summarized in the following table, where »loopback« means that the IP addresses returned were &lt;code&gt;127.0.0.1&lt;/code&gt; and &lt;code&gt;::1&lt;/code&gt;, »catchall« refers to &lt;code&gt;0.0.0.0&lt;/code&gt; and &lt;code&gt;::&lt;/code&gt;, »public« means that the actual IP addresses of all available network interfaces were returned, and &lt;code&gt;NONAME&lt;/code&gt; refers to a lookup error. »hostname« means that the actual fully qualified name of the host that ran the test was used (care: the host part of the FQDN only does usually &lt;em&gt;not&lt;/em&gt; resolve on OS X).&lt;/p&gt;
+
+&lt;figure&gt;
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Host&lt;/th&gt;
+        &lt;th&gt;Port&lt;/th&gt;
+        &lt;th&gt;Flags&lt;/th&gt;
+        &lt;th&gt;Windows&lt;/th&gt;
+        &lt;th&gt;Linux&lt;/th&gt;
+        &lt;th&gt;OS X&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;&lt;code&gt;null&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;null&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;catchall&lt;/td&gt;
+        &lt;td&gt;catchall&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;0&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;catchall&lt;/td&gt;
+        &lt;td&gt;catchall&lt;/td&gt;
+        &lt;td&gt;catchall&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;80&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;catchall&lt;/td&gt;
+        &lt;td&gt;catchall&lt;/td&gt;
+        &lt;td&gt;catchall&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;&lt;code&gt;&quot;&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;null&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;0&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;catchall&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;80&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NONAME&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;catchall&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;&lt;code&gt;&quot;localhost&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;null&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;0&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;80&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;loopback&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;hostname&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;null&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;0&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr class=&quot;odd&quot;&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&quot;80&quot;&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;-&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AI_PASSIVE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+        &lt;td&gt;loopback (v4)&lt;/td&gt;
+        &lt;td&gt;public&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+  &lt;figcaption&gt;&lt;code&gt;getaddrinfo()&lt;/code&gt; behavior on Windows Server 2008 R2, Arch Linux (Kernel 3.1.4, glibc 2.14.1), and OS X 10.7.2 (Lion).&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;What caused me to investigate the issue in the first place is the behavior when given an empty, non-null host string: Windows returns the public addresses of the present interfaces, while OS X resolves them to &lt;code&gt;::1&lt;/code&gt;/&lt;code&gt;::&lt;/code&gt;, but only if a port is given, and Linux doesn’t resolve them at all! Windows generally accepts the most combinations, returning an error only for the explicitly disallowed combination, which is relied on by some applications (e.g. the game &lt;em&gt;League of Legends&lt;/em&gt;).&lt;/p&gt;
+
+&lt;p&gt;There were also some less significant differences in behavior which are mostly not listed in the table. First, in both of the Linux VMs I tried (an up-to-date Arch box and Ubuntu Oneric), only the IPv4 address of the loopback interface was returned. Second, as in the test no address family, socket type or protocol hints were passed to &lt;code&gt;getaddrinfo()&lt;/code&gt;, each address was returned twice on OS X, once with &lt;code&gt;SOCK_STREAM&lt;/code&gt;/&lt;code&gt;IPPROTO_TCP&lt;/code&gt; and once with &lt;code&gt;SOCK_DGRAM&lt;/code&gt;/&lt;code&gt;IPPROTO_UDP&lt;/code&gt; set. Linux returned three copies of each address, for &lt;code&gt;STREAM&lt;/code&gt;, &lt;code&gt;DGRAM&lt;/code&gt; and &lt;code&gt;RAW&lt;/code&gt;, with the according protocol types set, whereas Windows only returned a single copy with protocol type &lt;code&gt;IPPROTO_IP&lt;/code&gt; and socket type set to 0.&lt;/p&gt;
+
+&lt;p&gt;In any case, as a result I have prepared a patch for Wine to emulate at least the succeeding/failing behavior of the Winsock incarnation of &lt;code&gt;getaddrinfo&lt;/code&gt; on Linux and OS X, which should solve the bigger part of the related problems. There ideally shouldn’t be any Windows software relying on details beyond that (such as the actual number/layout of addresses returned), but who knows…&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;algorithm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;conv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;alias&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AIF&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AddressInfoFlags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;localhost&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hostName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()])&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;80&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;cast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AIF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AIF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PASSIVE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;host&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;~&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;host&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;~&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;null&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;~&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;~&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;null&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; (&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;): &amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;getAddressInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;!((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;family&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;family&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;!(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; (&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;protocol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;, &amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;writeln&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;writefln&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[%s]&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;figcaption&gt;&lt;span&gt;D program used for gathering the data (longer than necessary for somewhat nicely formatted output). &lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+</content>
+ </entry>
+ 
+</feed>

@@ -1,0 +1,9 @@
+["http",1,[],[1,460],[
+["THttpTransport",3,[5],[43,293],[
+["HTTP_BUFFER_SIZE",11,[21],[123,123],[]]]],
+["TClientHttpTransport",3,[10],[298,368],[
+["this",17,[],[308,312],[]],
+["this",17,[],[323,325],[]]]],
+["TServerHttpTransport",3,[10],[373,417],[
+["this",17,[],[380,382],[]]]],
+["TServerHttpTransportFactory",7,[],[422,422],[]]]]

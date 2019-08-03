@@ -1,0 +1,15 @@
+["processor",1,[],[1,146],[
+["TProcessor",4,[],[38,51],[
+["process",12,[],[40,45],[]],
+["process",12,[10],[48,50],[]]]],
+["TProcessorEventHandler",4,[],[56,100],[
+["createContext",12,[],[63,63],[]],
+["deleteContext",12,[],[69,69],[]],
+["preRead",12,[],[74,74],[]],
+["postRead",12,[],[79,79],[]],
+["preWrite",12,[],[84,84],[]],
+["postWrite",12,[],[89,89],[]],
+["onewayComplete",12,[],[94,94],[]],
+["handlerError",12,[],[99,99],[]]]],
+["TSingletonProcessorFactory",3,[],[128,145],[
+["this",17,[],[135,137],[]]]]]]

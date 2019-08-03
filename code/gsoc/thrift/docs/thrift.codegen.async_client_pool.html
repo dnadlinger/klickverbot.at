@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.codegen.async_client_pool</title>
+  <link href="css/docstyle.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.codegen.async_client_pool">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.codegen.async_client_pool"><a href="htmlsrc/thrift.codegen.async_client_pool.html" class="symbol">thrift.codegen.async_client_pool</a></h1>
+
+<div class="summary"><div class="cmnt">Utilities for asynchronously querying multiple servers, building on
+ TAsyncClient.</div></div>
+<div class="cmnt">Terminology note: The names of the artifacts defined in this module are
+   derived from »client pool«, because they operate on a pool of
+   TAsyncClients. However, from a architectural point of view, they often
+   represent a pool of hosts a Thrift client application communicates with
+   using RPC calls.</div>
+<dl>
+<dt class="decl"><span class="kw">interface</span> <a class="symbol _interface" name="TAsyncClientPoolBase" href="htmlsrc/thrift.codegen.async_client_pool.html#L52">TAsyncClientPoolBase</a><span class="tparams">(<em>Interface</em>)</span> : <span class="bclass">TFutureInterface!Interface</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPoolBase" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Represents a generic client pool which implements TFutureInterface!Interface
+ using multiple TAsyncClients.</div></div>
+<dl>
+<dt class="decl"><span class="kw">alias</span> TAsyncClientBase!Interface <a class="symbol _alias" name="TAsyncClientPoolBase.Client" href="htmlsrc/thrift.codegen.async_client_pool.html#L56">Client</a> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPoolBase.Client" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Shorthand for the client type this pool operates on.</div></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncClientPoolBase.addClient" href="htmlsrc/thrift.codegen.async_client_pool.html#L61">addClient</a><span class="params">(Client <em>client</em>)</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPoolBase.addClient" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Adds a client to the pool.</div></div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TAsyncClientPoolBase.removeClient" href="htmlsrc/thrift.codegen.async_client_pool.html#L68">removeClient</a><span class="params">(Client <em>client</em>)</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPoolBase.removeClient" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Removes a client from the pool.</div></div>
+<p class="sec_header">Returns:</p><div class="cmnt">Whether the client was found in the pool.</div></dd>
+<dt class="decl"><span class="rettyp">bool delegate(Exception)</span> <a class="symbol _function" name="TAsyncClientPoolBase.rpcFaultFilter" href="htmlsrc/thrift.codegen.async_client_pool.html#L82">rpcFaultFilter</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPoolBase.rpcFaultFilter" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncClientPoolBase.rpcFaultFilter:2" href="htmlsrc/thrift.codegen.async_client_pool.html#L83">rpcFaultFilter</a><span class="params">(bool delegate(Exception))</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPoolBase.rpcFaultFilter:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Called to determine whether an exception comes from a client from the
+ pool not working properly, or if it an exception thrown at the
+ application level.</div></div>
+<div class="cmnt">If the delegate returns true, the server/connection is considered to be
+ at fault, if it returns false, the exception is just passed on to the
+ caller.
+<p class="bl"></p>
+ By default, returns true for instances of TTransportException and
+ TApplicationException, false otherwise.</div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TAsyncClientPoolBase.reopenTransports" href="htmlsrc/thrift.codegen.async_client_pool.html#L93">reopenTransports</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPoolBase.reopenTransports" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncClientPoolBase.reopenTransports:2" href="htmlsrc/thrift.codegen.async_client_pool.html#L94">reopenTransports</a><span class="params">(bool)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPoolBase.reopenTransports:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether to open the underlying transports of a client before trying to
+ execute a method if they are not open. This is usually desirable
+ because it allows e.g. to automatically reconnect to a remote server
+ if the network connection is dropped.</div></div>
+<div class="cmnt">Defaults to true.</div></dd></dl></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TAsyncClientPool" href="htmlsrc/thrift.codegen.async_client_pool.html#L126">TAsyncClientPool</a><span class="tparams">(<em>Interface</em>)</span> : <span class="bclass">TAsyncClientPoolBase!Interface</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPool" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A TAsyncClientPoolBase implementation which queries multiple servers in a
+ row until a request succeeds, the result of which is then returned.</div></div>
+<div class="cmnt">The definition of »success« can be customized using the rpcFaultFilter()
+ delegate property. If it is non-null and calling it for an exception set by
+ a failed method invocation returns true, the error is considered to be
+ caused by the RPC layer rather than the application layer, and the next
+ server in the pool is tried. If there are no more clients to try, the
+ operation is marked as failed with a TCompoundOperationException.
+<p class="bl"></p>
+ If a TAsyncClient in the pool fails with an RPC exception for a number of
+ consecutive tries, it is temporarily disabled (not tried any longer) for
+ a certain duration. Both the limit and the timeout can be configured. If all
+ clients fail (and keepTrying is false), the operation fails with a
+ TCompoundOperationException which contains the collected RPC exceptions.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TAsyncClientPool.this" href="htmlsrc/thrift.codegen.async_client_pool.html#L130">this</a><span class="params">(Client[] <em>clients</em>)</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPool.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TAsyncClientPool.keepTrying" href="htmlsrc/thrift.codegen.async_client_pool.html#L150">keepTrying</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPool.keepTrying" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncClientPool.keepTrying:2" href="htmlsrc/thrift.codegen.async_client_pool.html#L155">keepTrying</a><span class="params">(bool <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPool.keepTrying:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether to keep trying to find a working client if all have failed in a
+ row.</div></div>
+<div class="cmnt">Defaults to false.</div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TAsyncClientPool.permuteClients" href="htmlsrc/thrift.codegen.async_client_pool.html#L165">permuteClients</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPool.permuteClients" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncClientPool.permuteClients:2" href="htmlsrc/thrift.codegen.async_client_pool.html#L170">permuteClients</a><span class="params">(bool <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPool.permuteClients:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether to use a random permutation of the client pool on every call to
+ execute(). This can be used e.g. as a simple form of load balancing.</div></div>
+<div class="cmnt">Defaults to true.</div></dd>
+<dt class="decl"><span class="rettyp">ushort</span> <a class="symbol _function" name="TAsyncClientPool.faultDisableCount" href="htmlsrc/thrift.codegen.async_client_pool.html#L180">faultDisableCount</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPool.faultDisableCount" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncClientPool.faultDisableCount:2" href="htmlsrc/thrift.codegen.async_client_pool.html#L185">faultDisableCount</a><span class="params">(ushort <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPool.faultDisableCount:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The number of consecutive faults after which a client is disabled until
+ faultDisableDuration has passed. 0 to never disable clients.</div></div>
+<div class="cmnt">Defaults to 0.</div></dd>
+<dt class="decl"><span class="rettyp">Duration</span> <a class="symbol _function" name="TAsyncClientPool.faultDisableDuration" href="htmlsrc/thrift.codegen.async_client_pool.html#L195">faultDisableDuration</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPool.faultDisableDuration" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TAsyncClientPool.faultDisableDuration:2" href="htmlsrc/thrift.codegen.async_client_pool.html#L200">faultDisableDuration</a><span class="params">(Duration <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncClientPool.faultDisableDuration:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The duration for which a client is no longer considered after it has
+ failed too often.</div></div>
+<div class="cmnt">Defaults to one second.</div></dd></dl></dd>
+<dt class="decl"><span class="rettyp">TAsyncClientPool!Interface</span> <a class="symbol _function" name="tAsyncClientPool" href="htmlsrc/thrift.codegen.async_client_pool.html#L307">tAsyncClientPool</a><span class="tparams">(<em>Interface</em>)</span><span class="params">(TAsyncClientBase!Interface[] <em>clients</em>)</span> <a href="thrift.codegen.async_client_pool.html#tAsyncClientPool" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">TAsyncClientPool construction helper to avoid having to explicitly
+ specify the interface type, i.e. to allow the constructor being called
+ using IFTI (see <a href="http://d.puremagic.com/issues/show_bug.cgi?id=6082">D Bugzilla enhancement request 6082</a>).</div></div></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TAsyncFastestClientPool" href="htmlsrc/thrift.codegen.async_client_pool.html#L342">TAsyncFastestClientPool</a><span class="tparams">(<em>Interface</em>)</span> : <span class="bclass">TAsyncClientPoolBase!Interface</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.codegen.async_client_pool.html#TAsyncFastestClientPool" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">A TAsyncClientPoolBase implementation which queries multiple servers at
+ the same time and returns the first success response.</div></div>
+<div class="cmnt">The definition of »success« can be customized using the rpcFaultFilter()
+ delegate property. If it is non-null and calling it for an exception set by
+ a failed method invocation returns true, the error is considered to be
+ caused by the RPC layer rather than the application layer, and the next
+ server in the pool is tried. If all clients fail, the operation is marked
+ as failed with a TCompoundOperationException.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TAsyncFastestClientPool.this" href="htmlsrc/thrift.codegen.async_client_pool.html#L346">this</a><span class="params">(Client[] <em>clients</em>)</span> <a href="thrift.codegen.async_client_pool.html#TAsyncFastestClientPool.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><span class="rettyp">TAsyncFastestClientPool!Interface</span> <a class="symbol _function" name="tAsyncFastestClientPool" href="htmlsrc/thrift.codegen.async_client_pool.html#L392">tAsyncFastestClientPool</a><span class="tparams">(<em>Interface</em>)</span><span class="params">(TAsyncClientBase!Interface[] <em>clients</em>)</span> <a href="thrift.codegen.async_client_pool.html#tAsyncFastestClientPool" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">TAsyncFastestClientPool construction helper to avoid having to explicitly
+ specify the interface type, i.e. to allow the constructor being called
+ using IFTI (see <a href="http://d.puremagic.com/issues/show_bug.cgi?id=6082">D Bugzilla enhancement request 6082</a>).</div></div></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TAsyncAggregator" href="htmlsrc/thrift.codegen.async_client_pool.html#L643">TAsyncAggregator</a><span class="tparams">(<em>Interface</em>)</span> <a href="thrift.codegen.async_client_pool.html#TAsyncAggregator" class="plink">¶</a></dt>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TAsyncAggregator:2" href="htmlsrc/thrift.codegen.async_client_pool.html#L667">TAsyncAggregator</a><span class="tparams">(<em>Interface</em>)</span> : <span class="bclass">TAsyncAggregator!(BaseService!Interface)</span> <a href="thrift.codegen.async_client_pool.html#TAsyncAggregator:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Allows easily aggregating results from a number of TAsyncClients.</div></div>
+<div class="cmnt">Contrary to TAsync{Fallback, Fastest}ClientPool, this class does not
+ simply implement TFutureInterface!Interface. It manages a pool of clients,
+ but allows the user to specify a custom accumulator function to use or to
+ iterate over the results using a TFutureAggregatorRange.
+<p class="bl"></p>
+ For each service method, TAsyncAggregator offers a method
+ accepting the same arguments, and an optional TCancellation instance, just
+ like with TFutureInterface. The return type, however, is a proxy object
+ that offers the following methods:
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex1" name="L1_ex1">1</a>
+<a href="#L2_ex1" name="L2_ex1">2</a>
+<a href="#L3_ex1" name="L3_ex1">3</a>
+<a href="#L4_ex1" name="L4_ex1">4</a>
+<a href="#L5_ex1" name="L5_ex1">5</a>
+<a href="#L6_ex1" name="L6_ex1">6</a>
+<a href="#L7_ex1" name="L7_ex1">7</a>
+<a href="#L8_ex1" name="L8_ex1">8</a>
+<a href="#L9_ex1" name="L9_ex1">9</a>
+<a href="#L10_ex1" name="L10_ex1">10</a>
+<a href="#L11_ex1" name="L11_ex1">11</a>
+<a href="#L12_ex1" name="L12_ex1">12</a>
+<a href="#L13_ex1" name="L13_ex1">13</a>
+<a href="#L14_ex1" name="L14_ex1">14</a>
+<a href="#L15_ex1" name="L15_ex1">15</a>
+<a href="#L16_ex1" name="L16_ex1">16</a>
+<a href="#L17_ex1" name="L17_ex1">17</a>
+<a href="#L18_ex1" name="L18_ex1">18</a>
+<a href="#L19_ex1" name="L19_ex1">19</a>
+<a href="#L20_ex1" name="L20_ex1">20</a>
+<a href="#L21_ex1" name="L21_ex1">21</a>
+<a href="#L22_ex1" name="L22_ex1">22</a>
+<a href="#L23_ex1" name="L23_ex1">23</a>
+<a href="#L24_ex1" name="L24_ex1">24</a>
+<a href="#L25_ex1" name="L25_ex1">25</a>
+<a href="#L26_ex1" name="L26_ex1">26</a>
+<a href="#L27_ex1" name="L27_ex1">27</a>
+<a href="#L28_ex1" name="L28_ex1">28</a>
+<a href="#L29_ex1" name="L29_ex1">29</a>
+<a href="#L30_ex1" name="L30_ex1">30</a>
+<a href="#L31_ex1" name="L31_ex1">31</a>
+<a href="#L32_ex1" name="L32_ex1">32</a>
+<a href="#L33_ex1" name="L33_ex1">33</a>
+<a href="#L34_ex1" name="L34_ex1">34</a>
+<a href="#L35_ex1" name="L35_ex1">35</a>
+<a href="#L36_ex1" name="L36_ex1">36</a>
+<a href="#L37_ex1" name="L37_ex1">37</a>
+<a href="#L38_ex1" name="L38_ex1">38</a>
+<a href="#L39_ex1" name="L39_ex1">39</a>
+<a href="#L40_ex1" name="L40_ex1">40</a>
+<a href="#L41_ex1" name="L41_ex1">41</a>
+<a href="#L42_ex1" name="L42_ex1">42</a>
+<a href="#L43_ex1" name="L43_ex1">43</a>
+<a href="#L44_ex1" name="L44_ex1">44</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="nc">/++
+ + Returns a thrift.util.future.TFutureAggregatorRange for the results of
+ + the client pool method invocations.
+ +
+ + The [] (slicing) operator can also be used to obtain the range.
+ +
+ + Params:
+ +   timeout = A timeout to pass to the TFutureAggregatorRange constructor,
+ +     defaults to zero (no timeout).
+ +/</span>
+<span class="i">TFutureAggregatorRange</span>!<span class="i">ReturnType</span> <span class="i">range</span>(<span class="i">Duration</span> <span class="i">timeout</span> = <span class="i">dur</span>!<span class="sl">"hnsecs"</span>(<span class="n">0</span>));
+<span class="k">auto</span> <span class="i">opSlice</span>() { <span class="k">return</span> <span class="i">range</span>(); } <span class="lc">/// Ditto</span>
+
+<span class="nc">/++
+ + Returns a future that gathers the results from the clients in the pool
+ + and invokes a user-supplied accumulator function on them, returning its
+ + return value to the client.
+ +
+ + In addition to the TFuture!AccumulatedType interface (where
+ + AccumulatedType is the return type of the accumulator function), the
+ + returned object also offers two additional methods, finish() and
+ + finishGet(): By default, the accumulator functions is called after all
+ + the results from the pool clients have become available. Calling finish()
+ + causes the accumulator future to stop waiting for other results and
+ + immediately invoking the accumulator function on the results currently
+ + available. If all results are already available, finish() is a no-op.
+ + finishGet() is a convenience shortcut for combining it with
+ + a call to get() immediately afterwards, like waitGet() is for wait().
+ +
+ + The acc alias can point to any callable accepting either an array of
+ + return values or an array of return values and an array of exceptions;
+ + see isAccumulator!() for details. The default accumulator concatenates
+ + return values that can be concatenated with each others (e.g. arrays),
+ + and simply returns an array of values otherwise, failing with a
+ + TCompoundOperationException no values were returned.
+ +
+ + The accumulator function is not executed in any of the async manager
+ + worker threads associated with the async clients, but instead it is
+ + invoked when the actual result is requested for the first time after the
+ + operation has been completed. This also includes checking the status
+ + of the operation once it is no longer running, since the accumulator
+ + has to be run to determine whether the operation succeeded or failed.
+ +/</span>
+<span class="k">auto</span> <span class="i">accumulate</span>(<span class="k">alias</span> <span class="i">acc</span> = <span class="i">defaultAccumulator</span>)() <span class="k">if</span> (<span class="i">isAccumulator</span>!<span class="i">acc</span>);</pre>
+</td></tr>
+</table></div>
+<p class="sec_header">Example:</p><div class="cmnt"><table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex2" name="L1_ex2">1</a>
+<a href="#L2_ex2" name="L2_ex2">2</a>
+<a href="#L3_ex2" name="L3_ex2">3</a>
+<a href="#L4_ex2" name="L4_ex2">4</a>
+<a href="#L5_ex2" name="L5_ex2">5</a>
+<a href="#L6_ex2" name="L6_ex2">6</a>
+<a href="#L7_ex2" name="L7_ex2">7</a>
+<a href="#L8_ex2" name="L8_ex2">8</a>
+<a href="#L9_ex2" name="L9_ex2">9</a>
+<a href="#L10_ex2" name="L10_ex2">10</a>
+<a href="#L11_ex2" name="L11_ex2">11</a>
+<a href="#L12_ex2" name="L12_ex2">12</a>
+<a href="#L13_ex2" name="L13_ex2">13</a>
+<a href="#L14_ex2" name="L14_ex2">14</a>
+<a href="#L15_ex2" name="L15_ex2">15</a>
+<a href="#L16_ex2" name="L16_ex2">16</a>
+<a href="#L17_ex2" name="L17_ex2">17</a>
+<a href="#L18_ex2" name="L18_ex2">18</a>
+<a href="#L19_ex2" name="L19_ex2">19</a>
+<a href="#L20_ex2" name="L20_ex2">20</a>
+<a href="#L21_ex2" name="L21_ex2">21</a>
+<a href="#L22_ex2" name="L22_ex2">22</a>
+<a href="#L23_ex2" name="L23_ex2">23</a>
+<a href="#L24_ex2" name="L24_ex2">24</a>
+<a href="#L25_ex2" name="L25_ex2">25</a>
+<a href="#L26_ex2" name="L26_ex2">26</a>
+<a href="#L27_ex2" name="L27_ex2">27</a>
+<a href="#L28_ex2" name="L28_ex2">28</a>
+<a href="#L29_ex2" name="L29_ex2">29</a>
+<a href="#L30_ex2" name="L30_ex2">30</a>
+<a href="#L31_ex2" name="L31_ex2">31</a>
+<a href="#L32_ex2" name="L32_ex2">32</a>
+<a href="#L33_ex2" name="L33_ex2">33</a>
+<a href="#L34_ex2" name="L34_ex2">34</a>
+<a href="#L35_ex2" name="L35_ex2">35</a>
+<a href="#L36_ex2" name="L36_ex2">36</a>
+<a href="#L37_ex2" name="L37_ex2">37</a>
+<a href="#L38_ex2" name="L38_ex2">38</a>
+<a href="#L39_ex2" name="L39_ex2">39</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="lc">// Some Thrift service.</span>
+<span class="k">interface</span> <span class="i">Foo</span> {
+  <span class="k">int</span> <span class="i">foo</span>(<span class="i">string</span> <span class="i">name</span>);
+  <span class="k">byte</span>[] <span class="i">bar</span>();
+}
+
+<span class="lc">// Create the aggregator pool – client0, client1, client2 are some</span>
+<span class="lc">// TAsyncClient!Foo instances, but in theory could also be other</span>
+<span class="lc">// TFutureInterface!Foo implementations (e.g. some async client pool).</span>
+<span class="k">auto</span> <span class="i">pool</span> = <span class="k">new</span> <span class="i">TAsyncAggregator</span>!<span class="i">Foo</span>([<span class="i">client0</span>, <span class="i">client1</span>, <span class="i">client2</span>]);
+
+<span class="k">foreach</span> (<span class="i">val</span>; <span class="i">pool</span>.<span class="i">foo</span>(<span class="sl">"baz"</span>).<span class="i">range</span>(<span class="i">dur</span>!<span class="sl">"seconds"</span>(<span class="n">1</span>))) {
+  <span class="lc">// Process all the results that are available before a second has passed,</span>
+  <span class="lc">// in the order they arrive.</span>
+  <span class="i">writeln</span>(<span class="i">val</span>);
+}
+
+<span class="k">auto</span> <span class="i">sumRoots</span> = <span class="i">pool</span>.<span class="i">foo</span>(<span class="sl">"baz"</span>).<span class="i">accumulate</span>!((<span class="k">int</span>[] <span class="i">vals</span>, <span class="i">Exceptions</span>[] <span class="i">exs</span>){
+  <span class="k">if</span> (<span class="i">vals</span>.<span class="i">empty</span>) {
+    <span class="k">throw</span> <span class="k">new</span> <span class="i">TCompoundOperationException</span>(<span class="sl">"All clients failed"</span>, <span class="i">exs</span>);
+  }
+
+  <span class="lc">// Just to illustrate that the type of the values can change, convert the</span>
+  <span class="lc">// numbers to double and sum up their roots.</span>
+  <span class="k">double</span> <span class="i">result</span> = <span class="n">0</span>;
+  <span class="k">foreach</span> (<span class="i">v</span>; <span class="i">vals</span>) <span class="i">result</span> += <span class="i">sqrt</span>(<span class="k">cast</span>(<span class="k">double</span>)<span class="i">v</span>);
+  <span class="k">return</span> <span class="i">result</span>;
+})();
+
+<span class="lc">// Wait up to three seconds for the result, and then accumulate what has</span>
+<span class="lc">// arrived so far.</span>
+<span class="i">sumRoots</span>.<span class="i">completion</span>.<span class="i">wait</span>(<span class="i">dur</span>!<span class="sl">"seconds"</span>(<span class="n">3</span>));
+<span class="i">writeln</span>(<span class="i">sumRoots</span>.<span class="i">finishGet</span>());
+
+<span class="lc">// For scalars, the default accumulator returns an array of the values.</span>
+<span class="k">pragma</span>(<span class="i">msg</span>, <span class="k">typeof</span>(<span class="i">pool</span>.<span class="i">foo</span>(<span class="sl">""</span>).<span class="i">accumulate</span>().<span class="i">get</span>()); <span class="lc">// int[].</span>
+
+<span class="lc">// For lists, etc., it concatenates the results together.</span>
+<span class="k">pragma</span>(<span class="i">msg</span>, <span class="k">typeof</span>(<span class="i">pool</span>.<span class="i">bar</span>().<span class="i">accumulate</span>().<span class="i">get</span>())); <span class="lc">// byte[].</span></pre>
+</td></tr>
+</table></div>
+<p class="sec_header">Note:</p><div class="cmnt">For the accumulate!() interface, you might currently hit a »cannot use
+ local '…' as parameter to non-global template accumulate«-error, see
+ <a href="http://d.puremagic.com/issues/show_bug.cgi?id=5710">DMD issue 5710</a>. If your accumulator function does not need
+ to access the surrounding scope, you might want to use a function literal
+ instead of a delegate to avoid the issue.</div>
+<dl>
+<dt class="decl"><span class="kw">alias</span> TAsyncClientBase!Interface <a class="symbol _alias" name="TAsyncAggregator.Client" href="htmlsrc/thrift.codegen.async_client_pool.html#L645">Client</a> <a href="thrift.codegen.async_client_pool.html#TAsyncAggregator.Client" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Shorthand for the client type this instance operates on.</div></div></dd>
+<dt class="decl"><a class="symbol _ctor" name="TAsyncAggregator.this" href="htmlsrc/thrift.codegen.async_client_pool.html#L648">this</a><span class="params">(Client[] <em>clients</em>)</span> <a href="thrift.codegen.async_client_pool.html#TAsyncAggregator.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _variable" name="TAsyncAggregator.reopenTransports" href="htmlsrc/thrift.codegen.async_client_pool.html#L658">reopenTransports</a> <a href="thrift.codegen.async_client_pool.html#TAsyncAggregator.reopenTransports" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether to open the underlying transports of a client before trying to
+ execute a method if they are not open. This is usually desirable
+ because it allows e.g. to automatically reconnect to a remote server
+ if the network connection is dropped.</div></div>
+<div class="cmnt">Defaults to true.</div></dd></dl></dd>
+<dt class="decl"><span class="kw">template</span> <a class="symbol _template" name="isAccumulator" href="htmlsrc/thrift.codegen.async_client_pool.html#L698">isAccumulator</a><span class="tparams">(<em>ValueType</em>, <span class="kw">alias</span> <em>fun</em>)</span> <a href="thrift.codegen.async_client_pool.html#isAccumulator" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether fun is a valid accumulator function for values of type ValueType.</div></div>
+<div class="cmnt">For this to be true, fun must be a callable matching one of the following
+ argument lists:
+ <table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex3" name="L1_ex3">1</a>
+<a href="#L2_ex3" name="L2_ex3">2</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="i">fun</span>(<span class="i">ValueType</span>[] <span class="i">values</span>);
+<span class="i">fun</span>(<span class="i">ValueType</span>[] <span class="i">values</span>, <span class="i">Exception</span>[] <span class="i">exceptions</span>);</pre>
+</td></tr>
+</table>
+<p class="bl"></p>
+ The second version is passed the collected array exceptions from all the
+ clients in the pool.
+<p class="bl"></p>
+ The return value of the accumulator function is passed to the client (via
+ the result future). If it throws an exception, the operation is marked as
+ failed with the given exception instead.</div>
+</dd>
+<dt class="decl"><span class="rettyp">TAsyncAggregator!Interface</span> <a class="symbol _function" name="tAsyncAggregator" href="htmlsrc/thrift.codegen.async_client_pool.html#L708">tAsyncAggregator</a><span class="tparams">(<em>Interface</em>)</span><span class="params">(TAsyncClientBase!Interface[] <em>clients</em>)</span> <a href="thrift.codegen.async_client_pool.html#tAsyncAggregator" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">TAsyncAggregator construction helper to avoid having to explicitly
+ specify the interface type, i.e. to allow the constructor being called
+ using IFTI (see <a href="http://d.puremagic.com/issues/show_bug.cgi?id=6082">D Bugzilla enhancement request 6082</a>).</div></div></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/dnadlinger/dil">dil</a> on Wed Feb  8 23:47:28 2012.</p>
+</div>
+</div>
+</body>
+</html>

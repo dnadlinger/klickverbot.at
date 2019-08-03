@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.protocol.compact</title>
+  <link href="css/docstyle.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.protocol.compact">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.protocol.compact"><a href="htmlsrc/thrift.protocol.compact.html" class="symbol">thrift.protocol.compact</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TCompactProtocol" href="htmlsrc/thrift.protocol.compact.html#L33">TCompactProtocol</a><span class="tparams">(<em>Transport</em> = <span class="defval">TTransport</span>)</span> : <span class="bclass">TProtocol</span> <span class="attrs">[<span class="stc">final</span>]</span> <a href="thrift.protocol.compact.html#TCompactProtocol" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">D implementation of the Compact protocol.</div></div>
+<div class="cmnt">See THRIFT-110 for a protocol description. This implementation is based on
+ the C++ one.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TCompactProtocol.this" href="htmlsrc/thrift.protocol.compact.html#L46">this</a><span class="params">(Transport <em>trans</em>, int <em>containerSizeLimit</em> = <span class="defval"><span class="n">0</span></span>, int <em>stringSizeLimit</em> = <span class="defval"><span class="n">0</span></span>)</span> <a href="thrift.protocol.compact.html#TCompactProtocol.this" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Constructs a new instance.</div></div>
+<p class="sec_header">Parameters:</p>
+<table class="params">
+<tr><td><em>trans</em></td><td>The transport to use.</td></tr>
+<tr><td><em>containerSizeLimit</em></td><td>If positive, the container size is limited to the
+     given number of items.</td></tr>
+<tr><td><em>stringSizeLimit</em></td><td>If positive, the string length is limited to the
+     given number of bytes.</td></tr></table></dd>
+<dt class="decl">int <a class="symbol _variable" name="TCompactProtocol.containerSizeLimit" href="htmlsrc/thrift.protocol.compact.html#L73">containerSizeLimit</a> <a href="thrift.protocol.compact.html#TCompactProtocol.containerSizeLimit" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">If positive, limits the number of items of deserialized containers to the
+ given amount.</div></div>
+<div class="cmnt">This is useful to avoid allocating excessive amounts of memory when broken
+ data is received. If the limit is exceeded, a SIZE_LIMIT-type
+ TProtocolException is thrown.
+<p class="bl"></p>
+ Defaults to zero (no limit).</div></dd>
+<dt class="decl">int <a class="symbol _variable" name="TCompactProtocol.stringSizeLimit" href="htmlsrc/thrift.protocol.compact.html#L85">stringSizeLimit</a> <a href="thrift.protocol.compact.html#TCompactProtocol.stringSizeLimit" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">If positive, limits the length of deserialized strings/binary data to the
+ given number of bytes.</div></div>
+<div class="cmnt">This is useful to avoid allocating excessive amounts of memory when broken
+ data is received. If the limit is exceeded, a SIZE_LIMIT-type
+ TProtocolException is thrown.
+<p class="bl"></p>
+ Defaults to zero (no limit).</div></dd></dl></dd>
+<dt class="decl"><span class="rettyp">TCompactProtocol!Transport</span> <a class="symbol _function" name="tCompactProtocol" href="htmlsrc/thrift.protocol.compact.html#L610">tCompactProtocol</a><span class="tparams">(<em>Transport</em>)</span><span class="params">(Transport <em>trans</em>, int <em>containerSizeLimit</em> = <span class="defval"><span class="n">0</span></span>, int <em>stringSizeLimit</em> = <span class="defval"><span class="n">0</span></span>)</span> <a href="thrift.protocol.compact.html#tCompactProtocol" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">TCompactProtocol construction helper to avoid having to explicitly specify
+ the transport type, i.e. to allow the constructor being called using IFTI
+ (see <a href="http://d.puremagic.com/issues/show_bug.cgi?id=6082">D Bugzilla
+ enhancement requet 6082</a>).</div></div></dd>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TCompactProtocolFactory" href="htmlsrc/thrift.protocol.compact.html#L673">TCompactProtocolFactory</a><span class="tparams">(<em>Transports</em>...)</span> : <span class="bclass">TProtocolFactory</span> <a href="thrift.protocol.compact.html#TCompactProtocolFactory" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">TProtocolFactory creating a TCompactProtocol instance for passed in
+ transports.</div></div>
+<div class="cmnt">The optional Transports template tuple parameter can be used to specify
+ one or more TTransport implementations to specifically instantiate
+ TCompactProtocol for. If the actual transport types encountered at
+ runtime match one of the transports in the list, a specialized protocol
+ instance is created. Otherwise, a generic TTransport version is used.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TCompactProtocolFactory.this" href="htmlsrc/thrift.protocol.compact.html#L677">this</a><span class="params">(int <em>containerSizeLimit</em> = <span class="defval"><span class="n">0</span></span>, int <em>stringSizeLimit</em> = <span class="defval"><span class="n">0</span></span>)</span> <a href="thrift.protocol.compact.html#TCompactProtocolFactory.this" class="plink">¶</a></dt>
+<dd class="ddef"></dd></dl></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/dnadlinger/dil">dil</a> on Wed Feb  8 23:47:29 2012.</p>
+</div>
+</div>
+</body>
+</html>

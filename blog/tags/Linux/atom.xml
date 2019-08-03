@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>David Nadlinger</title>
+ <link href="http://klickverbot.at/blog/tags/Linux/atom.xml" rel="self"/>
+ <link href="http://klickverbot.at/"/>
+ <updated>2019-08-03T18:16:12+01:00</updated>
+ <id>http://klickverbot.at/blog/tags/Linux/</id>
+ <author>
+   <name>David Nadlinger</name>
+   <email>atom@klickverbot.at</email>
+ </author>
+
+ 
+ <entry>
+   <title>Systemd units for Buildbot in Conda</title>
+   <link href="http://klickverbot.at/blog/2018/08/buildbot-conda-systemd-units/"/>
+   <updated>2018-08-25T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2018/08/buildbot-conda-systemd-units</id>
+   <content type="html">&lt;p&gt;Buildbot is a Python framework for continuous integration systems. In &lt;a href=&quot;https://www2.physics.ox.ac.uk/research/ion-trap-quantum-computing-group&quot;&gt;my research group&lt;/a&gt; we are deploying it in a &lt;a href=&quot;https://conda.io/&quot;&gt;Conda&lt;/a&gt; environment, which we also use to manage all the different moving parts of our Python-centric control infrastructure on both Windows and Linux. To start up the master and worker services, the corresponding Conda environment needs to be activated first. This is easiest to achieve using simple wrapper scripts.&lt;/p&gt;
+
+&lt;p&gt;For this, let’s assume we’ve created a &lt;code&gt;bb&lt;/code&gt; user, with the master and worker configurations in its home directory (&lt;code&gt;~/master&lt;/code&gt; and &lt;code&gt;~/worker&lt;/code&gt;). First, create a wrapper script to start up the master process:&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -eo pipefail
+
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~/anaconda3/bin:&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source &lt;/span&gt;activate buildbot
+buildbot start --nodaemon master
+&lt;/pre&gt;&lt;/div&gt;&lt;figcaption&gt;&lt;span&gt;~bb/start-master.sh &lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;This assumes Conda has been installed into &lt;code&gt;~bb/anaconda3&lt;/code&gt;, and the environment with the Buildbot installation is called &lt;code&gt;buildbot&lt;/code&gt;. &lt;code&gt;master&lt;/code&gt; is the name of the configuration directory, and &lt;code&gt;--nodaemon&lt;/code&gt; prevents daemonisation (i.e. keeps the process running in the foreground).&lt;/p&gt;
+
+&lt;p&gt;Make the script executable, and create a Systemd unit file that invokes it:&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;[Unit]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Buildbot master service&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;network.target&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;[Service]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;bb&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;bb&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;WorkingDirectory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/home/bb&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/home/bb/start-master.sh&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;ExecReload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/bin/kill -HUP $MAINPID&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;[Install]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;multi-user.target&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;figcaption&gt;&lt;span&gt;/etc/systemd/system/buildbot-master.service &lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;To start the master process, run&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;systemctl start buildbot-master
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;and to do so every time the system boots:&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;buildbot-master
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;The analogous configuration for the worker process is&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -eo pipefail
+
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~/anaconda3/bin:&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source &lt;/span&gt;activate buildbot
+buildbot-worker start --nodaemon worker
+&lt;/pre&gt;&lt;/div&gt;&lt;figcaption&gt;&lt;span&gt;~bb/start-worker.sh &lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;and&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;[Unit]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Buildbot worker service&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;network.target&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;[Service]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;bb&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;bb&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;WorkingDirectory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/home/bb&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/home/bb/start-worker.sh&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;ExecReload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/bin/kill -HUP $MAINPID&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;[Install]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;multi-user.target&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;figcaption&gt;&lt;span&gt;/etc/systemd/system/buildbot-worker.service &lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Start it using&lt;/p&gt;
+
+&lt;figure class=&quot;code&quot;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;buildbot-worker
+systemctl start buildbot-worker
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;This is it; Buildbot is now run automatically when the system boots. To avoid starting the graphical user interface on a desktop Ubuntu install, run &lt;code&gt;systemctl set-default multi-user.target&lt;/code&gt;.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Setting up GDC and Tango on Linux x86</title>
+   <link href="http://klickverbot.at/blog/2009/10/setting-up-gdc-and-tango-on-linux-x86/"/>
+   <updated>2009-10-26T00:00:00+00:00</updated>
+   <id>http://klickverbot.at/blog/2009/10/setting-up-gdc-and-tango-on-linux-x86</id>
+   <content type="html">&lt;p&gt;Currently, there are three more-or-less working compilers for the &lt;a href=&quot;http://digitalmars.com/d/&quot;&gt;D programming language&lt;/a&gt; (version 1): The oldest and most mature one is &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;, short for Digital Mars D Compiler, the official reference implementation by Walter Bright, the creator of D. It has grown reasonably stable, but has certain limitations, most of them resulting from using a proprietary back-end. Additionally, not all parts of it are Open Source (starting with a capital letter). The second one is &lt;a href=&quot;http://dsource.org/projects/ldc&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;&lt;/a&gt;, a rather young, but quick-moving project which aims to port the front-end of &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; to the also fairly recent &lt;a href=&quot;http://llvm.org&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt;&lt;/a&gt; compiler framework in order to leverage its advanced code generation and optimization infrastructure. While it still has some bugs to iron out (most notably missing exception support on Windows), it works reasonably well on Linux x86 (32 and 64&amp;nbsp;bit). The third compiler, and subject of interest for this post, is &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt;. Like the other two compilers, it uses the Digital Mars D front-end, but coupled to the very mature &lt;span class=&quot;caps&quot;&gt;GNU&lt;/span&gt; Compiler Collection (&lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt;) back-end, whose C/C++ compiler is widely used on Unix-like systems like Linux, Mac OS X, various flavors of &lt;span class=&quot;caps&quot;&gt;BSD&lt;/span&gt; and also Windows through &lt;a href=&quot;http://mingw.org&quot;&gt;MinGW&lt;/a&gt;. Unfortunately, development on it has stalled, making it pretty much unusable due to the many bugs the old &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; front-end it uses contains.&lt;/p&gt;
+&lt;p&gt;However, there has been an effort started to resurrect &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; recently. Development takes place over at &lt;a href=&quot;http://bitbucket.org/goshawk/gdc&quot;&gt;bitbucket&lt;/a&gt; (you can also find building instructions for &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; there) and the project has been able to celebrate some first success: The reasonably recent front-end versions 1.040 and 2.015 (for D2) are working with &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; 4.3. This seemed enough of a sign of life for me to decide to give &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; another try. After some initial problems (some of which resulted from bugs which have already been fixed in the official Mercurial repository) I managed to compile a &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; binary (frontend version 1.040 against &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; 4.3.1) which happily compiles the &lt;a href=&quot;http://dsource.org/projects/tango&quot;&gt;Tango&lt;/a&gt; standard library and a personal project of mine. This is what I did (silently omitting quite a few hours of searching and fixing bugs): &lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;First, go to some temporary directory and checkout the &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; sources from the Mercurial repository (at the time of writing, revision 53 was current):&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
+hg clone http://bitbucket.org/goshawk/gdc&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;Then, download the core of &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; 4.3.1 from a &lt;a href=&quot;http://gcc.gnu.org/mirrors.html&quot;&gt;mirror near you&lt;/a&gt; (version 4.3.2 should also work, but builds against 4.3.4 are currently known to be broken) and extract it inside the &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; sources:&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;wget ftp://gd.tuwien.ac.at/gnu/gcc/releases/gcc-4.3.1/gcc-core-4.3.1.tar.bz2&lt;br /&gt;
+mkdir gdc/dev&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;gdc/dev&lt;br /&gt;
+tar xjvf ../../gcc-core-4.3.1.tar.bz2&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;Now, link the &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; sources into the extracted directory and use the provided &lt;code&gt;setup-gcc.sh&lt;/code&gt; script to patch &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; to enable D version 1:&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;gcc-4.3.4&lt;br /&gt;
+ln -s ../../../d gcc/d&lt;br /&gt;
+gcc/d/setup-gcc.sh &amp;#8212;d-language-version&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;After that, you are ready to build and install &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; with D support. For this, go to some build directory and &lt;code&gt;configure&lt;/code&gt; and &lt;code&gt;make&lt;/code&gt;. You can, of course, choose an arbitrary directory for the build files (for instance, I personally prefer having the build files completely outside the source direcotry):&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir build&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;build&lt;br /&gt;
+../configure &amp;#8212;enable-languages&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;d &amp;#8212;disable-multilib &amp;#8212;disable-shared &amp;#8212;prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/opt/gdc&lt;br /&gt;
+make&lt;br /&gt;
+sudo make install&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;Note that I configured &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt;/&lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; to be installed in &lt;code&gt;/opt/gdc&lt;/code&gt;. As the build also includes the C compiler, this avoids any interference with the »normal« &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; installed probably in &lt;code&gt;/usr&lt;/code&gt;. After the build has finished – this takes quite long, since &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; is built three times to bootstrap itself – you should have a working &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; executable in &lt;code&gt;/opt/gdc/bin&lt;/code&gt;. Now for the second part, Tango:&lt;/p&gt;
+&lt;p&gt;Start off by fetching the Tango sources from the &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; to a temporary working directory (I worked with revision 5023):&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
+svn co http://svn.dsource.org/projects/tango/trunk tango&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;Unfortunately, Tango currently does not compile with &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; out of the box, you have to apply a couple of minor changes: The first change adds build/arch files for &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt;/Linux:&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/build/arch/linux-i686-gdc-dbg.mak b/build/arch/linux-i686-gdc-dbg.mak&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; /dev/null&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/build/arch/linux-i686-gdc-dbg.mak&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -0,0 +1,6 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/gdc.rules&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/linux.inc&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;# -Wall breaks the compilation with wrong errors&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;DFLAGS_COMP=-g&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;CFLAGS_COMP=-g&lt;/span&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/build/arch/linux-i686-gdc-opt.mak b/build/arch/linux-i686-gdc-opt.mak&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; /dev/null&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/build/arch/linux-i686-gdc-opt.mak&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -0,0 +1,5 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/gdc.rules&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/linux.inc&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;DFLAGS_COMP=-O2&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-O2&lt;/span&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/build/arch/linux-i686-gdc-tst.mak b/build/arch/linux-i686-gdc-tst.mak&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; /dev/null&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/build/arch/linux-i686-gdc-tst.mak&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -0,0 +1,5 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/gdc.rules&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/linux.inc&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;DFLAGS_COMP=-g -fdeprecated -fdebug=UnitTest -funittest&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-g&lt;/span&gt;&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;The second change removes the &lt;code&gt;-fversion=Posix&lt;/code&gt; flag from the Makefile of the runtime because the &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; frontend &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; currently uses (1.040) does not allow it to be specified as it is set automatically (this restriction has been lifted in later versions):&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/runtime/compiler/gdc/Makefile.am b/runtime/compiler/gdc/Makefile.am&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; a/runtime/compiler/gdc/Makefile.am&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/runtime/compiler/gdc/Makefile.am&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -18,7 +18,7 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
+ # AUTOMAKE_OPTIONS = 1.9.6 foreign no-dependencies&lt;br /&gt;
+&lt;br /&gt;
+ OUR_CFLAGS=&lt;code&gt;DEFS&lt;/code&gt; -I.&lt;br /&gt;
+&lt;span class=&quot;gd&quot;&gt;-D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared -fversion=Posix&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;+D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared&lt;/span&gt;&lt;br /&gt;
+ ALL_DFLAGS = $(&lt;span class=&quot;caps&quot;&gt;DFLAGS&lt;/span&gt;) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(&lt;span class=&quot;caps&quot;&gt;MULTIFLAGS&lt;/span&gt;)&lt;br /&gt;
+&lt;br /&gt;
+ host_alias=.&lt;br /&gt;
+&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/runtime/compiler/gdc/Makefile.in b/runtime/compiler/gdc/Makefile.in&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; a/runtime/compiler/gdc/Makefile.in&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/runtime/compiler/gdc/Makefile.in&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -228,7 +228,7 @&lt;/code&gt; target_vendor = &lt;code&gt;target_vendor&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
+ top_builddir = &lt;code&gt;top_builddir&lt;/code&gt;&lt;br /&gt;
+ top_srcdir = &lt;code&gt;top_srcdir&lt;/code&gt;&lt;br /&gt;
+ OUR_CFLAGS = &lt;code&gt;DEFS&lt;/code&gt; -I.&lt;br /&gt;
+&lt;span class=&quot;gd&quot;&gt;-D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared -fversion=Posix&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;+D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared&lt;/span&gt;&lt;br /&gt;
+ ALL_DFLAGS = $(&lt;span class=&quot;caps&quot;&gt;DFLAGS&lt;/span&gt;) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(&lt;span class=&quot;caps&quot;&gt;MULTIFLAGS&lt;/span&gt;)&lt;br /&gt;
+ toolexecdir = $(phobos_toolexecdir)&lt;br /&gt;
+ toolexeclibdir = $(phobos_toolexeclibdir)&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;The third and last change adds a workaround to Tango&amp;#8217;s user library for a bug in the &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; front-end which has been fixed by now (the compiler fails to resolve the type of the template parameter in the templated &lt;code&gt;intpow&lt;/code&gt; function):&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/user/tango/math/internal/BiguintCore.d b/user/tango/math/internal/BiguintCore.d&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; a/user/tango/math/internal/BiguintCore.d&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/user/tango/math/internal/BiguintCore.d&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -516,7 +516,7 @&lt;/code&gt; static BigUint pow(BigUint x, ulong y)&lt;/span&gt;&lt;br /&gt;
+             }&lt;br /&gt;
+             y0 = y/p;&lt;br /&gt;
+             finalMultiplier = intpow(x0, y &amp;#8211; y0*p);&lt;br /&gt;
+&lt;span class=&quot;gd&quot;&gt;-            x0 = intpow(x0, p);&lt;/span&gt;&lt;br /&gt;
+&lt;span class=&quot;gi&quot;&gt;+            x0 = intpow!(BigDigit)(x0, p);&lt;/span&gt;&lt;br /&gt;
+         }&lt;br /&gt;
+         xlength = 1;&lt;br /&gt;
+     }&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;After you have applied these patches, you should be ready to build Tango (make sure that you have a &lt;code&gt;cc&lt;/code&gt; somewhere in your &lt;code&gt;PATH&lt;/code&gt;, if not, create a link to your system&amp;#8217;s &lt;code&gt;gcc&lt;/code&gt;):&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo &lt;span class=&quot;nv&quot;&gt;&lt;span class=&quot;caps&quot;&gt;PATH&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$&lt;span class=&quot;caps&quot;&gt;PATH&lt;/span&gt;&lt;/span&gt;:/opt/gdc/bin &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;gdc build/build.sh &amp;#8212;lib-install-dir /opt/gdc/lib&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;However, I had to remove Phobos&amp;#8217; &lt;code&gt;object.d&lt;/code&gt; from &lt;code&gt;/opt/gdc/include/d/4.3.1&lt;/code&gt; first. &lt;code&gt;build/build.sh&lt;/code&gt; should finish with a note reminding you that the user libraries still have to be installed. To do this, simply copy the contents of the &lt;code&gt;user&lt;/code&gt; directory to &lt;code&gt;/opt/gdc/include/d/4.3.1&lt;/code&gt; after removing the old include files which are part of Phobos (you have to keep the &lt;code&gt;gcc&lt;/code&gt; and &lt;code&gt;i686-pc-linux-gnu&lt;/code&gt; directories though). Congratulations, now you should be able to build your Tango projects with &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt;!&lt;/p&gt;
+&lt;p&gt;A quick tip for &lt;a href=&quot;http://www.dsource.org/projects/dsss/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;&lt;/a&gt; users: You probably have to modify your &lt;code&gt;gdc-posix-tango&lt;/code&gt; profile to omit the &lt;code&gt;-version=Posix&lt;/code&gt; switch (see above) on &lt;code&gt;gdmd&lt;/code&gt; calls and add &lt;code&gt;-L-ltango-base-gdc&lt;/code&gt; to the linker flags since Tango was not installed via &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt; in the above instructions.&lt;/p&gt;
+&lt;p class=&quot;update&quot;&gt;Since I originally wrote this post, Tango&amp;#8217;s build system was modified yet another time (at least, things are much simpler now). Instead of fiddling around with the makefiles, just use the &lt;code&gt;bob&lt;/code&gt; tool from the &lt;code&gt;build&lt;/code&gt; directory now which &lt;em&gt;should&lt;/em&gt; work with &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; out of the box.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Installing DMD, LDC, Tango and DSSS on (K)Ubuntu Jaunty</title>
+   <link href="http://klickverbot.at/blog/2009/07/installing-dmd-ldc-tango-and-dsss-on-kubuntu-jaunty/"/>
+   <updated>2009-07-28T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2009/07/installing-dmd-ldc-tango-and-dsss-on-kubuntu-jaunty</id>
+   <content type="html">&lt;p&gt;For quite a while now, I am using the &lt;a href=&quot;http://en.wikipedia.org/wiki/D_(programming_language)&quot;&gt;D programming language&lt;/a&gt;, version 1 (I have not looked at D2 yet, it is said to be still rather unstable). Even though I like it very much for its syntactical quality and the language itself is reasonably mature, I must admit that setting up the toolchain correctly can still be a very cumbersome task to do, especially when you are new to D.&lt;/p&gt;
+&lt;p&gt;This post describes an installation routine that should provide you with a working D development environment containing &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;, &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;, Tango and &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt; on (K)Ubuntu Jaunty. Please note that it assumes your system to be »clean« – if you have already installed any D-related software, it is probably advisable to remove it completely to prevent any problems with, for instance, stale files. &lt;!--more--&gt;&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir -p ~/tmp&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
+&lt;br /&gt;
+wget http://ftp.digitalmars.com/dmd.1.050.zip&lt;br /&gt;
+unzip dmd.1.050.zip&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;dmd/linux/bin/&lt;br /&gt;
+chmod +x dmd dumpobj obj2asm rdmd&lt;br /&gt;
+sudo cp dmd dmd.conf dumpobj obj2asm rdmd /usr/local/bin/&lt;br /&gt;
+&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
+svn co http://svn.dsource.org/projects/tango/trunk tango&lt;br /&gt;
+&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;tango/&lt;br /&gt;
+sudo &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;dmd build/build.sh &amp;#8212;lib-install-dir /usr/local/lib&lt;br /&gt;
+sudo cp -rf user/object.di user/rt user/std user/tango /usr/local/include/d/&lt;br /&gt;
+&lt;br /&gt;
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;[Environment]\nDFLAGS=-I/usr/local/include/d -defaultlib=tango-base-dmd -debuglib=tango-base-dmd -L-ltango-user-dmd -version=Tango -version=Posix&amp;quot; &amp;gt; /usr/local/bin/dmd.conf&amp;#39;&lt;/span&gt;&lt;br /&gt;
+&lt;br /&gt;
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# dsss\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu jaunty main&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;&lt;br /&gt;
+sudo apt-get install dsss&lt;br /&gt;
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=dmd-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;You should now be able to build your D/Tango programs with &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; and &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;I would suggest giving &lt;a href=&quot;http://www.dsource.org/projects/ldc&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;&lt;/a&gt; at least a short glance, a fairly young compiler project which leverages &lt;a href=&quot;http://llvm.org/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt;&lt;/a&gt; as its code generating backend. It is maturing very quickly and allows you to make use of the various features the &lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt; compiler infrastructure provides, the most noticeable probably being its excellent optimization routines. Fortunately, there are current binary packages available at launchpad, so all that is needed to &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt; is:&lt;/p&gt;
+&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# ldc-daily\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu karmic main\ndeb http://archive.ubuntu.com/ubuntu karmic main universe&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;&lt;br /&gt;
+sudo apt-get update&lt;br /&gt;
+&lt;br /&gt;
+sudo apt-get install ldc-daily libtango-ldc-daily-dev&lt;br /&gt;
+&lt;br /&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
+wget -O ldc-posix-tango http://www.dsource.org/projects/ldc/browser/ldc-posix-tango?format&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;raw&lt;br /&gt;
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;sed &amp;quot;s:ldc.rebuild.conf:/etc/ldc/ldc.rebuild.conf:&amp;quot;  /etc/drebuild/ldc-posix-tango&amp;#39;&lt;/span&gt;&lt;br /&gt;
+&lt;br /&gt;
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=ldc-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;&lt;br /&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;p&gt;Note that the above commands install a daily snapshot of &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;, which I would recommend to use due to the currently fast development of &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;. In order not to break you Jaunty installation, please &lt;em&gt;&lt;strong&gt;do not forget&lt;/strong&gt; to comment out the official »karmic« repositories&lt;/em&gt; (which contain some dependencies for &lt;code&gt;ldc-daily&lt;/code&gt;) in your &lt;code&gt;/etc/apt/sources.list&lt;/code&gt; and run &lt;code&gt;apt-get update&lt;/code&gt; after the installation is completed.&lt;/p&gt;
+&lt;p&gt;Both compilers are set up to use Tango, do &lt;em&gt;not&lt;/em&gt; install Tango via &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;! If you want to switch compilers, just activate the corresponding profile in &lt;code&gt;/etc/drebuild/default&lt;/code&gt; and do not forget to rebuild any D libraries you might have compiled and installed with the old compiler (just run &lt;code&gt;dsss net install … &lt;/code&gt;for the ones you installed using &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;).&lt;/p&gt;
+&lt;p class=&quot;update&quot;&gt;Since I wrote this post, Tango received yet another big structural change to its codebase (amongst other changes, the core and user libraries have been merged). Now, you should use the supplied &lt;em&gt;»bob«&lt;/em&gt; tool now to build tango. Additionally, Karmic is now stable so you might have to adapt the &lt;span class=&quot;caps&quot;&gt;APT&lt;/span&gt; repository-related instructions.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Getting KDE's clippboard to work with Eclipse</title>
+   <link href="http://klickverbot.at/blog/2009/05/getting-kdes-clippboard-to-work-with-eclipse/"/>
+   <updated>2009-05-28T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2009/05/getting-kdes-clippboard-to-work-with-eclipse</id>
+   <content type="html">&lt;p&gt;For whatever reason, Eclipse does not work well with Klipper, the &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; clipboard manager, in its default settings. The symptoms: Quite often, you copy a piece of text to the clipboard. When you try to paste it, it miraculously disappears and some old piece of clipboard content is pasted instead.&lt;/p&gt;
+&lt;p&gt;After simply trying to ignore the problem for some time, I searched and found a solution today: You have to disable the &lt;em&gt;»Prevent empty clipboard«&lt;/em&gt; setting in Klipper&amp;#8217;s configuration menu (which is accessible by right-clicking on the systray icon).&lt;/p&gt;
+&lt;p&gt;Intuitive? Not to me…&lt;/p&gt;
+&lt;p class=&quot;update&quot;&gt;Disabling the mentioned option might introduce some minor glitches to general clipboard usage (sometimes, the clipboard seems to empty itself). As those occur rather infrequently, I have not been able to find out why this happens, or even if this is connected to the configuration changes described in this post.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Duplicate »Translucency« KWin effect</title>
+   <link href="http://klickverbot.at/blog/2009/04/duplicate-translucency-kwin-effect/"/>
+   <updated>2009-04-28T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2009/04/duplicate-translucency-kwin-effect</id>
+   <content type="html">&lt;p&gt;For some time, the effect »Translucency« was listed twice in the KWin &lt;span class=&quot;caps&quot;&gt;KCM&lt;/span&gt; plugin list of my local &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; setup (&lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; trunk). One copy was actually working, the other was just producing error messages.&lt;/p&gt;
+&lt;p&gt;Today, I finally had time to investigate the issue: The problem was caused by a stale &lt;code&gt;.desktop&lt;/code&gt; file in &lt;code&gt;share/kde4/services/kwin&lt;/code&gt; with the old name of the plugin (it was renamed from &lt;em&gt;maketransparent&lt;/em&gt; to &lt;em&gt;translucency&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;I have no idea how this could happen, because I usually purge the whole &lt;code&gt;/opt/kde&lt;/code&gt; folder everytime I &lt;code&gt;svn up&lt;/code&gt; my &lt;code&gt;qt-copy&lt;/code&gt;, which I happen to do quite often…&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>KHotkeys in KDE 4.1</title>
+   <link href="http://klickverbot.at/blog/2008/11/khotkeys-in-kde-4-1/"/>
+   <updated>2008-11-02T00:00:00+00:00</updated>
+   <id>http://klickverbot.at/blog/2008/11/khotkeys-in-kde-4-1</id>
+   <content type="html">&lt;p&gt;I just upgraded to Kubuntu 8.10 in order to have a look at shiny new &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; 4. But amongst other minor annoyances, I had real trouble getting hotkeys to work. There are configuration options in the new System Settings panel (which is a huge regression compared to KControl by the way), but they seemed to have no effect.&lt;/p&gt;
+&lt;p&gt;After various attempts of fixing this problem myself, I finally found a (slightly hackish) solution: &lt;a href=&quot;http://ubuntuforums.org/showpost.php?p=5541572&amp;amp;postcount=9&quot;&gt;Re: Does khotkeys work on your &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; 4.1?&lt;/a&gt;. Seems like &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; 4.1 is still &lt;em&gt;very&lt;/em&gt; beta&amp;#8230;&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>KDE Konsole corruption when Compiz is active</title>
+   <link href="http://klickverbot.at/blog/2008/09/kde-konsole-corruption-when-compiz-is-active/"/>
+   <updated>2008-09-03T00:00:00+01:00</updated>
+   <id>http://klickverbot.at/blog/2008/09/kde-konsole-corruption-when-compiz-is-active</id>
+   <content type="html">&lt;p&gt;On my laptop I&amp;#8217;m currently running Kubuntu 8.04 (Hardy Heron). For additional eye candy goodness I am using the &lt;code&gt;compiz-fusion&lt;/code&gt; package from the Kubuntu repositories. Surprisingly, even on the laptop hardware (Asus V1S) everything went smooth out of the box – I could even manage to find some drivers for the webcam and for the finger print scanner.&lt;/p&gt;
+&lt;p&gt;Well, everything worked fine except for one little detail: When I had an active Konsole session on one cube face, for example a log file, and continued to work on another side of the cube, the Konsole output would often be broken when I switched back to it. It would look as if the output had been scrolled, but the non-scrolled output hadn&amp;#8217;t been cleared from the window. This problem could be fixed by forcing the window to refresh, e.g. by switching to another (Konsole) tab.&lt;/p&gt;
+&lt;p&gt;In their 169.XX driver series, nVidia added a config option called &lt;code&gt;UseCompositeWrapper&lt;/code&gt;, which can help to sort out this kind of redraw problems. Fortunately, enabling this via adding the following line to the &lt;code&gt;Device&lt;/code&gt; section of my &lt;code&gt;xorg.conf&lt;/code&gt; was enough to solve the problem:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Option &quot;UseCompositeWrapper&quot; &quot;true&quot;
+&lt;/code&gt;&lt;/pre&gt;</content>
+ </entry>
+ 
+</feed>

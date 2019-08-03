@@ -1,0 +1,6 @@
+<td>dmd-066-linux32</td>
+<td class="pass borderleft"><a href="dmd-066-linux32/pass.html">4799</a></td>
+<td class="xfail"><a href="dmd-066-linux32/xfail.html">1910</a></td>
+<td class="fail"><a href="dmd-066-linux32/fail.html">469</a></td>
+<td class="xpass"><a href="dmd-066-linux32/xpass.html">231</a></td>
+<td class="error"><a href="dmd-066-linux32/error.html">39</a></td>

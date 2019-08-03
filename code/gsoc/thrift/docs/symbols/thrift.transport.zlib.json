@@ -1,0 +1,8 @@
+["zlib",1,[],[1,498],[
+["TZlibTransport",3,[10],[35,364],[
+["this",17,[],[52,89],[]],
+["underlyingTransport",12,[29],[104,106],[]],
+["finish",12,[],[206,211],[]],
+["verifyChecksum",12,[],[221,245],[]]]],
+["TZlibTransportFactory",7,[],[369,369],[]],
+["TZlibException",3,[],[375,397],[]]]]

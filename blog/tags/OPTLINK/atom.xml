@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>David Nadlinger</title>
+ <link href="http://klickverbot.at/blog/tags/OPTLINK/atom.xml" rel="self"/>
+ <link href="http://klickverbot.at/"/>
+ <updated>2019-08-03T18:16:12+01:00</updated>
+ <id>http://klickverbot.at/blog/tags/OPTLINK/</id>
+ <author>
+   <name>David Nadlinger</name>
+   <email>atom@klickverbot.at</email>
+ </author>
+
+ 
+ <entry>
+   <title>The Joys of OPTLINK</title>
+   <link href="http://klickverbot.at/blog/2010/02/the-joys-of-optlink/"/>
+   <updated>2010-02-13T00:00:00+00:00</updated>
+   <id>http://klickverbot.at/blog/2010/02/the-joys-of-optlink</id>
+   <content type="html">&lt;p&gt;As you might know, &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;/Windows (the reference compiler for the &lt;a href=&quot;http://www.digitalmars.com/d/1.0/&quot;&gt;D&lt;/a&gt; programming language) does not use the standard &lt;span class=&quot;caps&quot;&gt;COFF&lt;/span&gt; format for the object files it generates, but the fairly obscure &lt;span class=&quot;caps&quot;&gt;OMF&lt;/span&gt; instead. This fact itself causes quite a number of annoyances. For example, the format differences make it unable to link static libraries produced by other compilers to D projects, which is especially annoying since it also applies to &lt;span class=&quot;caps&quot;&gt;DLL&lt;/span&gt; import libraries. You also cannot use any tools which expect object files in &lt;span class=&quot;caps&quot;&gt;COFF&lt;/span&gt; format and vice versa.&lt;/p&gt;
+&lt;p&gt;However, all of these issues, as annoying as they may be, do not pose a serious problem, they can all be worked around. But there is another one, and it has seven letters: &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt;. &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt;, courtesy of Digital Mars, is the linker which comes with &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;. There are quite a number of issues with it:&lt;/p&gt;
+&lt;p&gt;First, it is proprietary closed-source software. Apart from some people&amp;#8217;s idealistic worries, this also poses a serious problem to more pragmatically inclined coders because &lt;em&gt;there are no alternative linkers&lt;/em&gt; for &lt;span class=&quot;caps&quot;&gt;OMF&lt;/span&gt;, at least no even half-decent ones. This means that if you stumble upon a bug, you can do nothing more than to wait for Walter Bright to fix it.&lt;/p&gt;
+&lt;p&gt;Second, even if the source code was available, it would probably still be hard to fix bugs, since, according to Walter himself, large parts are written in assembler – a &lt;em&gt;maintainer&amp;#8217;s nightmare&lt;/em&gt;. This might also explain why it took him so long to fix some serious bugs in the past…&lt;/p&gt;
+&lt;p&gt;Third, there are bugs. &lt;em&gt;Lots of bugs&lt;/em&gt;, compared to other linkers and with the pretty high version number (8.00.2) in mind. If you want to know what I am talking about, just search the D newsgroups; projects which make extensive use of templates seem to be affected more often than others. Until yesterday, I personally had been spared from this kind of issues, but the &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt; bug I encountered yesterday almost drove me crazy, because one wouldn&amp;#8217;t expect this at all: &lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;After I had worked quite some time on Linux exclusively, I needed to compile a Windows version of a project of mine. So I went ahead and rebooted, updated &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;, Tango and a few other tools. Everything worked fine, the project even built fine, until I needed to build debug symbols into the binary. Every time I just added the &lt;code&gt;-g&lt;/code&gt; flag to the compiler invocation, &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt; would abort with »Error 118: Filename Expected«. Because I had also upgraded my build tool, my first thought was that the linker commands could really be broken, but on closer inspection, it turned out that the invocation was generated perfectly fine. So I went on and downgraded all of the tools again, but to no avail – again the same error, although debug builds had worked flawlessly in the past.&lt;/p&gt;
+&lt;p&gt;After having searched for about an hour, I finally found the cause, and I could not really believe it at first: Compared to my previous D/Windows setup, I had added the Notepad++ installation directory to my &lt;code&gt;PATH&lt;/code&gt;. You might ask yourself now, »Um, what? How should that break the linker?« Well, it turned out that &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt; apparently has problems with handling plus signs in all the lookup paths it uses, including not only the ones passed at the command line, but also those from the environment variables.&lt;/p&gt;
+&lt;p&gt;For a second I was really tempted to just drop &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; altogether, but unfortunately, there currently is no other D compiler of comparable quality for Windows. In my eyes, it would really help if &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; used &lt;span class=&quot;caps&quot;&gt;COFF&lt;/span&gt; for its object files, making it possible to easily switch out &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt;, since the maturity of the tool-chain is currently the number one problem of D.&lt;/p&gt;</content>
+ </entry>
+ 
+</feed>

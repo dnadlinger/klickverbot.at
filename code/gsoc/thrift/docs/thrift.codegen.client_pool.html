@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>thrift.codegen.client_pool</title>
+  <link href="css/docstyle.css" rel="stylesheet" type="text/css"/>
+  <!-- no favicon -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/utilities.js"></script>
+  <script type="text/javascript" src="js/symbols.js"></script>
+  <script type="text/javascript" src="js/modules.js"></script>
+  <script type="text/javascript" src="js/quicksearch.js"></script>
+  <script type="text/javascript" src="js/treeview.js"></script>
+  <script type="text/javascript" src="js/navigation.js"></script>
+</head>
+<body id="thrift.codegen.client_pool">
+<div id="kandil-content">
+<div class="module">
+  <h1 class="module" id="m-thrift.codegen.client_pool"><a href="htmlsrc/thrift.codegen.client_pool.html" class="symbol">thrift.codegen.client_pool</a></h1>
+
+<dl>
+<dt class="decl"><span class="kw">class</span> <a class="symbol _class" name="TClientPool" href="htmlsrc/thrift.codegen.client_pool.html#L39">TClientPool</a><span class="tparams">(<em>Interface</em>)</span> : <span class="bclass">Interface</span> <a href="thrift.codegen.client_pool.html#TClientPool" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Manages a pool of TClients for the given interface, forwarding RPC calls to
+ members of the pool.</div></div>
+<div class="cmnt">If a request fails, another client from the pool is tried, and optionally,
+ a client is disabled for a configurable amount of time if it fails too
+ often. If all clients fail (and keepTrying is false), a
+ TCompoundOperationException is thrown, containing all the collected RPC
+ exceptions.</div>
+<dl>
+<dt class="decl"><span class="kw">alias</span> TClientBase!Interface <a class="symbol _alias" name="TClientPool.Client" href="htmlsrc/thrift.codegen.client_pool.html#L42">Client</a> <a href="thrift.codegen.client_pool.html#TClientPool.Client" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Shorthand for TClientBase!Interface, the client type this instance
+ operates on.</div></div></dd>
+<dt class="decl"><a class="symbol _ctor" name="TClientPool.this" href="htmlsrc/thrift.codegen.client_pool.html#L47">this</a><span class="params">(Client[] <em>clients</em>)</span> <a href="thrift.codegen.client_pool.html#TClientPool.this" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Creates a new instance and adds the given clients to the pool.</div></div></dd>
+<dt class="decl"><span class="rettyp">ResultType</span> <a class="symbol _function" name="TClientPool.execute" href="htmlsrc/thrift.codegen.client_pool.html#L76">execute</a><span class="tparams">(<em>ResultType</em>)</span><span class="params">(<span class="k">scope</span> ResultType delegate(Client) <em>work</em>)</span> <a href="thrift.codegen.client_pool.html#TClientPool.execute" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Executes an operation on the first currently active client.</div></div>
+<div class="cmnt">If the operation fails (throws an exception for which rpcFaultFilter is
+ true), the failure is recorded and the next client in the pool is tried.</div>
+<p class="sec_header">Throws:</p><div class="cmnt">Any non-rpc exception that occurs, a TCompoundOperationException
+   if all clients failed with an rpc exception (if keepTrying is false).</div>
+<p class="sec_header">Example:</p><div class="cmnt"><table class="d_code">
+  <tr><td class="d_codelines">
+<pre><a href="#L1_ex1" name="L1_ex1">1</a>
+<a href="#L2_ex1" name="L2_ex1">2</a>
+<a href="#L3_ex1" name="L3_ex1">3</a>
+</pre></td><td class="d_codetext"><pre>
+<span class="k">interface</span> <span class="i">Foo</span> { <span class="i">string</span> <span class="i">bar</span>(); }
+<span class="k">auto</span> <span class="i">poolClient</span> = <span class="i">tClientPool</span>([<span class="i">tClient</span>!<span class="i">Foo</span>(<span class="i">someProtocol</span>)]);
+<span class="k">auto</span> <span class="i">result</span> = <span class="i">poolClient</span>.<span class="i">execute</span>((<span class="i">c</span>){ <span class="k">return</span> <span class="i">c</span>.<span class="i">bar</span>(); });</pre>
+</td></tr>
+</table></div></dd>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TClientPool.addClient" href="htmlsrc/thrift.codegen.client_pool.html#L83">addClient</a><span class="params">(Client <em>client</em>)</span> <a href="thrift.codegen.client_pool.html#TClientPool.addClient" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Adds a client to the pool.</div></div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TClientPool.removeClient" href="htmlsrc/thrift.codegen.client_pool.html#L92">removeClient</a><span class="params">(Client <em>client</em>)</span> <a href="thrift.codegen.client_pool.html#TClientPool.removeClient" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Removes a client from the pool.</div></div>
+<p class="sec_header">Returns:</p><div class="cmnt">Whether the client was found in the pool.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="TClientPool.reopenTransports" href="htmlsrc/thrift.codegen.client_pool.html#L104">reopenTransports</a> <a href="thrift.codegen.client_pool.html#TClientPool.reopenTransports" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether to open the underlying transports of a client before trying to
+ execute a method if they are not open. This is usually desirable
+ because it allows e.g. to automatically reconnect to a remote server
+ if the network connection is dropped.</div></div>
+<div class="cmnt">Defaults to true.</div></dd>
+<dt class="decl">bool delegate(Exception) <a class="symbol _variable" name="TClientPool.rpcFaultFilter" href="htmlsrc/thrift.codegen.client_pool.html#L116">rpcFaultFilter</a> <a href="thrift.codegen.client_pool.html#TClientPool.rpcFaultFilter" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Called to determine whether an exception comes from a client from the
+ pool not working properly, or if it an exception thrown at the
+ application level.</div></div>
+<div class="cmnt">If the delegate returns true, the server/connection is considered to be
+ at fault, if it returns false, the exception is just passed on to the
+ caller.
+<p class="bl"></p>
+ By default, returns true for instances of TTransportException and
+ TApplicationException, false otherwise.</div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TClientPool.keepTrying" href="htmlsrc/thrift.codegen.client_pool.html#L124">keepTrying</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.codegen.client_pool.html#TClientPool.keepTrying" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TClientPool.keepTrying:2" href="htmlsrc/thrift.codegen.client_pool.html#L129">keepTrying</a><span class="params">(bool <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.client_pool.html#TClientPool.keepTrying:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether to keep trying to find a working client if all have failed in a
+ row.</div></div>
+<div class="cmnt">Defaults to false.</div></dd>
+<dt class="decl"><span class="rettyp">bool</span> <a class="symbol _function" name="TClientPool.permuteClients" href="htmlsrc/thrift.codegen.client_pool.html#L139">permuteClients</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>, <span class="stc">const</span>]</span> <a href="thrift.codegen.client_pool.html#TClientPool.permuteClients" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TClientPool.permuteClients:2" href="htmlsrc/thrift.codegen.client_pool.html#L144">permuteClients</a><span class="params">(bool <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.client_pool.html#TClientPool.permuteClients:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">Whether to use a random permutation of the client pool on every call to
+ execute(). This can be used e.g. as a simple form of load balancing.</div></div>
+<div class="cmnt">Defaults to true.</div></dd>
+<dt class="decl"><span class="rettyp">ushort</span> <a class="symbol _function" name="TClientPool.faultDisableCount" href="htmlsrc/thrift.codegen.client_pool.html#L154">faultDisableCount</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.client_pool.html#TClientPool.faultDisableCount" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TClientPool.faultDisableCount:2" href="htmlsrc/thrift.codegen.client_pool.html#L159">faultDisableCount</a><span class="params">(ushort <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.client_pool.html#TClientPool.faultDisableCount:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The number of consecutive faults after which a client is disabled until
+ faultDisableDuration has passed. 0 to never disable clients.</div></div>
+<div class="cmnt">Defaults to 0.</div></dd>
+<dt class="decl"><span class="rettyp">Duration</span> <a class="symbol _function" name="TClientPool.faultDisableDuration" href="htmlsrc/thrift.codegen.client_pool.html#L169">faultDisableDuration</a><span class="params">()</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.client_pool.html#TClientPool.faultDisableDuration" class="plink">¶</a></dt>
+<dt class="decl"><span class="rettyp">void</span> <a class="symbol _function" name="TClientPool.faultDisableDuration:2" href="htmlsrc/thrift.codegen.client_pool.html#L174">faultDisableDuration</a><span class="params">(Duration <em>value</em>)</span> <span class="attrs">[<span class="stc">@property</span>]</span> <a href="thrift.codegen.client_pool.html#TClientPool.faultDisableDuration:2" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">The duration for which a client is no longer considered after it has
+ failed too often.</div></div>
+<div class="cmnt">Defaults to one second.</div></dd></dl></dd>
+<dt class="decl"><span class="rettyp">TClientPool!Interface</span> <a class="symbol _function" name="tClientPool" href="htmlsrc/thrift.codegen.client_pool.html#L258">tClientPool</a><span class="tparams">(<em>Interface</em>)</span><span class="params">(TClientBase!Interface[] <em>clients</em>)</span> <a href="thrift.codegen.client_pool.html#tClientPool" class="plink">¶</a></dt>
+<dd class="ddef">
+<div class="summary"><div class="cmnt">TClientPool construction helper to avoid having to explicitly specify
+ the interface type, i.e. to allow the constructor being called using IFTI
+ (see <a href="http://d.puremagic.com/issues/show_bug.cgi?id=6082">D Bugzilla enhancement requet 6082</a>).</div></div></dd></dl>
+</div>
+<div id="kandil-footer">
+  <p></p>
+  <p>Page generated by <a href="https://github.com/dnadlinger/dil">dil</a> on Wed Feb  8 23:47:29 2012.</p>
+</div>
+</div>
+</body>
+</html>
