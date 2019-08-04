@@ -26,6 +26,7 @@ namespace :deploy do
 
   desc "Deploy to live site"
   task :live => :build do
+    sh "touch publish/.nojekyll"
     sh "gh-pages --dotfiles --dist publish -o github"
   end
 end
