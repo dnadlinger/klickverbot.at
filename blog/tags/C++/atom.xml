@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/C++/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2019-08-04T08:04:04+01:00</updated>
+ <updated>2023-07-06T14:46:30-04:00</updated>
  <id>http://klickverbot.at/blog/tags/C++/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,19 +14,23 @@
  <entry>
    <title>STL Algorithms</title>
    <link href="http://klickverbot.at/blog/2010/04/stl-algorithms/"/>
-   <updated>2010-04-20T00:00:00+01:00</updated>
+   <updated>2010-04-20T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2010/04/stl-algorithms</id>
-   <content type="html">&lt;p&gt;While attending a workshop at &lt;a href=&quot;http://linz.linuxwochen.at&quot;&gt;Linuxwochen Linz&lt;/a&gt; recently, I found using &lt;code&gt;std::for_each&lt;/code&gt; and other algorithms from the C++ Standard Template library without even really thinking about it, much to the surprise of the other workshop attendants, which were, contrary to me, rather artists than coders. As I were thinking about the way my C++ coding style evolved over the years, I remembered that my use of &lt;code&gt;&amp;lt;algorithm&amp;gt;&lt;/code&gt;s can be traced back to a single article on Dr. Dobb&amp;#8217;s: &lt;a href=&quot;http://www.drdobbs.com/cpp/184401446&quot;&gt;&lt;span class=&quot;caps&quot;&gt;STL&lt;/span&gt; Algorithms vs. Hand-Written Loops&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;The text was written by Scott Meyers almost ten years ago, but in my eyes, it is still a very good read on the topic. Highly recommended!&lt;/p&gt;</content>
+   <content type="html">While attending a workshop at &lt;a href=&quot;http://linz.linuxwochen.at&quot;&gt;Linuxwochen Linz&lt;/a&gt; recently, I found using [@std::for_each@] and other algorithms from the C++ Standard Template library without even really thinking about it, much to the surprise of the other workshop attendants, which were, contrary to me, rather artists than coders. As I were thinking about the way my C++ coding style evolved over the years, I remembered that my use of [@&lt;algorithm&gt;@]s can be traced back to a single article on Dr. Dobb&apos;s: &lt;a href=&quot;http://www.drdobbs.com/cpp/184401446&quot;&gt;STL Algorithms vs. Hand-Written Loops&lt;/a&gt;.
+
+The text was written by Scott Meyers almost ten years ago, but in my eyes, it is still a very good read on the topic. Highly recommended!
+</content>
  </entry>
  
  <entry>
    <title>Debugging KDE applications with gdb</title>
    <link href="http://klickverbot.at/blog/2009/01/debugging-kde-applications-with-gdb/"/>
-   <updated>2009-01-24T00:00:00+00:00</updated>
+   <updated>2009-01-24T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2009/01/debugging-kde-applications-with-gdb</id>
-   <content type="html">&lt;p&gt;A pretty long time has passed since my last post here, and in the meantime I have jumped right into &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; development myself. I have stumbled upon quite a few tricks and pitfalls that I will undoubtedly write about here some day.&lt;/p&gt;
-&lt;p&gt;For now, I just want to share a little gem which I have discovered a few minutes ago: In &lt;code&gt;kdesdk/scripts&lt;/code&gt;, David Faure published a little script called &lt;code&gt;kde-devel-gdb&lt;/code&gt; (&lt;a href=&quot;http://websvn.kde.org/trunk/KDE/kdesdk/scripts/kde-devel-gdb?view=markup&quot;&gt;view with WebSVN&lt;/a&gt;), which extends gdb with the ability to print the contents of several Qt containers, including the widely used &lt;code&gt;QString&lt;/code&gt;. Highly recommended!&lt;/p&gt;</content>
+   <content type="html">A pretty long time has passed since my last post here, and in the meantime I have jumped right into KDE development myself. I have stumbled upon quite a few tricks and pitfalls that I will undoubtedly write about here some day.
+
+For now, I just want to share a little gem which I have discovered a few minutes ago: In [@kdesdk/scripts@], David Faure published a little script called [@kde-devel-gdb@] (&quot;view with WebSVN&quot;:http://websvn.kde.org/trunk/KDE/kdesdk/scripts/kde-devel-gdb?view=markup), which extends gdb with the ability to print the contents of several Qt containers, including the widely used [@QString@]. Highly recommended!
+</content>
  </entry>
  
 </feed>

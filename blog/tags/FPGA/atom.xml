@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/FPGA/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2019-08-04T08:04:04+01:00</updated>
+ <updated>2023-07-06T14:46:30-04:00</updated>
  <id>http://klickverbot.at/blog/tags/FPGA/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,7 +14,7 @@
  <entry>
    <title>Testing Verilog AXI4-Lite Peripherals</title>
    <link href="http://klickverbot.at/blog/2016/01/testing-verilog-axi4-lite-peripherals/"/>
-   <updated>2016-01-30T00:00:00+00:00</updated>
+   <updated>2016-01-30T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2016/01/testing-verilog-axi4-lite-peripherals</id>
    <content type="html">&lt;p class=&quot;lead&quot;&gt;Chips that combine one or more processor cores and FPGA fabric into one integrated system have become quite popular recently, the most well-known product being Xilinx’ ARM-based &lt;a href=&quot;http://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html&quot;&gt;&lt;em&gt;Zynq&lt;/em&gt;&lt;/a&gt; series. The standardized AXI buses connecting them make it trivial to bring custom IP cores into the processor address space. This post describes how to interface with it from a standalone Verilog test-bench.&lt;/p&gt;
 

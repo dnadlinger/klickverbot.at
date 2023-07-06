@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/D/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2019-08-04T08:04:04+01:00</updated>
+ <updated>2023-07-06T14:46:30-04:00</updated>
  <id>http://klickverbot.at/blog/tags/D/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,7 +14,7 @@
  <entry>
    <title>The State of LDC on Windows</title>
    <link href="http://klickverbot.at/blog/2013/05/the-state-of-ldc-on-windows/"/>
-   <updated>2013-05-31T00:00:00+01:00</updated>
+   <updated>2013-05-31T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2013/05/the-state-of-ldc-on-windows</id>
    <content type="html">&lt;p class=&quot;lead&quot;&gt;LDC is one of the three major D compilers. It uses the same frontend as DMD, the reference implementation of the language, but leverages LLVM for optimization and code generation. While it has been stable on Linux and OS X for quite some time, support for the Windows operating system family was virtually non-existent so far. There have been substantial advances recently, and this post gives an overview of the current situation.&lt;/p&gt;
 
@@ -83,7 +83,7 @@
  <entry>
    <title>Purity in D</title>
    <link href="http://klickverbot.at/blog/2012/05/purity-in-d/"/>
-   <updated>2012-05-27T00:00:00+01:00</updated>
+   <updated>2012-05-27T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2012/05/purity-in-d</id>
    <content type="html">&lt;p class=&quot;lead&quot;&gt;Programming language design is a controversial topic, but in light of current challenges regarding both hardware trends and maintainability, several concepts originating in the &lt;a href=&quot;http://en.wikipedia.org/wiki/Functional_programming&quot;&gt;functional programming&lt;/a&gt; world are being rediscovered as universally helpful. To that end, the &lt;a href=&quot;http://dlang.org&quot;&gt;D programming language&lt;/a&gt; includes its own pragmatic take on the idea of &lt;em&gt;functional purity&lt;/em&gt;. This article is an introduction to D’s &lt;code&gt;pure&lt;/code&gt; keyword and its interaction with other language features.&lt;/p&gt;
 
@@ -300,7 +300,7 @@
  <entry>
    <title>Thrift now officially supports D!</title>
    <link href="http://klickverbot.at/blog/2012/03/thrift-now-officially-supports-d/"/>
-   <updated>2012-03-27T00:00:00+01:00</updated>
+   <updated>2012-03-27T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2012/03/thrift-now-officially-supports-d</id>
    <content type="html">&lt;p class=&quot;lead&quot;&gt;&lt;a href=&quot;http://thrift.apache.org&quot;&gt;Thrift&lt;/a&gt; is a cross-language serialization and RPC framework, originally developed for internal use at Facebook, and now an &lt;a href=&quot;http://apache.org&quot;&gt;Apache Software Foundation&lt;/a&gt; project. I started working on support for the &lt;a href=&quot;http://dlang.org&quot;&gt;D programming language&lt;/a&gt; during &lt;a href=&quot;http://www.klickverbot.at/code/gsoc/thrift/&quot;&gt;Google Summer of Code 2011&lt;/a&gt;, and at the end of last week, the implementation was finally incorporated into the main project.&lt;/p&gt;
 
@@ -329,7 +329,7 @@
  <entry>
    <title><code>getaddrinfo</code> cross-platform edge case behavior</title>
    <link href="http://klickverbot.at/blog/2012/01/getaddrinfo-edge-case-behavior-on-windows-linux-and-osx/"/>
-   <updated>2012-01-31T00:00:00+00:00</updated>
+   <updated>2012-01-31T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2012/01/getaddrinfo-edge-case-behavior-on-windows-linux-and-osx</id>
    <content type="html">&lt;p&gt;An often-needed piece of functionality in network programming is to resolve human-readable host or port names to their numerical equivalent, for example in order to pass the latter to operating system socket APIs. The &lt;code&gt;getaddrinfo&lt;/code&gt; function fills this role on POSIX and Windows. Apart from some flags, it accepts two string parameters for host and service (port) names and returns a list of corresponding IP addresses and port numbers, superseding the older &lt;code&gt;gethostbyname&lt;/code&gt; and &lt;code&gt;getservbyname&lt;/code&gt; functions.&lt;/p&gt;
 
@@ -632,7 +632,7 @@
  <entry>
    <title>D/Thrift: Performance and other random things</title>
    <link href="http://klickverbot.at/blog/2011/08/d-thrift-gsoc-performance-and-other-random-things/"/>
-   <updated>2011-08-01T00:00:00+01:00</updated>
+   <updated>2011-08-01T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2011/08/d-thrift-gsoc-performance-and-other-random-things</id>
    <content type="html">&lt;p&gt;This week, I will try to keep the post short, while still informative – I spent way too much time being unproductive due to hard to track down bugs already to be in the mood for writing up extensive ramblings. So, on to the meat of the recent changes (besides the usual little cleanup commits here and there):&lt;/p&gt;
 
@@ -717,14 +717,14 @@ llvm-ld -native -llphobos2 -ldl -lm -lrt benchmark_opt.bc
 
 &lt;p class=&quot;footnote&quot; id=&quot;fn1&quot;&gt;&lt;a href=&quot;#fnr1&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; &lt;s&gt;If you are curious about LDC 2, you can get the source I used from the &lt;a href=&quot;https://bitbucket.org/lindquist/ldc&quot;&gt;official hg repo&lt;/a&gt;, and the LDC-specific &lt;a href=&quot;https://github.com/dnadlinger/druntime/tree/ldc2&quot;&gt;druntime&lt;/a&gt; and &lt;a href=&quot;https://github.com/dnadlinger/phobos/tree/ldc2&quot;&gt;Phobos&lt;/a&gt; source from my clones at GitHub&lt;/s&gt;. LDC is &lt;a href=&quot;https://github.com/ldc-developers/ldc&quot;&gt;officially on GitHub&lt;/a&gt; now.&lt;/p&gt;
 
-&lt;p class=&quot;footnote&quot; id=&quot;fn2&quot;&gt;&lt;a href=&quot;#fnr2&quot;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt; Such as performance-testing the actual server implementations, but I don't expect any big surprises there, and I am not sure how to reliably benchmark the network-related code – running server and clients on the same machine is probably a bad idea?&lt;/p&gt;
+&lt;p class=&quot;footnote&quot; id=&quot;fn2&quot;&gt;&lt;a href=&quot;#fnr2&quot;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt; Such as performance-testing the actual server implementations, but I don&apos;t expect any big surprises there, and I am not sure how to reliably benchmark the network-related code – running server and clients on the same machine is probably a bad idea?&lt;/p&gt;
 </content>
  </entry>
  
  <entry>
    <title>D/Thrift: Non-Blocking Server, Async Client, and more</title>
    <link href="http://klickverbot.at/blog/2011/07/d-thrift-gsoc-nonblocking-server-async-client-and-more/"/>
-   <updated>2011-07-15T00:00:00+01:00</updated>
+   <updated>2011-07-15T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2011/07/d-thrift-gsoc-nonblocking-server-async-client-and-more</id>
    <content type="html">&lt;p&gt;First of all, the usual apologies for publishing this post later than I originally planned to. No, seriously, drafting a solid asynchronous client implementation ended up being a lot more work than I originally anticipated, but I wanted to discuss my ideas in this status report. Now, the post turned out way too large anyway, but I guess that’s what I deserve. ;)&lt;/p&gt;
 
@@ -852,7 +852,7 @@ llvm-ld -native -llphobos2 -ldl -lm -lrt benchmark_opt.bc
 
 &lt;p&gt;With the non-blocking server implementation being completed, only the »performance« and »documentation« items from my original timeline remain, besides some general clean-up work being left to do. However, Nitay, my mentor, suggested a few other things which could be worth looking into, such as a generalized client for querying multiple servers, to be used for things like redundancy, load distribution, data verification, etc. I will discuss this in more detail and then update the timeline accordingly.&lt;/p&gt;
 
-&lt;p class=&quot;footnote&quot; id=&quot;fn1&quot;&gt;&lt;a href=&quot;#fnr1&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; Why test in a Linux VM (Virtual Box 4.0.8) rather than directly on my OS X development box? Because Linux x86_64 is probably where most of the server-side deployments will end up, only an ancient GCC is available on OS X, DMD is still 32 bit-only there, and Valgrind/Callgrind which I used for profiling is not really usable on OS X 10.6. I am aware that using a VM might skew the results a bit, but I think the impact shouldn't be too large. Incidentally, the tests compiled and ran in the Linux VM generally performed better faster than on the host.&lt;/p&gt;
+&lt;p class=&quot;footnote&quot; id=&quot;fn1&quot;&gt;&lt;a href=&quot;#fnr1&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; Why test in a Linux VM (Virtual Box 4.0.8) rather than directly on my OS X development box? Because Linux x86_64 is probably where most of the server-side deployments will end up, only an ancient GCC is available on OS X, DMD is still 32 bit-only there, and Valgrind/Callgrind which I used for profiling is not really usable on OS X 10.6. I am aware that using a VM might skew the results a bit, but I think the impact shouldn&apos;t be too large. Incidentally, the tests compiled and ran in the Linux VM generally performed better faster than on the host.&lt;/p&gt;
 
 &lt;p class=&quot;footnote&quot; id=&quot;fn2&quot;&gt;&lt;a href=&quot;#fnr2&quot;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt; I patched KCachegrind to elide the middle of the symbol name for better readability in width-limited screenshots, and used my &lt;a href=&quot;https://gist.github.com/1069843&quot;&gt;own little demangling tool&lt;/a&gt; for the D results.&lt;/p&gt;
 
@@ -863,7 +863,7 @@ llvm-ld -native -llphobos2 -ldl -lm -lrt benchmark_opt.bc
  <entry>
    <title>D/Thrift: Docs, Servers, Tests</title>
    <link href="http://klickverbot.at/blog/2011/07/d-thrift-gsoc-docs-servers-tests/"/>
-   <updated>2011-07-04T00:00:00+01:00</updated>
+   <updated>2011-07-04T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2011/07/d-thrift-gsoc-docs-servers-tests</id>
    <content type="html">&lt;p&gt;Dear Reader,&lt;/p&gt;
 
@@ -898,7 +898,7 @@ llvm-ld -native -llphobos2 -ldl -lm -lrt benchmark_opt.bc
  <entry>
    <title>D/Thrift: Compact, JSON protocols, performance</title>
    <link href="http://klickverbot.at/blog/2011/06/d-thrift-gsoc-protocols-compact-json-performance/"/>
-   <updated>2011-06-22T00:00:00+01:00</updated>
+   <updated>2011-06-22T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2011/06/d-thrift-gsoc-protocols-compact-json-performance</id>
    <content type="html">&lt;p&gt;Another week of my Google Summer of Code project passed by, and so you are reading another status update. I am not including any core D development-related news this time, first because I didn’t do much DMD/Phobos work last week, and second because it gets tedious to list everything here – feel free to see my GitHub activity stream for more information. But still, thanks to Sean Kelly for quickly fixing the &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=6135&quot;&gt;OS X threading/GC race condition&lt;/a&gt; I encountered the week before.&lt;/p&gt;
 
@@ -927,7 +927,7 @@ llvm-ld -native -llphobos2 -ldl -lm -lrt benchmark_opt.bc
  <entry>
    <title>D/Thrift GSoC: Growing the library</title>
    <link href="http://klickverbot.at/blog/2011/06/d-thrift-gsoc-growing-the-library/"/>
-   <updated>2011-06-14T00:00:00+01:00</updated>
+   <updated>2011-06-14T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2011/06/d-thrift-gsoc-growing-the-library</id>
    <content type="html">&lt;p&gt;First, let me apologize for not posting an update last week – I had a busy time, but regardless I will try to let you know about the state of affairs regularly in the future. Now, what were I working on? I updated my &lt;a href=&quot;/code/gsoc/thrift/&quot;&gt;project page&lt;/a&gt; based on the timeline previously discussed at my project mailing list, and – besides me being a day late, more below – it is still valid. These were the main points I worked on:&lt;/p&gt;
 
@@ -963,7 +963,7 @@ llvm-ld -native -llphobos2 -ldl -lm -lrt benchmark_opt.bc
  <entry>
    <title>D/Thrift GSoC: First results</title>
    <link href="http://klickverbot.at/blog/2011/05/d-thrift-gsoc-first-results/"/>
-   <updated>2011-05-29T00:00:00+01:00</updated>
+   <updated>2011-05-29T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2011/05/d-thrift-gsoc-first-results</id>
    <content type="html">&lt;p&gt;The first week of my &lt;a href=&quot;/code/gsoc/thrift/&quot;&gt;&lt;em&gt;D/Thrift&lt;/em&gt; project&lt;/a&gt; as part of the &lt;a href=&quot;http://d-programming-language.org&quot;&gt;D programming language&lt;/a&gt; &lt;a href=&quot;http://www.google-melange.com/gsoc/org/google/gsoc2011/dprogramminglanguage&quot;&gt;Google Summer of Code 2011&lt;/a&gt; is over, and I am happy to be able to share some first results. If you are not sure what I am talking about yet: &lt;a href=&quot;http://thrift.apache.org&quot;&gt;Apache Thrift&lt;/a&gt;, originally developed for internal use at &lt;a href=&quot;http://facebook.com&quot;&gt;Facebook&lt;/a&gt;, is both a data serialization/RPC protocol and its reference implementation. In short, it works by defining data types and services interface in a language-agnostic interface definition file. Then, a compiler is used for generating code from that &lt;code&gt;.thrift&lt;/code&gt; file (currently written in C++), using target language support libraries which contain the actual serialization protocol/RPC implementation. Currently, Thrift supports a large number of languages including C++, Java, PHP and Python.&lt;/p&gt;
 
@@ -1070,310 +1070,381 @@ llvm-ld -native -llphobos2 -ldl -lm -lrt benchmark_opt.bc
  <entry>
    <title>Random D development news</title>
    <link href="http://klickverbot.at/blog/2011/04/random-d-development-news/"/>
-   <updated>2011-04-26T00:00:00+01:00</updated>
+   <updated>2011-04-26T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2011/04/random-d-development-news</id>
-   <content type="html">&lt;p&gt;During the last couple of weeks, I didn&amp;#8217;t really find time to update this blog. Nevertheless, however, I was able to spare some time for work on a couple open source projects related to the &lt;a href=&quot;http://d-programming-language.org&quot;&gt;D programming language&lt;/a&gt;. But first, let me quickly summarize some great changes that will be in the next &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; release:&lt;/p&gt;
-&lt;p&gt;Don Clugston has basically &lt;a href=&quot;https://github.com/D-Programming-Language/dmd/pull/23&quot;&gt;re-implemented &lt;span class=&quot;caps&quot;&gt;CTFE&lt;/span&gt;&lt;/a&gt; to fix a whole slew of compile-time function execution bugs, among which is the dreaded &lt;a href=&quot;http://d.puremagic.com/issues/show_bug.cgi?id=1330&quot;&gt;bug 1330&lt;/a&gt;. There are still some regressions compared to &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; 2.052 (like &lt;a href=&quot;http://lists.puremagic.com/pipermail/dmd-internals/2011-April/001448.html&quot;&gt;this one&lt;/a&gt;, which breaks QtD), but apart from those, it&amp;#8217;s a big step towards getting &lt;span class=&quot;caps&quot;&gt;CTFE&lt;/span&gt; out of the »experimental feature« category. The new architecture will also make implementing reference types easier, but this is still a long way off. Then next &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;/Phobos release will also include the new &lt;a href=&quot;http://cis.jhu.edu/~dsimcha/d/phobos/std_parallelism.html&quot;&gt;std.parallelism&lt;/a&gt; module by David Simcha, some GC optimizations and a large amount of other improvements (among which is the addition of the &lt;a href=&quot;https://github.com/D-Programming-Language/dmd/commit/2e261cd640e5266c569ad224ffbfe229a0315d97&quot;&gt;parent trait&lt;/a&gt;, so that QtD doesn&amp;#8217;t need a patched &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; any longer) – due to the GitHub migration and the larger part of x86_64 support being done, the perceived development speed in the core community really went up a notch.&lt;/p&gt;
-&lt;p&gt;As for my own (insignificant, compared to the above) contributions, I did some work on &lt;a href=&quot;http://dsource.org/projects/ldc&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;&lt;/a&gt; during the last few days, porting it to &lt;a href=&quot;http://llvm.org/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt; 2.9&lt;/a&gt; and bringing the front-end in sync with &lt;a href=&quot;http://digitalmars.com/d/1.0/changelog.html&quot;&gt;&lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; 1.067&lt;/a&gt; – you can find the changes in the default branch over at &lt;a href=&quot;https://bitbucket.org/lindquist/ldc&quot;&gt;Bitbucket&lt;/a&gt;. The &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; updates also contained some changes to the varargs &lt;span class=&quot;caps&quot;&gt;ABI&lt;/span&gt; on x86_64 and other areas of the runtime interface, which I didn&amp;#8217;t merge yet, because it would require an update to Tango as well. I am not aware of any regressions so far (see the &lt;a href=&quot;/code/ldc/&quot;&gt;DStress results&lt;/a&gt;), but feel free to ping me in case of any problems.&lt;/p&gt;
-&lt;p&gt;There were also some updates and bug fixes to D support in &lt;a href=&quot;http://swig.org&quot;&gt;&lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt;&lt;/a&gt;, most notably support for the &lt;a href=&quot;http://swig.org/Doc2.0/D.html#D_nspace&quot;&gt;nspace feature&lt;/a&gt;, which allows you to map C++ namespaces to D packages/modules (it doesn&amp;#8217;t work for free functions and global variables yet, but this is a general &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; restriction that could be easily lifted, just ask me if you need it). There was another &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; release in the meantime, version 2.0.3, but it was only a »quick backup« by the maintainer before he merged some intrusive Python changes. I was caught pretty much off-guard by it and had no time for real testing and thus, it contains some bugs (mainly related to nspace support when split-proxy mode is not activated, thanks to Jonathan Pfau for the reports) – please use &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; trunk instead.&lt;/p&gt;
-&lt;p&gt;Another little project I recently worked on is &lt;a href=&quot;/code/units/&quot;&gt;std.units&lt;/a&gt;, an units of measurement implementation for D. This topic came up several times on the NG previously, and every time it was suggested to add units support with Phobos, so I have merged the work into my Phobos fork. Please note, however, that this is in no way a formal review request yet. There are still a couple of items left on my to-do list, but before I am tackling the remaining issues, I&amp;#8217;d greatly appreciate some feedback (see the thread on the D newsgroup, &lt;a href=&quot;http://www.digitalmars.com/webnews/newsgroups.php?art_group=digitalmars.D&amp;amp;article_id=134590&quot; title=&quot;Phobos?&quot;&gt;&lt;span class=&quot;caps&quot;&gt;RFC&lt;/span&gt;: Units of measurement for D&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;Finally, a personal note: Yesterday, I received notice that I was accepted to work on my &lt;a href=&quot;/code/gsoc/thrift&quot;&gt;Apache Thrift project&lt;/a&gt; under the umbrella of Digital Mars as part of the &lt;a href=&quot;http://www.google-melange.com/gsoc/homepage/google/gsoc2011&quot;&gt;Google Summer of Code 2011&lt;/a&gt; – thanks a lot to everybody who supported my proposals for their trust in me! I know that the expectations are high, and will do my very best to live up to them.&lt;/p&gt;</content>
+   <content type="html">During the last couple of weeks, I didn&apos;t really find time to update this blog. Nevertheless, however, I was able to spare some time for work on a couple open source projects related to the &quot;D programming language&quot;:http://d-programming-language.org. But first, let me quickly summarize some great changes that will be in the next DMD release:
+
+Don Clugston has basically &quot;re-implemented CTFE&quot;:https://github.com/D-Programming-Language/dmd/pull/23 to fix a whole slew of compile-time function execution bugs, among which is the dreaded &quot;bug 1330&quot;:http://d.puremagic.com/issues/show_bug.cgi?id=1330. There are still some regressions compared to DMD 2.052 (like &quot;this one&quot;:http://lists.puremagic.com/pipermail/dmd-internals/2011-April/001448.html, which breaks QtD), but apart from those, it&apos;s a big step towards getting CTFE out of the »experimental feature« category. The new architecture will also make implementing reference types easier, but this is still a long way off. Then next DMD/Phobos release will also include the new &quot;std.parallelism&quot;:http://cis.jhu.edu/~dsimcha/d/phobos/std_parallelism.html module by David Simcha, some GC optimizations and a large amount of other improvements (among which is the addition of the &quot;parent trait&quot;:https://github.com/D-Programming-Language/dmd/commit/2e261cd640e5266c569ad224ffbfe229a0315d97, so that QtD doesn&apos;t need a patched DMD any longer) – due to the GitHub migration and the larger part of x86_64 support being done, the perceived development speed in the core community really went up a notch.
+
+As for my own (insignificant, compared to the above) contributions, I did some work on &quot;LDC&quot;:http://dsource.org/projects/ldc during the last few days, porting it to &quot;LLVM 2.9&quot;:http://llvm.org/ and bringing the front-end in sync with &quot;DMD 1.067&quot;:http://digitalmars.com/d/1.0/changelog.html – you can find the changes in the default branch over at &quot;Bitbucket&quot;:https://bitbucket.org/lindquist/ldc. The DMD updates also contained some changes to the varargs ABI on x86_64 and other areas of the runtime interface, which I didn&apos;t merge yet, because it would require an update to Tango as well. I am not aware of any regressions so far (see the &quot;DStress results&quot;:/code/ldc/), but feel free to ping me in case of any problems.
+
+There were also some updates and bug fixes to D support in &quot;SWIG&quot;:http://swig.org, most notably support for the &quot;nspace feature&quot;:http://swig.org/Doc2.0/D.html#D_nspace, which allows you to map C++ namespaces to D packages/modules (it doesn&apos;t work for free functions and global variables yet, but this is a general SWIG restriction that could be easily lifted, just ask me if you need it). There was another SWIG release in the meantime, version 2.0.3, but it was only a »quick backup« by the maintainer before he merged some intrusive Python changes. I was caught pretty much off-guard by it and had no time for real testing and thus, it contains some bugs (mainly related to nspace support when split-proxy mode is not activated, thanks to Jonathan Pfau for the reports) – please use SVN trunk instead.
+
+Another little project I recently worked on is &quot;std.units&quot;:/code/units/, an units of measurement implementation for D. This topic came up several times on the NG previously, and every time it was suggested to add units support with Phobos, so I have merged the work into my Phobos fork. Please note, however, that this is in no way a formal review request yet. There are still a couple of items left on my to-do list, but before I am tackling the remaining issues, I&apos;d greatly appreciate some feedback (see the thread on the D newsgroup, &quot;RFC: Units of measurement for D (Phobos?)&quot;:http://www.digitalmars.com/webnews/newsgroups.php?art_group=digitalmars.D&amp;article_id=134590).
+
+Finally, a personal note: Yesterday, I received notice that I was accepted to work on my &quot;Apache Thrift project&quot;:/code/gsoc/thrift under the umbrella of Digital Mars as part of the &quot;Google Summer of Code 2011&quot;:http://www.google-melange.com/gsoc/homepage/google/gsoc2011 – thanks a lot to everybody who supported my proposals for their trust in me! I know that the expectations are high, and will do my very best to live up to them.
+</content>
  </entry>
  
  <entry>
    <title>SWIG 2.0.2 with D support released</title>
    <link href="http://klickverbot.at/blog/2011/02/swig-2-0-2-with-d-support-released/"/>
-   <updated>2011-02-21T00:00:00+00:00</updated>
+   <updated>2011-02-21T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2011/02/swig-2-0-2-with-d-support-released</id>
-   <content type="html">&lt;p&gt;Yesterday, &lt;a href=&quot;http://swig.org&quot;&gt;&lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt;&lt;/a&gt; version 2.0.2 has been &lt;a href=&quot;http://sourceforge.net/news/?group_id=1645&amp;amp;id=297686&quot;&gt;officially released&lt;/a&gt;. Along with various bug fixes for the other supported languages, this is the first release to support the &lt;a href=&quot;http://d-programming-language.org&quot;&gt;D programming language&lt;/a&gt;. As always, you can get the release from the &lt;a href=&quot;http://swig.org/download.html&quot;&gt;download area&lt;/a&gt;, but here are direct links to the files hosted at SourceForge for your convenience: One for the &lt;a href=&quot;http://prdownloads.sourceforge.net/swig/swig-2.0.2.tar.gz&quot;&gt;source tarball&lt;/a&gt;, and another for &lt;em&gt;&lt;a href=&quot;http://prdownloads.sourceforge.net/swig/swigwin-2.0.2.zip&quot;&gt;swigwin&lt;/a&gt;&lt;/em&gt; which includes a pre-built Win32 executable.&lt;/p&gt;
-&lt;p&gt;Since my &lt;a href=&quot;/blog/2010/11/announcing-d-support-in-swig/&quot;&gt;first announcement&lt;/a&gt;, there were a number of changes and improvements. Along them were some critical fixes to the generated code when compiled on Windows, some minor ones regarding name collision in the D part, and a fix to the »directors« feature where a wrong C++ method would be called silently under certain circumstances (thanks to Jimmy Cao for reporting). Unfortunately, there were also some &lt;a href=&quot;/blog/2010/12/swig-d-breaking-name-changes/&quot;&gt;breaking name changes&lt;/a&gt;, as previously mentioned on this blog. Furthermore, I added basic support for operator overloading, please refer to the &lt;a href=&quot;http://www.swig.org/Doc2.0/D.html#D_operator_overloading&quot;&gt;documentation&lt;/a&gt; for details.&lt;/p&gt;
-&lt;p&gt;If you have any questions or need assistance with using &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; on a certain library, feel free to &lt;a href=&quot;/#contact&quot;&gt;contact&lt;/a&gt; me directly or to post to the &lt;a href=&quot;http://swig.org/mail.html&quot;&gt;swig-user&lt;/a&gt; mailing list. During the next few days, I will be quite busy and cannot promise you to reply quickly, but after that, I will be happy to help. Oh, and it would be great if you could share your personal experiences, common pitfalls and how to overcome them when using &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; for the first time, since »Getting Started«-style documentation for people new to &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; is a bit scarce at the moment!&lt;/p&gt;</content>
+   <content type="html">Yesterday, &quot;SWIG&quot;:http://swig.org version 2.0.2 has been &quot;officially released&quot;:http://sourceforge.net/news/?group_id=1645&amp;id=297686. Along with various bug fixes for the other supported languages, this is the first release to support the &quot;D programming language&quot;:http://d-programming-language.org. As always, you can get the release from the &quot;download area&quot;:http://swig.org/download.html, but here are direct links to the files hosted at SourceForge for your convenience: One for the &quot;source tarball&quot;:http://prdownloads.sourceforge.net/swig/swig-2.0.2.tar.gz, and another for _&quot;swigwin&quot;:http://prdownloads.sourceforge.net/swig/swigwin-2.0.2.zip_ which includes a pre-built Win32 executable.
+
+Since my &quot;first announcement&quot;:/blog/2010/11/announcing-d-support-in-swig/, there were a number of changes and improvements. Along them were some critical fixes to the generated code when compiled on Windows, some minor ones regarding name collision in the D part, and a fix to the »directors« feature where a wrong C++ method would be called silently under certain circumstances (thanks to Jimmy Cao for reporting). Unfortunately, there were also some &quot;breaking name changes&quot;:/blog/2010/12/swig-d-breaking-name-changes/, as previously mentioned on this blog. Furthermore, I added basic support for operator overloading, please refer to the &quot;documentation&quot;:http://www.swig.org/Doc2.0/D.html#D_operator_overloading for details.
+
+If you have any questions or need assistance with using SWIG on a certain library, feel free to &quot;contact&quot;:/#contact me directly or to post to the &quot;swig-user&quot;:http://swig.org/mail.html mailing list. During the next few days, I will be quite busy and cannot promise you to reply quickly, but after that, I will be happy to help. Oh, and it would be great if you could share your personal experiences, common pitfalls and how to overcome them when using SWIG for the first time, since »Getting Started«-style documentation for people new to SWIG is a bit scarce at the moment!
+</content>
  </entry>
  
  <entry>
    <title>Breaking name changes in SWIG/D</title>
    <link href="http://klickverbot.at/blog/2010/12/swig-d-breaking-name-changes/"/>
-   <updated>2010-12-01T00:00:00+00:00</updated>
+   <updated>2010-12-01T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2010/12/swig-d-breaking-name-changes</id>
-   <content type="html">&lt;p&gt;Sorry if this notice might come a bit late for some of you, but a few days ago, I have committed a breaking change to &lt;a href=&quot;/blog/2010/11/announcing-d-support-in-swig/&quot;&gt;D support&lt;/a&gt; in &lt;a href=&quot;http://swig.org&quot;&gt;&lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt;&lt;/a&gt; trunk. It was needed to bring the names used in the D module in line with the C# one, the naming scheme of which was intended to be language-independent by the principal maintainer (although it is only used in the C# and D parts right now).&lt;/p&gt;
-&lt;p&gt;Most of the changes revolve around the term »wrap D module« being replaced with »intermediary D module«, including names derived from it. To adapt your interface files, just perform the following replacements:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;s/cwtype/ctype/g&lt;br /&gt;
-s/dwtype/imtype/g&lt;br /&gt;
-s/dptype/dtype/g&lt;br /&gt;
-&lt;br /&gt;
-s/&lt;span class=&quot;nv&quot;&gt;$wcall&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$imcall&lt;/span&gt;/g&lt;br /&gt;
-s/&lt;span class=&quot;nv&quot;&gt;$dpcall&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$dcall&lt;/span&gt;/g&lt;br /&gt;
-&lt;br /&gt;
-s/wrapdmodule/imdmodule/g&lt;br /&gt;
-&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;</content>
+   <content type="html">Sorry if this notice might come a bit late for some of you, but a few days ago, I have committed a breaking change to &quot;D support&quot;:/blog/2010/11/announcing-d-support-in-swig/ in &quot;SWIG&quot;:http://swig.org trunk. It was needed to bring the names used in the D module in line with the C# one, the naming scheme of which was intended to be language-independent by the principal maintainer (although it is only used in the C# and D parts right now).
+
+Most of the changes revolve around the term »wrap D module« being replaced with »intermediary D module«, including names derived from it. To adapt your interface files, just perform the following replacements:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;s/cwtype/ctype/g
+s/dwtype/imtype/g
+s/dptype/dtype/g
+
+s/&lt;span class=&quot;nv&quot;&gt;$wcall&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$imcall&lt;/span&gt;/g
+s/&lt;span class=&quot;nv&quot;&gt;$dpcall&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$dcall&lt;/span&gt;/g
+
+s/wrapdmodule/imdmodule/g
+&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+</content>
  </entry>
  
  <entry>
    <title>Announcing: D support in SWIG</title>
    <link href="http://klickverbot.at/blog/2010/11/announcing-d-support-in-swig/"/>
-   <updated>2010-11-21T00:00:00+00:00</updated>
+   <updated>2010-11-21T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2010/11/announcing-d-support-in-swig</id>
-   <content type="html">&lt;p&gt;In a nutshell, &lt;a href=&quot;http://swig.org&quot;&gt;&lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt;&lt;/a&gt; is a »glue code« generator, allowing you to access C/C++ libraries from various target languages, including C#, Go, Java, Ruby, Python … and, since I merged my work into &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; trunk a few days ago, also the &lt;a href=&quot;http://digitalmars.com/d/&quot;&gt;D programming language&lt;/a&gt;, both version 1 and 2.&lt;/p&gt;
-&lt;p&gt;Why would D support in &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; be useful in the first place? After all, D is perfectly able to &lt;a href=&quot;http://www.digitalmars.com/d/1.0/interfaceToC.html&quot;&gt;interface with C&lt;/a&gt; on its own, so why bother using a third-party tool?&lt;/p&gt;
-&lt;p&gt;Well, it turns out that even for »plain old C«, there are reasons why you&amp;#8217;d want to use a bindings generator. Besides the obvious problem that you have to convert the C header files to D modules somehow, there is one major inconvenience with directly using C libraries from D: D code usually is on a higher abstraction level than C, and many of the features that make D interesting are simply not available when dealing with C libraries. For instance, you would have to manually convert strings between pointers to &lt;code&gt;\0&lt;/code&gt;-terminated char arrays and D &lt;code&gt;string&lt;/code&gt;s, and most interesting algorithms from the D2 standard library are simply unusable with C arrays.&lt;/p&gt;
-&lt;p&gt;While these issues can be worked around relatively easy by hand-coding a thin wrapper layer around the C library in question, there is another issue where writing wrapper code per hand is not feasible: C++ class libraries. D1 does not support interfacing with C++ at all, and even if &lt;code&gt;extern(C++)&lt;/code&gt; has been added to D2, the support is quite limited, and a custom wrapper layer is still required in many cases.&lt;/p&gt;
-&lt;p&gt;Here is, without further ado, a small example of what the D module for &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; allows you to do. Consider the following (admittedly not very useful) piece of C++ code:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pair&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m_position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-   &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getDescription&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-   &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPosition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;br /&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m_position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;k&quot;&gt;protected&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m_position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Circle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;n&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-   &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getDescription&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;br /&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;A perfect circle.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ostringstream&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-   &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getPosition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;A shape at (&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;, &amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;second&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;).&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; It looks like this: &amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getDescription&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;br /&gt;
+   <content type="html">In a nutshell, &quot;SWIG&quot;:http://swig.org is a »glue code« generator, allowing you to access C/C++ libraries from various target languages, including C#, Go, Java, Ruby, Python … and, since I merged my work into SWIG trunk a few days ago, also the &quot;D programming language&quot;:http://digitalmars.com/d/, both version 1 and 2.
+
+Why would D support in SWIG be useful in the first place? After all, D is perfectly able to &quot;interface with C&quot;:http://www.digitalmars.com/d/1.0/interfaceToC.html on its own, so why bother using a third-party tool?
+
+Well, it turns out that even for »plain old C«, there are reasons why you&apos;d want to use a bindings generator. Besides the obvious problem that you have to convert the C header files to D modules somehow, there is one major inconvenience with directly using C libraries from D: D code usually is on a higher abstraction level than C, and many of the features that make D interesting are simply not available when dealing with C libraries. For instance, you would have to manually convert strings between pointers to @\0@-terminated char arrays and D [@string@]s, and most interesting algorithms from the D2 standard library are simply unusable with C arrays.
+
+While these issues can be worked around relatively easy by hand-coding a thin wrapper layer around the C library in question, there is another issue where writing wrapper code per hand is not feasible: C++ class libraries. D1 does not support interfacing with C++ at all, and even if @extern(C++)@ has been added to D2, the support is quite limited, and a custom wrapper layer is still required in many cases.
+
+Here is, without further ado, a small example of what the D module for SWIG allows you to do. Consider the following (admittedly not very useful) piece of C++ code:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pair&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m_position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getDescription&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+   &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPosition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m_position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;protected&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m_position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Circle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getDescription&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;A perfect circle.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ostringstream&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+   &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getPosition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;A shape at (&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;, &amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;second&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;).&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; It looks like this: &amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getDescription&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;By using &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; to generate the necessary glue code, you can easily make the classes available in D, as demonstrated by the following small program:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Square&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;br /&gt;
-      &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-   &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getDescription&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;br /&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Quite square-ish.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;c1&quot;&gt;// One of the ugliest bugs currently in D: Type inference does not&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;c1&quot;&gt;// work correctly for arrays of classes with a common supertype.&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shapes&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;br /&gt;
-      &lt;span class=&quot;k&quot;&gt;cast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;br /&gt;
-      &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Square&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-   &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shapes&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;br /&gt;
-      &lt;span class=&quot;n&quot;&gt;writeln&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;br /&gt;
-   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;br /&gt;
+
+By using SWIG to generate the necessary glue code, you can easily make the classes available in D, as demonstrated by the following small program:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Square&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getDescription&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Quite square-ish.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;c1&quot;&gt;// One of the ugliest bugs currently in D: Type inference does not&lt;/span&gt;
+   &lt;span class=&quot;c1&quot;&gt;// work correctly for arrays of classes with a common supertype.&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shapes&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;cast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Square&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shapes&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;writeln&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
 &lt;figure&gt;&lt;pre&gt;&lt;code&gt;A shape at (1, 3). It looks like this: A perfect circle.
 A shape at (2, 1). It looks like this: Quite square-ish.&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-&lt;p&gt;Note that &lt;code&gt;Shape&lt;/code&gt; is extended on the D side just as usual and how the C++ call to &lt;code&gt;getDescription()&lt;/code&gt; is transparently routed to &lt;code&gt;Square.getDescription()&lt;/code&gt;. This mechanism dubbed &lt;em&gt;cross language polymorphism&lt;/em&gt; is enabled by a feature of &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; called »directors«, which causes the extra indirection layer needed for this to be emitted. Also note how the strings are seamlessly converted between their C++ and D representation.&lt;/p&gt;
-&lt;p&gt;So you want to give the D module in &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; a whirl? Just head over to the &lt;a href=&quot;https://swig.svn.sourceforge.net/svnroot/swig/trunk/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt;&lt;/a&gt;, grab the sources from there, and &lt;a href=&quot;http://swig.org/svn.html&quot;&gt;build it&lt;/a&gt;. If you are planning to run the test suite or the included examples, you might want to specify &lt;code&gt;--with-d1-compiler=&amp;lt;…&amp;gt;&lt;/code&gt; and &lt;code&gt;--with-d2-compiler=&amp;lt;…&amp;gt;&lt;/code&gt; at the &lt;code&gt;configure&lt;/code&gt; command line. In case you want to play around with the small example from above, I also put up a &lt;a href=&quot;demo.zip&quot;&gt;small archive&lt;/a&gt; containing the files (for such a small example, the C++ code could be included directly in the &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; interface file via the &lt;code&gt;%inline&lt;/code&gt; directive, but that&amp;#8217;s how you would probably want to tackle a real library).&lt;/p&gt;
-&lt;p&gt;What can you expect to work? The test-suite which covers all the basic features of &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; should build and run fine, which means that it will probably just work when trying to wrap a library. The source tree includes also a documentation chapter on D (&lt;code&gt;Doc/Manual/D.html&lt;/code&gt;) which describes the basic structure and some of the D-specific features. As the D module started out as a fork from the C# one, the documentation on C# could be of considerable use for you as well.&lt;/p&gt;
-&lt;p&gt;There are still a few areas which need serious work, though. One of them is &lt;em&gt;operator overloading&lt;/em&gt;, where both semantics and implementation differ quite a lot between C++ and D. It would probably be not too hard to come up with a solution (maybe using D&amp;#8217;s extensive compile-time reflection capabilities to avoid having to add special cases to the &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; module), but I would really appreciate some help from someone actually needing it here.&lt;/p&gt;
-&lt;p&gt;The other big one is &lt;em&gt;multithreading support&lt;/em&gt;. Since I personally have not needed to use C++ libraries from D in a threaded setting yet, I have not really thought about the problems arising from multiple threads calling the wrapper code. Especially in combination with the garbage collector, I expect quite a lot of issues to pop up in a serious multithreaded environment. There are a few places which include threading-related code (&lt;code&gt;synchronized&lt;/code&gt;, &lt;code&gt;shared&lt;/code&gt;, …), but these are mostly remnants from the C# module, which may or may not apply to D – once again, I would be happy if somebody needing this would help me out here.&lt;/p&gt;
-&lt;p&gt;Speaking of C# remnants: As mentioned above, the D module was forked from the C# module, which in turn started out as a fork from the Java one. Due to this heritage, there are a few places where things could be done much easier in D. For example, the code for &lt;em&gt;returning C strings to D&lt;/em&gt; without memory leaks is unnecessarily complex at the moment. But the same applies here as well – I would be happy to support anyone wanting to clean this up, but the current implementation did its job for me so far.&lt;/p&gt;
-&lt;p&gt;Anyway, I would be glad if some of you could go ahead and put &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; to real-world use, so that any major bug can be fixed before the next &lt;span class=&quot;caps&quot;&gt;SWIG&lt;/span&gt; release (not planned so far). If you stumble upon any issues or if any questions should arise, please feel free to contact me, either via &lt;a href=&quot;/about#contact&quot;&gt;mail&lt;/a&gt;, on &lt;a href=&quot;http://www.digitalmars.com/webnews/newsgroups.php?group=digitalmars.D&quot;&gt;digitalmars.D&lt;/a&gt; or in &lt;a href=&quot;irc://irc.freenode.net/D&quot;&gt;#D on freenode&lt;/a&gt;. Besides that, as always, it would also be nice just to hear about what you are doing with this.&lt;/p&gt;
-&lt;p class=&quot;update&quot;&gt;In the meantime, two severe bugs in the code generated for Windows have been fixed; please be sure to use the latest version from &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt;.&lt;/p&gt;</content>
+
+Note that @Shape@ is extended on the D side just as usual and how the C++ call to @getDescription()@ is transparently routed to @Square.getDescription()@. This mechanism dubbed _cross language polymorphism_ is enabled by a feature of SWIG called »directors«, which causes the extra indirection layer needed for this to be emitted. Also note how the strings are seamlessly converted between their C++ and D representation.
+
+So you want to give the D module in SWIG a whirl? Just head over to the &quot;SWIG SVN&quot;:https://swig.svn.sourceforge.net/svnroot/swig/trunk/, grab the sources from there, and &quot;build it&quot;:http://swig.org/svn.html. If you are planning to run the test suite or the included examples, you might want to specify @--with-d1-compiler=&lt;…&gt;@ and @--with-d2-compiler=&lt;…&gt;@ at the @configure@ command line. In case you want to play around with the small example from above, I also put up a &quot;small archive&quot;:demo.zip containing the files (for such a small example, the C++ code could be included directly in the SWIG interface file via the @%inline@ directive, but that&apos;s how you would probably want to tackle a real library).
+
+What can you expect to work? The test-suite which covers all the basic features of SWIG should build and run fine, which means that it will probably just work when trying to wrap a library. The source tree includes also a documentation chapter on D (@Doc/Manual/D.html@) which describes the basic structure and some of the D-specific features. As the D module started out as a fork from the C# one, the documentation on C# could be of considerable use for you as well.
+
+There are still a few areas which need serious work, though. One of them is _operator overloading_, where both semantics and implementation differ quite a lot between C++ and D. It would probably be not too hard to come up with a solution (maybe using D&apos;s extensive compile-time reflection capabilities to avoid having to add special cases to the SWIG module), but I would really appreciate some help from someone actually needing it here.
+
+The other big one is _multithreading support_. Since I personally have not needed to use C++ libraries from D in a threaded setting yet, I have not really thought about the problems arising from multiple threads calling the wrapper code. Especially in combination with the garbage collector, I expect quite a lot of issues to pop up in a serious multithreaded environment. There are a few places which include threading-related code (@synchronized@, @shared@, …), but these are mostly remnants from the C# module, which may or may not apply to D – once again, I would be happy if somebody needing this would help me out here.
+
+Speaking of C# remnants: As mentioned above, the D module was forked from the C# module, which in turn started out as a fork from the Java one. Due to this heritage, there are a few places where things could be done much easier in D. For example, the code for _returning C strings to D_ without memory leaks is unnecessarily complex at the moment. But the same applies here as well – I would be happy to support anyone wanting to clean this up, but the current implementation did its job for me so far.
+
+Anyway, I would be glad if some of you could go ahead and put SWIG to real-world use, so that any major bug can be fixed before the next SWIG release (not planned so far). If you stumble upon any issues or if any questions should arise, please feel free to contact me, either via &quot;mail&quot;:/about#contact, on &quot;digitalmars.D&quot;:http://www.digitalmars.com/webnews/newsgroups.php?group=digitalmars.D or in &quot;#D on freenode&quot;:irc://irc.freenode.net/D. Besides that, as always, it would also be nice just to hear about what you are doing with this.
+
+p(update). In the meantime, two severe bugs in the code generated for Windows have been fixed; please be sure to use the latest version from SVN.
+</content>
  </entry>
  
  <entry>
    <title>The Joys of OPTLINK</title>
    <link href="http://klickverbot.at/blog/2010/02/the-joys-of-optlink/"/>
-   <updated>2010-02-13T00:00:00+00:00</updated>
+   <updated>2010-02-13T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2010/02/the-joys-of-optlink</id>
-   <content type="html">&lt;p&gt;As you might know, &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;/Windows (the reference compiler for the &lt;a href=&quot;http://www.digitalmars.com/d/1.0/&quot;&gt;D&lt;/a&gt; programming language) does not use the standard &lt;span class=&quot;caps&quot;&gt;COFF&lt;/span&gt; format for the object files it generates, but the fairly obscure &lt;span class=&quot;caps&quot;&gt;OMF&lt;/span&gt; instead. This fact itself causes quite a number of annoyances. For example, the format differences make it unable to link static libraries produced by other compilers to D projects, which is especially annoying since it also applies to &lt;span class=&quot;caps&quot;&gt;DLL&lt;/span&gt; import libraries. You also cannot use any tools which expect object files in &lt;span class=&quot;caps&quot;&gt;COFF&lt;/span&gt; format and vice versa.&lt;/p&gt;
-&lt;p&gt;However, all of these issues, as annoying as they may be, do not pose a serious problem, they can all be worked around. But there is another one, and it has seven letters: &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt;. &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt;, courtesy of Digital Mars, is the linker which comes with &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;. There are quite a number of issues with it:&lt;/p&gt;
-&lt;p&gt;First, it is proprietary closed-source software. Apart from some people&amp;#8217;s idealistic worries, this also poses a serious problem to more pragmatically inclined coders because &lt;em&gt;there are no alternative linkers&lt;/em&gt; for &lt;span class=&quot;caps&quot;&gt;OMF&lt;/span&gt;, at least no even half-decent ones. This means that if you stumble upon a bug, you can do nothing more than to wait for Walter Bright to fix it.&lt;/p&gt;
-&lt;p&gt;Second, even if the source code was available, it would probably still be hard to fix bugs, since, according to Walter himself, large parts are written in assembler – a &lt;em&gt;maintainer&amp;#8217;s nightmare&lt;/em&gt;. This might also explain why it took him so long to fix some serious bugs in the past…&lt;/p&gt;
-&lt;p&gt;Third, there are bugs. &lt;em&gt;Lots of bugs&lt;/em&gt;, compared to other linkers and with the pretty high version number (8.00.2) in mind. If you want to know what I am talking about, just search the D newsgroups; projects which make extensive use of templates seem to be affected more often than others. Until yesterday, I personally had been spared from this kind of issues, but the &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt; bug I encountered yesterday almost drove me crazy, because one wouldn&amp;#8217;t expect this at all: &lt;!--more--&gt;&lt;/p&gt;
-&lt;p&gt;After I had worked quite some time on Linux exclusively, I needed to compile a Windows version of a project of mine. So I went ahead and rebooted, updated &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;, Tango and a few other tools. Everything worked fine, the project even built fine, until I needed to build debug symbols into the binary. Every time I just added the &lt;code&gt;-g&lt;/code&gt; flag to the compiler invocation, &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt; would abort with »Error 118: Filename Expected«. Because I had also upgraded my build tool, my first thought was that the linker commands could really be broken, but on closer inspection, it turned out that the invocation was generated perfectly fine. So I went on and downgraded all of the tools again, but to no avail – again the same error, although debug builds had worked flawlessly in the past.&lt;/p&gt;
-&lt;p&gt;After having searched for about an hour, I finally found the cause, and I could not really believe it at first: Compared to my previous D/Windows setup, I had added the Notepad++ installation directory to my &lt;code&gt;PATH&lt;/code&gt;. You might ask yourself now, »Um, what? How should that break the linker?« Well, it turned out that &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt; apparently has problems with handling plus signs in all the lookup paths it uses, including not only the ones passed at the command line, but also those from the environment variables.&lt;/p&gt;
-&lt;p&gt;For a second I was really tempted to just drop &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; altogether, but unfortunately, there currently is no other D compiler of comparable quality for Windows. In my eyes, it would really help if &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; used &lt;span class=&quot;caps&quot;&gt;COFF&lt;/span&gt; for its object files, making it possible to easily switch out &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt;, since the maturity of the tool-chain is currently the number one problem of D.&lt;/p&gt;</content>
+   <content type="html">As you might know, DMD/Windows (the reference compiler for the &lt;a href=&quot;http://www.digitalmars.com/d/1.0/&quot;&gt;D&lt;/a&gt; programming language) does not use the standard COFF format for the object files it generates, but the fairly obscure OMF instead. This fact itself causes quite a number of annoyances. For example, the format differences make it unable to link static libraries produced by other compilers to D projects, which is especially annoying since it also applies to DLL import libraries. You also cannot use any tools which expect object files in COFF format and vice versa.
+
+However, all of these issues, as annoying as they may be, do not pose a serious problem, they can all be worked around. But there is another one, and it has seven letters: OPTLINK. OPTLINK, courtesy of Digital Mars, is the linker which comes with DMD. There are quite a number of issues with it:
+
+First, it is proprietary closed-source software. Apart from some people&apos;s idealistic worries, this also poses a serious problem to more pragmatically inclined coders because _there are no alternative linkers_ for OMF, at least no even half-decent ones. This means that if you stumble upon a bug, you can do nothing more than to wait for Walter Bright to fix it.
+
+Second, even if the source code was available, it would probably still be hard to fix bugs, since, according to Walter himself, large parts are written in assembler – a _maintainer&apos;s nightmare_. This might also explain why it took him so long to fix some serious bugs in the past…
+
+Third, there are bugs. _Lots of bugs_, compared to other linkers and with the pretty high version number (8.00.2) in mind. If you want to know what I am talking about, just search the D newsgroups; projects which make extensive use of templates seem to be affected more often than others. Until yesterday, I personally had been spared from this kind of issues, but the OPTLINK bug I encountered yesterday almost drove me crazy, because one wouldn&apos;t expect this at all: &lt;!--more--&gt;
+
+After I had worked quite some time on Linux exclusively, I needed to compile a Windows version of a project of mine. So I went ahead and rebooted, updated DMD, Tango and a few other tools. Everything worked fine, the project even built fine, until I needed to build debug symbols into the binary. Every time I just added the [@-g@] flag to the compiler invocation, OPTLINK would abort with »Error 118: Filename Expected«. Because I had also upgraded my build tool, my first thought was that the linker commands could really be broken, but on closer inspection, it turned out that the invocation was generated perfectly fine. So I went on and downgraded all of the tools again, but to no avail – again the same error, although debug builds had worked flawlessly in the past.
+
+After having searched for about an hour, I finally found the cause, and I could not really believe it at first: Compared to my previous D/Windows setup, I had added the Notepad++ installation directory to my [@PATH@]. You might ask yourself now, »Um, what? How should that break the linker?« Well, it turned out that OPTLINK apparently has problems with handling plus signs in all the lookup paths it uses, including not only the ones passed at the command line, but also those from the environment variables.
+
+For a second I was really tempted to just drop DMD altogether, but unfortunately, there currently is no other D compiler of comparable quality for Windows. In my eyes, it would really help if DMD used COFF for its object files, making it possible to easily switch out OPTLINK, since the maturity of the tool-chain is currently the number one problem of D.
+</content>
  </entry>
  
  <entry>
    <title>Setting up GDC and Tango on Linux x86</title>
    <link href="http://klickverbot.at/blog/2009/10/setting-up-gdc-and-tango-on-linux-x86/"/>
-   <updated>2009-10-26T00:00:00+00:00</updated>
+   <updated>2009-10-26T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2009/10/setting-up-gdc-and-tango-on-linux-x86</id>
-   <content type="html">&lt;p&gt;Currently, there are three more-or-less working compilers for the &lt;a href=&quot;http://digitalmars.com/d/&quot;&gt;D programming language&lt;/a&gt; (version 1): The oldest and most mature one is &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;, short for Digital Mars D Compiler, the official reference implementation by Walter Bright, the creator of D. It has grown reasonably stable, but has certain limitations, most of them resulting from using a proprietary back-end. Additionally, not all parts of it are Open Source (starting with a capital letter). The second one is &lt;a href=&quot;http://dsource.org/projects/ldc&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;&lt;/a&gt;, a rather young, but quick-moving project which aims to port the front-end of &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; to the also fairly recent &lt;a href=&quot;http://llvm.org&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt;&lt;/a&gt; compiler framework in order to leverage its advanced code generation and optimization infrastructure. While it still has some bugs to iron out (most notably missing exception support on Windows), it works reasonably well on Linux x86 (32 and 64&amp;nbsp;bit). The third compiler, and subject of interest for this post, is &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt;. Like the other two compilers, it uses the Digital Mars D front-end, but coupled to the very mature &lt;span class=&quot;caps&quot;&gt;GNU&lt;/span&gt; Compiler Collection (&lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt;) back-end, whose C/C++ compiler is widely used on Unix-like systems like Linux, Mac OS X, various flavors of &lt;span class=&quot;caps&quot;&gt;BSD&lt;/span&gt; and also Windows through &lt;a href=&quot;http://mingw.org&quot;&gt;MinGW&lt;/a&gt;. Unfortunately, development on it has stalled, making it pretty much unusable due to the many bugs the old &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; front-end it uses contains.&lt;/p&gt;
-&lt;p&gt;However, there has been an effort started to resurrect &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; recently. Development takes place over at &lt;a href=&quot;http://bitbucket.org/goshawk/gdc&quot;&gt;bitbucket&lt;/a&gt; (you can also find building instructions for &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; there) and the project has been able to celebrate some first success: The reasonably recent front-end versions 1.040 and 2.015 (for D2) are working with &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; 4.3. This seemed enough of a sign of life for me to decide to give &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; another try. After some initial problems (some of which resulted from bugs which have already been fixed in the official Mercurial repository) I managed to compile a &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; binary (frontend version 1.040 against &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; 4.3.1) which happily compiles the &lt;a href=&quot;http://dsource.org/projects/tango&quot;&gt;Tango&lt;/a&gt; standard library and a personal project of mine. This is what I did (silently omitting quite a few hours of searching and fixing bugs): &lt;!--more--&gt;&lt;/p&gt;
-&lt;p&gt;First, go to some temporary directory and checkout the &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; sources from the Mercurial repository (at the time of writing, revision 53 was current):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
-hg clone http://bitbucket.org/goshawk/gdc&lt;br /&gt;
+   <content type="html">Currently, there are three more-or-less working compilers for the &quot;D programming language&quot;:http://digitalmars.com/d/ (version 1): The oldest and most mature one is DMD, short for Digital Mars D Compiler, the official reference implementation by Walter Bright, the creator of D. It has grown reasonably stable, but has certain limitations, most of them resulting from using a proprietary back-end. Additionally, not all parts of it are Open Source (starting with a capital letter). The second one is &lt;a href=&quot;http://dsource.org/projects/ldc&quot;&gt;LDC&lt;/a&gt;, a rather young, but quick-moving project which aims to port the front-end of DMD to the also fairly recent &lt;a href=&quot;http://llvm.org&quot;&gt;LLVM&lt;/a&gt; compiler framework in order to leverage its advanced code generation and optimization infrastructure. While it still has some bugs to iron out (most notably missing exception support on Windows), it works reasonably well on Linux x86 (32 and 64&amp;nbsp;bit). The third compiler, and subject of interest for this post, is GDC. Like the other two compilers, it uses the Digital Mars D front-end, but coupled to the very mature GNU Compiler Collection (GCC) back-end, whose C/C++ compiler is widely used on Unix-like systems like Linux, Mac OS X, various flavors of BSD and also Windows through &lt;a href=&quot;http://mingw.org&quot;&gt;MinGW&lt;/a&gt;. Unfortunately, development on it has stalled, making it pretty much unusable due to the many bugs the old DMD front-end it uses contains.
+
+However, there has been an effort started to resurrect GDC recently. Development takes place over at &lt;a href=&quot;http://bitbucket.org/goshawk/gdc&quot;&gt;bitbucket&lt;/a&gt; (you can also find building instructions for GDC there) and the project has been able to celebrate some first success: The reasonably recent front-end versions 1.040 and 2.015 (for D2) are working with GCC 4.3. This seemed enough of a sign of life for me to decide to give GDC another try. After some initial problems (some of which resulted from bugs which have already been fixed in the official Mercurial repository) I managed to compile a GDC binary (frontend version 1.040 against GCC 4.3.1) which happily compiles the &lt;a href=&quot;http://dsource.org/projects/tango&quot;&gt;Tango&lt;/a&gt; standard library and a personal project of mine. This is what I did (silently omitting quite a few hours of searching and fixing bugs): &lt;!--more--&gt;
+
+First, go to some temporary directory and checkout the GDC sources from the Mercurial repository (at the time of writing, revision 53 was current):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+hg clone http://bitbucket.org/goshawk/gdc
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Then, download the core of &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; 4.3.1 from a &lt;a href=&quot;http://gcc.gnu.org/mirrors.html&quot;&gt;mirror near you&lt;/a&gt; (version 4.3.2 should also work, but builds against 4.3.4 are currently known to be broken) and extract it inside the &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; sources:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;wget ftp://gd.tuwien.ac.at/gnu/gcc/releases/gcc-4.3.1/gcc-core-4.3.1.tar.bz2&lt;br /&gt;
-mkdir gdc/dev&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;gdc/dev&lt;br /&gt;
-tar xjvf ../../gcc-core-4.3.1.tar.bz2&lt;br /&gt;
+
+Then, download the core of GCC 4.3.1 from a &lt;a href=&quot;http://gcc.gnu.org/mirrors.html&quot;&gt;mirror near you&lt;/a&gt; (version 4.3.2 should also work, but builds against 4.3.4 are currently known to be broken) and extract it inside the GDC sources:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;wget ftp://gd.tuwien.ac.at/gnu/gcc/releases/gcc-4.3.1/gcc-core-4.3.1.tar.bz2
+mkdir gdc/dev
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;gdc/dev
+tar xjvf ../../gcc-core-4.3.1.tar.bz2
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Now, link the &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; sources into the extracted directory and use the provided &lt;code&gt;setup-gcc.sh&lt;/code&gt; script to patch &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; to enable D version 1:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;gcc-4.3.4&lt;br /&gt;
-ln -s ../../../d gcc/d&lt;br /&gt;
-gcc/d/setup-gcc.sh &amp;#8212;d-language-version&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1&lt;br /&gt;
+
+Now, link the GDC sources into the extracted directory and use the provided [@setup-gcc.sh@] script to patch GCC to enable D version 1:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;gcc-4.3.4
+ln -s ../../../d gcc/d
+gcc/d/setup-gcc.sh --d-language-version&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;After that, you are ready to build and install &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; with D support. For this, go to some build directory and &lt;code&gt;configure&lt;/code&gt; and &lt;code&gt;make&lt;/code&gt;. You can, of course, choose an arbitrary directory for the build files (for instance, I personally prefer having the build files completely outside the source direcotry):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir build&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;build&lt;br /&gt;
-../configure &amp;#8212;enable-languages&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;d &amp;#8212;disable-multilib &amp;#8212;disable-shared &amp;#8212;prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/opt/gdc&lt;br /&gt;
-make&lt;br /&gt;
-sudo make install&lt;br /&gt;
+
+After that, you are ready to build and install GCC with D support. For this, go to some build directory and [@configure@] and [@make@]. You can, of course, choose an arbitrary directory for the build files (for instance, I personally prefer having the build files completely outside the source direcotry):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir build
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;build
+../configure --enable-languages&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;d --disable-multilib --disable-shared --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/opt/gdc
+make
+sudo make install
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Note that I configured &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt;/&lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; to be installed in &lt;code&gt;/opt/gdc&lt;/code&gt;. As the build also includes the C compiler, this avoids any interference with the »normal« &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; installed probably in &lt;code&gt;/usr&lt;/code&gt;. After the build has finished – this takes quite long, since &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; is built three times to bootstrap itself – you should have a working &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; executable in &lt;code&gt;/opt/gdc/bin&lt;/code&gt;. Now for the second part, Tango:&lt;/p&gt;
-&lt;p&gt;Start off by fetching the Tango sources from the &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; to a temporary working directory (I worked with revision 5023):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
-svn co http://svn.dsource.org/projects/tango/trunk tango&lt;br /&gt;
+
+Note that I configured GCC/GDC to be installed in [@/opt/gdc@]. As the build also includes the C compiler, this avoids any interference with the »normal« GCC installed probably in [@/usr@]. After the build has finished – this takes quite long, since GCC is built three times to bootstrap itself – you should have a working GDC executable in [@/opt/gdc/bin@]. Now for the second part, Tango:
+
+Start off by fetching the Tango sources from the SVN to a temporary working directory (I worked with revision 5023):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+svn co http://svn.dsource.org/projects/tango/trunk tango
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Unfortunately, Tango currently does not compile with &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; out of the box, you have to apply a couple of minor changes: The first change adds build/arch files for &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt;/Linux:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/build/arch/linux-i686-gdc-dbg.mak b/build/arch/linux-i686-gdc-dbg.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; /dev/null&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/build/arch/linux-i686-gdc-dbg.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -0,0 +1,6 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/gdc.rules&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/linux.inc&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;# -Wall breaks the compilation with wrong errors&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;DFLAGS_COMP=-g&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;CFLAGS_COMP=-g&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/build/arch/linux-i686-gdc-opt.mak b/build/arch/linux-i686-gdc-opt.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; /dev/null&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/build/arch/linux-i686-gdc-opt.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -0,0 +1,5 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/gdc.rules&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/linux.inc&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;DFLAGS_COMP=-O2&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-O2&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/build/arch/linux-i686-gdc-tst.mak b/build/arch/linux-i686-gdc-tst.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; /dev/null&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/build/arch/linux-i686-gdc-tst.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -0,0 +1,5 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/gdc.rules&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/linux.inc&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;DFLAGS_COMP=-g -fdeprecated -fdebug=UnitTest -funittest&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-g&lt;/span&gt;&lt;br /&gt;
+
+Unfortunately, Tango currently does not compile with GDC out of the box, you have to apply a couple of minor changes: The first change adds build/arch files for GDC/Linux:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff --git a/build/arch/linux-i686-gdc-dbg.mak b/build/arch/linux-i686-gdc-dbg.mak&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- /dev/null&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/build/arch/linux-i686-gdc-dbg.mak&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -0,0 +1,6 @@&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/gdc.rules&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/linux.inc&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+# -Wall breaks the compilation with wrong errors&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+DFLAGS_COMP=-g&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-g&lt;/span&gt;
+
+&lt;span class=&quot;gh&quot;&gt;diff --git a/build/arch/linux-i686-gdc-opt.mak b/build/arch/linux-i686-gdc-opt.mak&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- /dev/null&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/build/arch/linux-i686-gdc-opt.mak&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -0,0 +1,5 @@&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/gdc.rules&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/linux.inc&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+DFLAGS_COMP=-O2&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-O2&lt;/span&gt;
+
+&lt;span class=&quot;gh&quot;&gt;diff --git a/build/arch/linux-i686-gdc-tst.mak b/build/arch/linux-i686-gdc-tst.mak&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- /dev/null&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/build/arch/linux-i686-gdc-tst.mak&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -0,0 +1,5 @@&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/gdc.rules&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/linux.inc&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+DFLAGS_COMP=-g -fdeprecated -fdebug=UnitTest -funittest&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-g&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;The second change removes the &lt;code&gt;-fversion=Posix&lt;/code&gt; flag from the Makefile of the runtime because the &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; frontend &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; currently uses (1.040) does not allow it to be specified as it is set automatically (this restriction has been lifted in later versions):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/runtime/compiler/gdc/Makefile.am b/runtime/compiler/gdc/Makefile.am&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; a/runtime/compiler/gdc/Makefile.am&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/runtime/compiler/gdc/Makefile.am&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -18,7 +18,7 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
- # AUTOMAKE_OPTIONS = 1.9.6 foreign no-dependencies&lt;br /&gt;
-&lt;br /&gt;
- OUR_CFLAGS=&lt;code&gt;DEFS&lt;/code&gt; -I.&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;-D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared -fversion=Posix&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;+D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared&lt;/span&gt;&lt;br /&gt;
- ALL_DFLAGS = $(&lt;span class=&quot;caps&quot;&gt;DFLAGS&lt;/span&gt;) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(&lt;span class=&quot;caps&quot;&gt;MULTIFLAGS&lt;/span&gt;)&lt;br /&gt;
-&lt;br /&gt;
- host_alias=.&lt;br /&gt;
-&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/runtime/compiler/gdc/Makefile.in b/runtime/compiler/gdc/Makefile.in&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; a/runtime/compiler/gdc/Makefile.in&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/runtime/compiler/gdc/Makefile.in&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -228,7 +228,7 @&lt;/code&gt; target_vendor = &lt;code&gt;target_vendor&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
- top_builddir = &lt;code&gt;top_builddir&lt;/code&gt;&lt;br /&gt;
- top_srcdir = &lt;code&gt;top_srcdir&lt;/code&gt;&lt;br /&gt;
- OUR_CFLAGS = &lt;code&gt;DEFS&lt;/code&gt; -I.&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;-D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared -fversion=Posix&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;+D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared&lt;/span&gt;&lt;br /&gt;
- ALL_DFLAGS = $(&lt;span class=&quot;caps&quot;&gt;DFLAGS&lt;/span&gt;) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(&lt;span class=&quot;caps&quot;&gt;MULTIFLAGS&lt;/span&gt;)&lt;br /&gt;
- toolexecdir = $(phobos_toolexecdir)&lt;br /&gt;
- toolexeclibdir = $(phobos_toolexeclibdir)&lt;br /&gt;
+The second change removes the [@-fversion=Posix@] flag from the Makefile of the runtime because the DMD frontend GDC currently uses (1.040) does not allow it to be specified as it is set automatically (this restriction has been lifted in later versions):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff --git a/runtime/compiler/gdc/Makefile.am b/runtime/compiler/gdc/Makefile.am&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- a/runtime/compiler/gdc/Makefile.am&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/runtime/compiler/gdc/Makefile.am&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -18,7 +18,7 @@&lt;/span&gt;
+ # AUTOMAKE_OPTIONS = 1.9.6 foreign no-dependencies
+
+ OUR_CFLAGS=@DEFS@ -I.
+&lt;span class=&quot;gd&quot;&gt;-D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared -fversion=Posix&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared&lt;/span&gt;
+ ALL_DFLAGS = $(DFLAGS) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(MULTIFLAGS)
+
+ host_alias=.
+&lt;span class=&quot;gh&quot;&gt;diff --git a/runtime/compiler/gdc/Makefile.in b/runtime/compiler/gdc/Makefile.in&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- a/runtime/compiler/gdc/Makefile.in&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/runtime/compiler/gdc/Makefile.in&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -228,7 +228,7 @@ target_vendor = @target_vendor@&lt;/span&gt;
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ OUR_CFLAGS = @DEFS@ -I.
+&lt;span class=&quot;gd&quot;&gt;-D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared -fversion=Posix&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared&lt;/span&gt;
+ ALL_DFLAGS = $(DFLAGS) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(MULTIFLAGS)
+ toolexecdir = $(phobos_toolexecdir)
+ toolexeclibdir = $(phobos_toolexeclibdir)
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;The third and last change adds a workaround to Tango&amp;#8217;s user library for a bug in the &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; front-end which has been fixed by now (the compiler fails to resolve the type of the template parameter in the templated &lt;code&gt;intpow&lt;/code&gt; function):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/user/tango/math/internal/BiguintCore.d b/user/tango/math/internal/BiguintCore.d&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; a/user/tango/math/internal/BiguintCore.d&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/user/tango/math/internal/BiguintCore.d&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -516,7 +516,7 @&lt;/code&gt; static BigUint pow(BigUint x, ulong y)&lt;/span&gt;&lt;br /&gt;
-             }&lt;br /&gt;
-             y0 = y/p;&lt;br /&gt;
-             finalMultiplier = intpow(x0, y &amp;#8211; y0*p);&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;-            x0 = intpow(x0, p);&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;+            x0 = intpow!(BigDigit)(x0, p);&lt;/span&gt;&lt;br /&gt;
-         }&lt;br /&gt;
-         xlength = 1;&lt;br /&gt;
-     }&lt;br /&gt;
+The third and last change adds a workaround to Tango&apos;s user library for a bug in the DMD front-end which has been fixed by now (the compiler fails to resolve the type of the template parameter in the templated [@intpow@] function):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff --git a/user/tango/math/internal/BiguintCore.d b/user/tango/math/internal/BiguintCore.d&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- a/user/tango/math/internal/BiguintCore.d&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/user/tango/math/internal/BiguintCore.d&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -516,7 +516,7 @@ static BigUint pow(BigUint x, ulong y)&lt;/span&gt;
+             }
+             y0 = y/p;
+             finalMultiplier = intpow(x0, y - y0*p);
+&lt;span class=&quot;gd&quot;&gt;-            x0 = intpow(x0, p);&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+            x0 = intpow!(BigDigit)(x0, p);&lt;/span&gt;
+         }
+         xlength = 1;
+     }
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;After you have applied these patches, you should be ready to build Tango (make sure that you have a &lt;code&gt;cc&lt;/code&gt; somewhere in your &lt;code&gt;PATH&lt;/code&gt;, if not, create a link to your system&amp;#8217;s &lt;code&gt;gcc&lt;/code&gt;):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo &lt;span class=&quot;nv&quot;&gt;&lt;span class=&quot;caps&quot;&gt;PATH&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$&lt;span class=&quot;caps&quot;&gt;PATH&lt;/span&gt;&lt;/span&gt;:/opt/gdc/bin &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;gdc build/build.sh &amp;#8212;lib-install-dir /opt/gdc/lib&lt;br /&gt;
+
+After you have applied these patches, you should be ready to build Tango (make sure that you have a [@cc@] somewhere in your [@PATH@], if not, create a link to your system&apos;s [@gcc@]):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo &lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;:/opt/gdc/bin &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;gdc build/build.sh --lib-install-dir /opt/gdc/lib
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;However, I had to remove Phobos&amp;#8217; &lt;code&gt;object.d&lt;/code&gt; from &lt;code&gt;/opt/gdc/include/d/4.3.1&lt;/code&gt; first. &lt;code&gt;build/build.sh&lt;/code&gt; should finish with a note reminding you that the user libraries still have to be installed. To do this, simply copy the contents of the &lt;code&gt;user&lt;/code&gt; directory to &lt;code&gt;/opt/gdc/include/d/4.3.1&lt;/code&gt; after removing the old include files which are part of Phobos (you have to keep the &lt;code&gt;gcc&lt;/code&gt; and &lt;code&gt;i686-pc-linux-gnu&lt;/code&gt; directories though). Congratulations, now you should be able to build your Tango projects with &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt;!&lt;/p&gt;
-&lt;p&gt;A quick tip for &lt;a href=&quot;http://www.dsource.org/projects/dsss/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;&lt;/a&gt; users: You probably have to modify your &lt;code&gt;gdc-posix-tango&lt;/code&gt; profile to omit the &lt;code&gt;-version=Posix&lt;/code&gt; switch (see above) on &lt;code&gt;gdmd&lt;/code&gt; calls and add &lt;code&gt;-L-ltango-base-gdc&lt;/code&gt; to the linker flags since Tango was not installed via &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt; in the above instructions.&lt;/p&gt;
-&lt;p class=&quot;update&quot;&gt;Since I originally wrote this post, Tango&amp;#8217;s build system was modified yet another time (at least, things are much simpler now). Instead of fiddling around with the makefiles, just use the &lt;code&gt;bob&lt;/code&gt; tool from the &lt;code&gt;build&lt;/code&gt; directory now which &lt;em&gt;should&lt;/em&gt; work with &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; out of the box.&lt;/p&gt;</content>
+However, I had to remove Phobos&apos; [@object.d@] from [@/opt/gdc/include/d/4.3.1@] first. [@build/build.sh@] should finish with a note reminding you that the user libraries still have to be installed. To do this, simply copy the contents of the [@user@] directory to [@/opt/gdc/include/d/4.3.1@] after removing the old include files which are part of Phobos (you have to keep the [@gcc@] and [@i686-pc-linux-gnu@] directories though). Congratulations, now you should be able to build your Tango projects with GDC!
+
+A quick tip for &lt;a href=&quot;http://www.dsource.org/projects/dsss/&quot;&gt;DSSS&lt;/a&gt; users: You probably have to modify your [@gdc-posix-tango@] profile to omit the [@-version=Posix@] switch (see above) on [@gdmd@] calls and add [@-L-ltango-base-gdc@] to the linker flags since Tango was not installed via DSSS in the above instructions.
+
+p(update). Since I originally wrote this post, Tango&apos;s build system was modified yet another time (at least, things are much simpler now). Instead of fiddling around with the makefiles, just use the [@bob@] tool from the [@build@] directory now which _should_ work with GDC out of the box.
+</content>
  </entry>
  
  <entry>
    <title>Installing DMD, LDC, Tango and DSSS on (K)Ubuntu Jaunty</title>
    <link href="http://klickverbot.at/blog/2009/07/installing-dmd-ldc-tango-and-dsss-on-kubuntu-jaunty/"/>
-   <updated>2009-07-28T00:00:00+01:00</updated>
+   <updated>2009-07-28T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2009/07/installing-dmd-ldc-tango-and-dsss-on-kubuntu-jaunty</id>
-   <content type="html">&lt;p&gt;For quite a while now, I am using the &lt;a href=&quot;http://en.wikipedia.org/wiki/D_(programming_language)&quot;&gt;D programming language&lt;/a&gt;, version 1 (I have not looked at D2 yet, it is said to be still rather unstable). Even though I like it very much for its syntactical quality and the language itself is reasonably mature, I must admit that setting up the toolchain correctly can still be a very cumbersome task to do, especially when you are new to D.&lt;/p&gt;
-&lt;p&gt;This post describes an installation routine that should provide you with a working D development environment containing &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;, &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;, Tango and &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt; on (K)Ubuntu Jaunty. Please note that it assumes your system to be »clean« – if you have already installed any D-related software, it is probably advisable to remove it completely to prevent any problems with, for instance, stale files. &lt;!--more--&gt;&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir -p ~/tmp&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
-&lt;br /&gt;
-wget http://ftp.digitalmars.com/dmd.1.050.zip&lt;br /&gt;
-unzip dmd.1.050.zip&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;dmd/linux/bin/&lt;br /&gt;
-chmod +x dmd dumpobj obj2asm rdmd&lt;br /&gt;
-sudo cp dmd dmd.conf dumpobj obj2asm rdmd /usr/local/bin/&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
-svn co http://svn.dsource.org/projects/tango/trunk tango&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;tango/&lt;br /&gt;
-sudo &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;dmd build/build.sh &amp;#8212;lib-install-dir /usr/local/lib&lt;br /&gt;
-sudo cp -rf user/object.di user/rt user/std user/tango /usr/local/include/d/&lt;br /&gt;
-&lt;br /&gt;
-sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;[Environment]\nDFLAGS=-I/usr/local/include/d -defaultlib=tango-base-dmd -debuglib=tango-base-dmd -L-ltango-user-dmd -version=Tango -version=Posix&amp;quot; &amp;gt; /usr/local/bin/dmd.conf&amp;#39;&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# dsss\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu jaunty main&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;&lt;br /&gt;
-sudo apt-get install dsss&lt;br /&gt;
-sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=dmd-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;&lt;br /&gt;
+   <content type="html">For quite a while now, I am using the &lt;a href=&quot;http://en.wikipedia.org/wiki/D_(programming_language)&quot;&gt;D programming language&lt;/a&gt;, version 1 (I have not looked at D2 yet, it is said to be still rather unstable). Even though I like it very much for its syntactical quality and the language itself is reasonably mature, I must admit that setting up the toolchain correctly can still be a very cumbersome task to do, especially when you are new to D.
+
+This post describes an installation routine that should provide you with a working D development environment containing DMD, LDC, Tango and DSSS on (K)Ubuntu Jaunty. Please note that it assumes your system to be »clean« – if you have already installed any D-related software, it is probably advisable to remove it completely to prevent any problems with, for instance, stale files. &lt;!--more--&gt;
+
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir -p ~/tmp
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+
+wget http://ftp.digitalmars.com/dmd.1.050.zip
+unzip dmd.1.050.zip
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;dmd/linux/bin/
+chmod +x dmd dumpobj obj2asm rdmd
+sudo cp dmd dmd.conf dumpobj obj2asm rdmd /usr/local/bin/
+
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+svn co http://svn.dsource.org/projects/tango/trunk tango
+
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;tango/
+sudo &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;dmd build/build.sh --lib-install-dir /usr/local/lib
+sudo cp -rf user/object.di user/rt user/std user/tango /usr/local/include/d/
+
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;[Environment]\nDFLAGS=-I/usr/local/include/d -defaultlib=tango-base-dmd -debuglib=tango-base-dmd -L-ltango-user-dmd -version=Tango -version=Posix&amp;quot; &amp;gt; /usr/local/bin/dmd.conf&amp;#39;&lt;/span&gt;
+
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# dsss\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu jaunty main&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;
+sudo apt-get install dsss
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=dmd-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;You should now be able to build your D/Tango programs with &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; and &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;I would suggest giving &lt;a href=&quot;http://www.dsource.org/projects/ldc&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;&lt;/a&gt; at least a short glance, a fairly young compiler project which leverages &lt;a href=&quot;http://llvm.org/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt;&lt;/a&gt; as its code generating backend. It is maturing very quickly and allows you to make use of the various features the &lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt; compiler infrastructure provides, the most noticeable probably being its excellent optimization routines. Fortunately, there are current binary packages available at launchpad, so all that is needed to &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt; is:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# ldc-daily\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu karmic main\ndeb http://archive.ubuntu.com/ubuntu karmic main universe&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;&lt;br /&gt;
-sudo apt-get update&lt;br /&gt;
-&lt;br /&gt;
-sudo apt-get install ldc-daily libtango-ldc-daily-dev&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
-wget -O ldc-posix-tango http://www.dsource.org/projects/ldc/browser/ldc-posix-tango?format&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;raw&lt;br /&gt;
-sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;sed &amp;quot;s:ldc.rebuild.conf:/etc/ldc/ldc.rebuild.conf:&amp;quot;  /etc/drebuild/ldc-posix-tango&amp;#39;&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=ldc-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;&lt;br /&gt;
+
+You should now be able to build your D/Tango programs with DMD and DSSS.
+
+I would suggest giving &lt;a href=&quot;http://www.dsource.org/projects/ldc&quot;&gt;LDC&lt;/a&gt; at least a short glance, a fairly young compiler project which leverages &lt;a href=&quot;http://llvm.org/&quot;&gt;LLVM&lt;/a&gt; as its code generating backend. It is maturing very quickly and allows you to make use of the various features the LLVM compiler infrastructure provides, the most noticeable probably being its excellent optimization routines. Fortunately, there are current binary packages available at launchpad, so all that is needed to LDC is:
+
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# ldc-daily\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu karmic main\ndeb http://archive.ubuntu.com/ubuntu karmic main universe&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;
+sudo apt-get update
+
+sudo apt-get install ldc-daily libtango-ldc-daily-dev
+
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+wget -O ldc-posix-tango http://www.dsource.org/projects/ldc/browser/ldc-posix-tango?format&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;raw
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;sed &amp;quot;s:ldc.rebuild.conf:/etc/ldc/ldc.rebuild.conf:&amp;quot;  /etc/drebuild/ldc-posix-tango&amp;#39;&lt;/span&gt;
+
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=ldc-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Note that the above commands install a daily snapshot of &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;, which I would recommend to use due to the currently fast development of &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;. In order not to break you Jaunty installation, please &lt;em&gt;&lt;strong&gt;do not forget&lt;/strong&gt; to comment out the official »karmic« repositories&lt;/em&gt; (which contain some dependencies for &lt;code&gt;ldc-daily&lt;/code&gt;) in your &lt;code&gt;/etc/apt/sources.list&lt;/code&gt; and run &lt;code&gt;apt-get update&lt;/code&gt; after the installation is completed.&lt;/p&gt;
-&lt;p&gt;Both compilers are set up to use Tango, do &lt;em&gt;not&lt;/em&gt; install Tango via &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;! If you want to switch compilers, just activate the corresponding profile in &lt;code&gt;/etc/drebuild/default&lt;/code&gt; and do not forget to rebuild any D libraries you might have compiled and installed with the old compiler (just run &lt;code&gt;dsss net install … &lt;/code&gt;for the ones you installed using &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;).&lt;/p&gt;
-&lt;p class=&quot;update&quot;&gt;Since I wrote this post, Tango received yet another big structural change to its codebase (amongst other changes, the core and user libraries have been merged). Now, you should use the supplied &lt;em&gt;»bob«&lt;/em&gt; tool now to build tango. Additionally, Karmic is now stable so you might have to adapt the &lt;span class=&quot;caps&quot;&gt;APT&lt;/span&gt; repository-related instructions.&lt;/p&gt;</content>
+
+Note that the above commands install a daily snapshot of LDC, which I would recommend to use due to the currently fast development of LDC. In order not to break you Jaunty installation, please _*do not forget* to comment out the official »karmic« repositories_ (which contain some dependencies for [@ldc-daily@]) in your [@/etc/apt/sources.list@] and run [@apt-get update@] after the installation is completed.
+
+Both compilers are set up to use Tango, do _not_ install Tango via DSSS! If you want to switch compilers, just activate the corresponding profile in [@/etc/drebuild/default@] and do not forget to rebuild any D libraries you might have compiled and installed with the old compiler (just run [@dsss net install … @]for the ones you installed using DSSS).
+
+p(update). Since I wrote this post, Tango received yet another big structural change to its codebase (amongst other changes, the core and user libraries have been merged). Now, you should use the supplied _»bob«_ tool now to build tango. Additionally, Karmic is now stable so you might have to adapt the APT repository-related instructions.
+</content>
  </entry>
  
  <entry>
    <title>Strange segfaults when compiling with GDC</title>
    <link href="http://klickverbot.at/blog/2009/02/strange-segfaults-when-compiling-with-gdc/"/>
-   <updated>2009-02-04T00:00:00+00:00</updated>
+   <updated>2009-02-04T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2009/02/strange-segfaults-when-compiling-with-gdc</id>
-   <content type="html">&lt;p&gt;Use -no-export-dynamic to prevent segfaults in external libraries when linking with &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;More to come soon&amp;#8230;&lt;/p&gt;</content>
+   <content type="html">Use -no-export-dynamic to prevent segfaults in external libraries when linking with GDC.
+
+More to come soon...
+</content>
  </entry>
  
 </feed>

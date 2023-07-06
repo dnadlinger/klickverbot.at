@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/Git/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2019-08-04T08:04:04+01:00</updated>
+ <updated>2023-07-06T14:46:30-04:00</updated>
  <id>http://klickverbot.at/blog/tags/Git/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,68 +14,87 @@
  <entry>
    <title>git reset using Mercurial</title>
    <link href="http://klickverbot.at/blog/2011/01/git-reset-using-mercurial/"/>
-   <updated>2011-01-09T00:00:00+00:00</updated>
+   <updated>2011-01-09T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2011/01/git-reset-using-mercurial</id>
-   <content type="html">&lt;p&gt;I am mainly a &lt;a href=&quot;http://git-scm.com&quot;&gt;Git&lt;/a&gt; user, but lately I have been working with &lt;a href=&quot;http://mercurial.selenic.com/&quot;&gt;Mercurial&lt;/a&gt; from time to time. I have been mostly using it for basic committing though, so I still occasionally end up with a commit I did not mean to create like this when performing more advanced operations. But undoing that can&amp;#8217;t be too hard, right?&lt;/p&gt;
-&lt;p&gt;For example, I recently toyed around with &lt;a href=&quot;http://mercurial.selenic.com/wiki/MqExtension&quot;&gt;Mercurial Queues&lt;/a&gt; to emulate Git&amp;#8217;s staging area, one of the features that seem trivial, but which you don&amp;#8217;t want to miss at any cost once you are used to it. Doing so, while being at, let&amp;#8217;s say, revision &lt;code&gt;1000&lt;/code&gt;, I accidentally created two changesets, &lt;code&gt;1001&lt;/code&gt; and &lt;code&gt;1002&lt;/code&gt;. Now, how do I get rid of these while still keeping the contents of them in the working copy? Using Git, this would just be &lt;code&gt;git reset HEAD~2&lt;/code&gt;. But unfortunately, Mercurial seems to make your life somewhat hard in this case, this is what I came up with (please leave me a message in the comments in case I missed an easier way):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;hg update -r1000&lt;br /&gt;
+   <content type="html">I am mainly a &quot;Git&quot;:http://git-scm.com user, but lately I have been working with &quot;Mercurial&quot;:http://mercurial.selenic.com/ from time to time. I have been mostly using it for basic committing though, so I still occasionally end up with a commit I did not mean to create like this when performing more advanced operations. But undoing that can&apos;t be too hard, right?
+
+For example, I recently toyed around with &quot;Mercurial Queues&quot;:http://mercurial.selenic.com/wiki/MqExtension to emulate Git&apos;s staging area, one of the features that seem trivial, but which you don&apos;t want to miss at any cost once you are used to it. Doing so, while being at, let&apos;s say, revision @1000@, I accidentally created two changesets, @1001@ and @1002@. Now, how do I get rid of these while still keeping the contents of them in the working copy? Using Git, this would just be @git reset HEAD~2@. But unfortunately, Mercurial seems to make your life somewhat hard in this case, this is what I came up with (please leave me a message in the comments in case I missed an easier way):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;hg update -r1000
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;This sets the working copy to the last »good« revision, only to …&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;hg revert &amp;#8212;all -r1002&lt;br /&gt;
+
+This sets the working copy to the last »good« revision, only to …
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;hg revert --all -r1002
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;… bring the changes from the two commits back to the working copy (but without committing them this time), so we can now …&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;hg strip &amp;#8212;force 1001&lt;br /&gt;
+
+… bring the changes from the two commits back to the working copy (but without committing them this time), so we can now …
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;hg strip --force 1001
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;… strip the two changesets from the history.&lt;/p&gt;
-&lt;p&gt;I am perfectly aware of the fact that any other &lt;span class=&quot;caps&quot;&gt;SCM&lt;/span&gt; tool will probably seem clumsy at first if I am used to Git (besides the fact that Git seems to be a natural fit for the way I think about versioning), but I still wonder whether there a deeper reason for Mercurial not to support this more directly.&lt;/p&gt;</content>
+
+… strip the two changesets from the history.
+
+I am perfectly aware of the fact that any other SCM tool will probably seem clumsy at first if I am used to Git (besides the fact that Git seems to be a natural fit for the way I think about versioning), but I still wonder whether there a deeper reason for Mercurial not to support this more directly.
+</content>
  </entry>
  
  <entry>
    <title>The Power of Git</title>
    <link href="http://klickverbot.at/blog/2009/07/the-power-of-git/"/>
-   <updated>2009-07-28T00:00:00+01:00</updated>
+   <updated>2009-07-28T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2009/07/the-power-of-git</id>
-   <content type="html">&lt;p&gt;As you might already know if you read my &lt;a href=&quot;/blog/2008/08/getting-started-with-git/&quot;&gt;blog post&lt;/a&gt; about it, I have been using Git quite a while ago now. However, I am still amazed not infrequently by the fact that Git &lt;em&gt;simply works&lt;/em&gt;, in the sense that it really does the things you tell it to do.&lt;/p&gt;
-&lt;p&gt;Recently, for instance, I wanted to merge an extension to the great &lt;a href=&quot;http://assimp.sf.net&quot;&gt;Open Asset Import Library&lt;/a&gt; (bindings for the &lt;a href=&quot;http://www.digitalmars.com/d/&quot;&gt;D programming language&lt;/a&gt;, in fact) which I developed locally in Git to the upstream repository in a way that the commit history was kept locally. However, &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; is used as &lt;span class=&quot;caps&quot;&gt;SCM&lt;/span&gt; system for upstream development. So I started out by importing the upstream &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; repository via &lt;code&gt;git-svn&lt;/code&gt;:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir assimp&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;assimp&lt;br /&gt;
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git svn init https://assimp.svn.sourceforge.net/svnroot/assimp/trunk&lt;br /&gt;
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git svn fetch&lt;br /&gt;
+   <content type="html">As you might already know if you read my &lt;a href=&quot;/blog/2008/08/getting-started-with-git/&quot;&gt;blog post&lt;/a&gt; about it, I have been using Git quite a while ago now. However, I am still amazed not infrequently by the fact that Git _simply works_, in the sense that it really does the things you tell it to do.
+
+Recently, for instance, I wanted to merge an extension to the great &lt;a href=&quot;http://assimp.sf.net&quot;&gt;Open Asset Import Library&lt;/a&gt; (bindings for the &lt;a href=&quot;http://www.digitalmars.com/d/&quot;&gt;D programming language&lt;/a&gt;, in fact) which I developed locally in Git to the upstream repository in a way that the commit history was kept locally. However, SVN is used as SCM system for upstream development. So I started out by importing the upstream SVN repository via [@git-svn@]:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir assimp&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;assimp
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git svn init https://assimp.svn.sourceforge.net/svnroot/assimp/trunk
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git svn fetch
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Nothing too exciting here. So far, I only created a local Git clone of the &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; repository which I probably will use for contributing to upstream development in the future. But how to transfer the bindings from the Git repository to this one &lt;em&gt;including&lt;/em&gt; their (strictly linear, i.e. master-only) commit history? Because Git does not try to be smarter than its users, the first solution I came up with worked flawlessly. Here is what I did:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git checkout -b d-bindings&lt;br /&gt;
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git fetch ../dAssimp&lt;br /&gt;
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git &lt;span class=&quot;nb&quot;&gt;read&lt;/span&gt;-tree &amp;#8212;prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;port/dAssimp FETCH_HEAD&lt;br /&gt;
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git rev-parse FETCH_HEAD &amp;gt; .git/MERGE_HEAD&lt;br /&gt;
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit&lt;br /&gt;
+Nothing too exciting here. So far, I only created a local Git clone of the SVN repository which I probably will use for contributing to upstream development in the future. But how to transfer the bindings from the Git repository to this one _including_ their (strictly linear, i.e. master-only) commit history? Because Git does not try to be smarter than its users, the first solution I came up with worked flawlessly. Here is what I did:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git checkout -b d-bindings
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git fetch ../dAssimp
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git &lt;span class=&quot;nb&quot;&gt;read&lt;/span&gt;-tree --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;port/dAssimp FETCH_HEAD
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git rev-parse FETCH_HEAD &amp;gt; .git/MERGE_HEAD
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;After switching to a new branch in which the history should be stored, I told Git to fetch the contents of the local &lt;code&gt;dAssimp&lt;/code&gt; repository (the D bindings I developed). Because I had not made any merges, Git simply stored the &lt;code&gt;HEAD&lt;/code&gt; of the other repository in &lt;code&gt;FETCH_HEAD&lt;/code&gt;. The &lt;code&gt;read-tree&lt;/code&gt; command reads, as the name suggests, arbitrary tree information into the index. The &lt;code&gt;--prefix&lt;/code&gt; switch allows you to keep the current index and read the tree into an (empty) subdirectory instead – perfect for what I intended to do. Storing the &lt;code&gt;FETCH_HEAD&lt;/code&gt;&amp;#8216;s object name into &lt;code&gt;.git/MERGE_HEAD&lt;/code&gt; tells Git to generate a merge commit the next time &lt;code&gt;git commit&lt;/code&gt; is called. There was just one last thing left to do: as &lt;code&gt;git read-tree&lt;/code&gt;, according to the manpage, »does not actually update any of the files it ›caches‹«, a &lt;code&gt;git reset --hard&lt;/code&gt; is needed to actually create the new files in the working copy. That&amp;#8217;s it.&lt;/p&gt;
-&lt;p&gt;As I found out later, I could have possibly done this more easy using the &lt;a href=&quot;http://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html&quot;&gt;subtree merge strategy&lt;/a&gt;, but I still like, as mentioned above, Git&amp;#8217;s feature of »just doing what you tell it to do«…&lt;/p&gt;</content>
+After switching to a new branch in which the history should be stored, I told Git to fetch the contents of the local [@dAssimp@] repository (the D bindings I developed). Because I had not made any merges, Git simply stored the [@HEAD@] of the other repository in [@FETCH_HEAD@]. The [@read-tree@] command reads, as the name suggests, arbitrary tree information into the index. The [@--prefix@] switch allows you to keep the current index and read the tree into an (empty) subdirectory instead – perfect for what I intended to do. Storing the [@FETCH_HEAD@]&apos;s object name into [@.git/MERGE_HEAD@] tells Git to generate a merge commit the next time [@git commit@] is called. There was just one last thing left to do: as [@git read-tree@], according to the manpage, »does not actually update any of the files it ›caches‹«, a [@git reset --hard@] is needed to actually create the new files in the working copy. That&apos;s it.
+
+As I found out later, I could have possibly done this more easy using the &lt;a href=&quot;http://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html&quot;&gt;subtree merge strategy&lt;/a&gt;, but I still like, as mentioned above, Git&apos;s feature of »just doing what you tell it to do«…
+</content>
  </entry>
  
  <entry>
    <title>Git on Windows</title>
    <link href="http://klickverbot.at/blog/2008/10/git-on-windows/"/>
-   <updated>2008-10-12T00:00:00+01:00</updated>
+   <updated>2008-10-12T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2008/10/git-on-windows</id>
-   <content type="html">&lt;p&gt;Just found &lt;a href=&quot;http://kylecordes.com/2008/04/30/git-windows-go/&quot;&gt;an excellent writeup&lt;/a&gt; by Kyle Cordes about using Git on Windows.&lt;/p&gt;</content>
+   <content type="html">Just found &quot;an excellent writeup&quot;:http://kylecordes.com/2008/04/30/git-windows-go/ by Kyle Cordes about using Git on Windows.
+</content>
  </entry>
  
  <entry>
    <title>The Tangled Working Copy Problem</title>
    <link href="http://klickverbot.at/blog/2008/08/the-tangled-working-copy-problem/"/>
-   <updated>2008-08-25T00:00:00+01:00</updated>
+   <updated>2008-08-25T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2008/08/the-tangled-working-copy-problem</id>
-   <content type="html">&lt;p&gt;There is a problem which probably about every developer using a revision control management for their hobby projects has already experienced: The annoying situation of having two or more completely unrelated changes in your working tree. With its &amp;#8220;index&amp;#8221; feature, git provides an excellent, if not quite intuitive facility for solving the problem.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://tomayko.com/writings/the-thing-about-git&quot;&gt;This great article&lt;/a&gt; by Ryan Tomayko is quite a comprehensive description of this problem itself (he calls it &amp;#8220;The Tangeled Working Copy Problem&amp;#8221;) as well as a detailed guide on how to solve it using git.&lt;/p&gt;</content>
+   <content type="html">There is a problem which probably about every developer using a revision control management for their hobby projects has already experienced: The annoying situation of having two or more completely unrelated changes in your working tree. With its &quot;index&quot; feature, git provides an excellent, if not quite intuitive facility for solving the problem.
+
+&quot;This great article&quot;:http://tomayko.com/writings/the-thing-about-git by Ryan Tomayko is quite a comprehensive description of this problem itself (he calls it &quot;The Tangeled Working Copy Problem&quot;) as well as a detailed guide on how to solve it using git.
+</content>
  </entry>
  
  <entry>
    <title>Getting started with git</title>
    <link href="http://klickverbot.at/blog/2008/08/getting-started-with-git/"/>
-   <updated>2008-08-02T00:00:00+01:00</updated>
+   <updated>2008-08-02T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2008/08/getting-started-with-git</id>
-   <content type="html">&lt;p&gt;Recently, I decided to have a look at the revision control system &lt;a href=&quot;http://git-scm.com&quot;&gt;Git&lt;/a&gt; and the »social code hosting service« &lt;a href=&quot;http://github.com&quot;&gt;GitHub&lt;/a&gt;, which is currently hyped in large parts of the open source community (git is used for the Linux kernel, Ruby on Rails, &amp;#8230;). At first, I felt pretty overwhelmed, because the differences to other SCMs like Subversion were bigger than I had expected. But now, having read the excellent blog post &lt;a href=&quot;http://b.lesseverything.com/2008/3/25/got-git-howto-git-and-github&quot;&gt;Got git?&lt;/a&gt; by Steven Bristol, I am starting to understand the concepts and the motivation behind it.&lt;/p&gt;
-&lt;p&gt;Frankly, I am still not quite sure if the &amp;#8220;doing it distributed&amp;#8221; paradigm will really establish itself in everyday coding work, but for open source projects git looks very promising at least.&lt;/p&gt;</content>
+   <content type="html">Recently, I decided to have a look at the revision control system &quot;Git&quot;:http://git-scm.com and the »social code hosting service« &quot;GitHub&quot;:http://github.com, which is currently hyped in large parts of the open source community (git is used for the Linux kernel, Ruby on Rails, ...). At first, I felt pretty overwhelmed, because the differences to other SCMs like Subversion were bigger than I had expected. But now, having read the excellent blog post &quot;Got git?&quot;:http://b.lesseverything.com/2008/3/25/got-git-howto-git-and-github by Steven Bristol, I am starting to understand the concepts and the motivation behind it.
+
+Frankly, I am still not quite sure if the &quot;doing it distributed&quot; paradigm will really establish itself in everyday coding work, but for open source projects git looks very promising at least.
+</content>
  </entry>
  
 </feed>

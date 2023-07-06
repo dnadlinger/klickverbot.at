@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/Tango/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2019-08-04T08:04:04+01:00</updated>
+ <updated>2023-07-06T14:46:30-04:00</updated>
  <id>http://klickverbot.at/blog/tags/Tango/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,162 +14,194 @@
  <entry>
    <title>Setting up GDC and Tango on Linux x86</title>
    <link href="http://klickverbot.at/blog/2009/10/setting-up-gdc-and-tango-on-linux-x86/"/>
-   <updated>2009-10-26T00:00:00+00:00</updated>
+   <updated>2009-10-26T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2009/10/setting-up-gdc-and-tango-on-linux-x86</id>
-   <content type="html">&lt;p&gt;Currently, there are three more-or-less working compilers for the &lt;a href=&quot;http://digitalmars.com/d/&quot;&gt;D programming language&lt;/a&gt; (version 1): The oldest and most mature one is &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;, short for Digital Mars D Compiler, the official reference implementation by Walter Bright, the creator of D. It has grown reasonably stable, but has certain limitations, most of them resulting from using a proprietary back-end. Additionally, not all parts of it are Open Source (starting with a capital letter). The second one is &lt;a href=&quot;http://dsource.org/projects/ldc&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;&lt;/a&gt;, a rather young, but quick-moving project which aims to port the front-end of &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; to the also fairly recent &lt;a href=&quot;http://llvm.org&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt;&lt;/a&gt; compiler framework in order to leverage its advanced code generation and optimization infrastructure. While it still has some bugs to iron out (most notably missing exception support on Windows), it works reasonably well on Linux x86 (32 and 64&amp;nbsp;bit). The third compiler, and subject of interest for this post, is &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt;. Like the other two compilers, it uses the Digital Mars D front-end, but coupled to the very mature &lt;span class=&quot;caps&quot;&gt;GNU&lt;/span&gt; Compiler Collection (&lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt;) back-end, whose C/C++ compiler is widely used on Unix-like systems like Linux, Mac OS X, various flavors of &lt;span class=&quot;caps&quot;&gt;BSD&lt;/span&gt; and also Windows through &lt;a href=&quot;http://mingw.org&quot;&gt;MinGW&lt;/a&gt;. Unfortunately, development on it has stalled, making it pretty much unusable due to the many bugs the old &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; front-end it uses contains.&lt;/p&gt;
-&lt;p&gt;However, there has been an effort started to resurrect &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; recently. Development takes place over at &lt;a href=&quot;http://bitbucket.org/goshawk/gdc&quot;&gt;bitbucket&lt;/a&gt; (you can also find building instructions for &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; there) and the project has been able to celebrate some first success: The reasonably recent front-end versions 1.040 and 2.015 (for D2) are working with &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; 4.3. This seemed enough of a sign of life for me to decide to give &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; another try. After some initial problems (some of which resulted from bugs which have already been fixed in the official Mercurial repository) I managed to compile a &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; binary (frontend version 1.040 against &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; 4.3.1) which happily compiles the &lt;a href=&quot;http://dsource.org/projects/tango&quot;&gt;Tango&lt;/a&gt; standard library and a personal project of mine. This is what I did (silently omitting quite a few hours of searching and fixing bugs): &lt;!--more--&gt;&lt;/p&gt;
-&lt;p&gt;First, go to some temporary directory and checkout the &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; sources from the Mercurial repository (at the time of writing, revision 53 was current):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
-hg clone http://bitbucket.org/goshawk/gdc&lt;br /&gt;
+   <content type="html">Currently, there are three more-or-less working compilers for the &quot;D programming language&quot;:http://digitalmars.com/d/ (version 1): The oldest and most mature one is DMD, short for Digital Mars D Compiler, the official reference implementation by Walter Bright, the creator of D. It has grown reasonably stable, but has certain limitations, most of them resulting from using a proprietary back-end. Additionally, not all parts of it are Open Source (starting with a capital letter). The second one is &lt;a href=&quot;http://dsource.org/projects/ldc&quot;&gt;LDC&lt;/a&gt;, a rather young, but quick-moving project which aims to port the front-end of DMD to the also fairly recent &lt;a href=&quot;http://llvm.org&quot;&gt;LLVM&lt;/a&gt; compiler framework in order to leverage its advanced code generation and optimization infrastructure. While it still has some bugs to iron out (most notably missing exception support on Windows), it works reasonably well on Linux x86 (32 and 64&amp;nbsp;bit). The third compiler, and subject of interest for this post, is GDC. Like the other two compilers, it uses the Digital Mars D front-end, but coupled to the very mature GNU Compiler Collection (GCC) back-end, whose C/C++ compiler is widely used on Unix-like systems like Linux, Mac OS X, various flavors of BSD and also Windows through &lt;a href=&quot;http://mingw.org&quot;&gt;MinGW&lt;/a&gt;. Unfortunately, development on it has stalled, making it pretty much unusable due to the many bugs the old DMD front-end it uses contains.
+
+However, there has been an effort started to resurrect GDC recently. Development takes place over at &lt;a href=&quot;http://bitbucket.org/goshawk/gdc&quot;&gt;bitbucket&lt;/a&gt; (you can also find building instructions for GDC there) and the project has been able to celebrate some first success: The reasonably recent front-end versions 1.040 and 2.015 (for D2) are working with GCC 4.3. This seemed enough of a sign of life for me to decide to give GDC another try. After some initial problems (some of which resulted from bugs which have already been fixed in the official Mercurial repository) I managed to compile a GDC binary (frontend version 1.040 against GCC 4.3.1) which happily compiles the &lt;a href=&quot;http://dsource.org/projects/tango&quot;&gt;Tango&lt;/a&gt; standard library and a personal project of mine. This is what I did (silently omitting quite a few hours of searching and fixing bugs): &lt;!--more--&gt;
+
+First, go to some temporary directory and checkout the GDC sources from the Mercurial repository (at the time of writing, revision 53 was current):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+hg clone http://bitbucket.org/goshawk/gdc
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Then, download the core of &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; 4.3.1 from a &lt;a href=&quot;http://gcc.gnu.org/mirrors.html&quot;&gt;mirror near you&lt;/a&gt; (version 4.3.2 should also work, but builds against 4.3.4 are currently known to be broken) and extract it inside the &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; sources:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;wget ftp://gd.tuwien.ac.at/gnu/gcc/releases/gcc-4.3.1/gcc-core-4.3.1.tar.bz2&lt;br /&gt;
-mkdir gdc/dev&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;gdc/dev&lt;br /&gt;
-tar xjvf ../../gcc-core-4.3.1.tar.bz2&lt;br /&gt;
+
+Then, download the core of GCC 4.3.1 from a &lt;a href=&quot;http://gcc.gnu.org/mirrors.html&quot;&gt;mirror near you&lt;/a&gt; (version 4.3.2 should also work, but builds against 4.3.4 are currently known to be broken) and extract it inside the GDC sources:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;wget ftp://gd.tuwien.ac.at/gnu/gcc/releases/gcc-4.3.1/gcc-core-4.3.1.tar.bz2
+mkdir gdc/dev
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;gdc/dev
+tar xjvf ../../gcc-core-4.3.1.tar.bz2
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Now, link the &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; sources into the extracted directory and use the provided &lt;code&gt;setup-gcc.sh&lt;/code&gt; script to patch &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; to enable D version 1:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;gcc-4.3.4&lt;br /&gt;
-ln -s ../../../d gcc/d&lt;br /&gt;
-gcc/d/setup-gcc.sh &amp;#8212;d-language-version&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1&lt;br /&gt;
+
+Now, link the GDC sources into the extracted directory and use the provided [@setup-gcc.sh@] script to patch GCC to enable D version 1:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;gcc-4.3.4
+ln -s ../../../d gcc/d
+gcc/d/setup-gcc.sh --d-language-version&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;After that, you are ready to build and install &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; with D support. For this, go to some build directory and &lt;code&gt;configure&lt;/code&gt; and &lt;code&gt;make&lt;/code&gt;. You can, of course, choose an arbitrary directory for the build files (for instance, I personally prefer having the build files completely outside the source direcotry):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir build&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;build&lt;br /&gt;
-../configure &amp;#8212;enable-languages&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;d &amp;#8212;disable-multilib &amp;#8212;disable-shared &amp;#8212;prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/opt/gdc&lt;br /&gt;
-make&lt;br /&gt;
-sudo make install&lt;br /&gt;
+
+After that, you are ready to build and install GCC with D support. For this, go to some build directory and [@configure@] and [@make@]. You can, of course, choose an arbitrary directory for the build files (for instance, I personally prefer having the build files completely outside the source direcotry):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir build
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;build
+../configure --enable-languages&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;d --disable-multilib --disable-shared --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/opt/gdc
+make
+sudo make install
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Note that I configured &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt;/&lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; to be installed in &lt;code&gt;/opt/gdc&lt;/code&gt;. As the build also includes the C compiler, this avoids any interference with the »normal« &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; installed probably in &lt;code&gt;/usr&lt;/code&gt;. After the build has finished – this takes quite long, since &lt;span class=&quot;caps&quot;&gt;GCC&lt;/span&gt; is built three times to bootstrap itself – you should have a working &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; executable in &lt;code&gt;/opt/gdc/bin&lt;/code&gt;. Now for the second part, Tango:&lt;/p&gt;
-&lt;p&gt;Start off by fetching the Tango sources from the &lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; to a temporary working directory (I worked with revision 5023):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
-svn co http://svn.dsource.org/projects/tango/trunk tango&lt;br /&gt;
+
+Note that I configured GCC/GDC to be installed in [@/opt/gdc@]. As the build also includes the C compiler, this avoids any interference with the »normal« GCC installed probably in [@/usr@]. After the build has finished – this takes quite long, since GCC is built three times to bootstrap itself – you should have a working GDC executable in [@/opt/gdc/bin@]. Now for the second part, Tango:
+
+Start off by fetching the Tango sources from the SVN to a temporary working directory (I worked with revision 5023):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+svn co http://svn.dsource.org/projects/tango/trunk tango
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Unfortunately, Tango currently does not compile with &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; out of the box, you have to apply a couple of minor changes: The first change adds build/arch files for &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt;/Linux:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/build/arch/linux-i686-gdc-dbg.mak b/build/arch/linux-i686-gdc-dbg.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; /dev/null&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/build/arch/linux-i686-gdc-dbg.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -0,0 +1,6 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/gdc.rules&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/linux.inc&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;# -Wall breaks the compilation with wrong errors&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;DFLAGS_COMP=-g&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;CFLAGS_COMP=-g&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/build/arch/linux-i686-gdc-opt.mak b/build/arch/linux-i686-gdc-opt.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; /dev/null&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/build/arch/linux-i686-gdc-opt.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -0,0 +1,5 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/gdc.rules&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/linux.inc&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;DFLAGS_COMP=-O2&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-O2&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/build/arch/linux-i686-gdc-tst.mak b/build/arch/linux-i686-gdc-tst.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; /dev/null&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/build/arch/linux-i686-gdc-tst.mak&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -0,0 +1,5 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/gdc.rules&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;include $(&lt;span class=&quot;caps&quot;&gt;ARCHDIR&lt;/span&gt;)/linux.inc&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;/ins&gt;DFLAGS_COMP=-g -fdeprecated -fdebug=UnitTest -funittest&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-g&lt;/span&gt;&lt;br /&gt;
+
+Unfortunately, Tango currently does not compile with GDC out of the box, you have to apply a couple of minor changes: The first change adds build/arch files for GDC/Linux:
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff --git a/build/arch/linux-i686-gdc-dbg.mak b/build/arch/linux-i686-gdc-dbg.mak&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- /dev/null&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/build/arch/linux-i686-gdc-dbg.mak&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -0,0 +1,6 @@&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/gdc.rules&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/linux.inc&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+# -Wall breaks the compilation with wrong errors&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+DFLAGS_COMP=-g&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-g&lt;/span&gt;
+
+&lt;span class=&quot;gh&quot;&gt;diff --git a/build/arch/linux-i686-gdc-opt.mak b/build/arch/linux-i686-gdc-opt.mak&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- /dev/null&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/build/arch/linux-i686-gdc-opt.mak&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -0,0 +1,5 @@&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/gdc.rules&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/linux.inc&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+DFLAGS_COMP=-O2&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-O2&lt;/span&gt;
+
+&lt;span class=&quot;gh&quot;&gt;diff --git a/build/arch/linux-i686-gdc-tst.mak b/build/arch/linux-i686-gdc-tst.mak&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- /dev/null&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/build/arch/linux-i686-gdc-tst.mak&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -0,0 +1,5 @@&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/gdc.rules&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+include $(ARCHDIR)/linux.inc&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+DFLAGS_COMP=-g -fdeprecated -fdebug=UnitTest -funittest&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+CFLAGS_COMP=-g&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;The second change removes the &lt;code&gt;-fversion=Posix&lt;/code&gt; flag from the Makefile of the runtime because the &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; frontend &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; currently uses (1.040) does not allow it to be specified as it is set automatically (this restriction has been lifted in later versions):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/runtime/compiler/gdc/Makefile.am b/runtime/compiler/gdc/Makefile.am&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; a/runtime/compiler/gdc/Makefile.am&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/runtime/compiler/gdc/Makefile.am&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -18,7 +18,7 @&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
- # AUTOMAKE_OPTIONS = 1.9.6 foreign no-dependencies&lt;br /&gt;
-&lt;br /&gt;
- OUR_CFLAGS=&lt;code&gt;DEFS&lt;/code&gt; -I.&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;-D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared -fversion=Posix&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;+D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared&lt;/span&gt;&lt;br /&gt;
- ALL_DFLAGS = $(&lt;span class=&quot;caps&quot;&gt;DFLAGS&lt;/span&gt;) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(&lt;span class=&quot;caps&quot;&gt;MULTIFLAGS&lt;/span&gt;)&lt;br /&gt;
-&lt;br /&gt;
- host_alias=.&lt;br /&gt;
-&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/runtime/compiler/gdc/Makefile.in b/runtime/compiler/gdc/Makefile.in&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; a/runtime/compiler/gdc/Makefile.in&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/runtime/compiler/gdc/Makefile.in&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -228,7 +228,7 @&lt;/code&gt; target_vendor = &lt;code&gt;target_vendor&lt;/code&gt;&lt;/span&gt;&lt;br /&gt;
- top_builddir = &lt;code&gt;top_builddir&lt;/code&gt;&lt;br /&gt;
- top_srcdir = &lt;code&gt;top_srcdir&lt;/code&gt;&lt;br /&gt;
- OUR_CFLAGS = &lt;code&gt;DEFS&lt;/code&gt; -I.&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;-D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared -fversion=Posix&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;+D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared&lt;/span&gt;&lt;br /&gt;
- ALL_DFLAGS = $(&lt;span class=&quot;caps&quot;&gt;DFLAGS&lt;/span&gt;) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(&lt;span class=&quot;caps&quot;&gt;MULTIFLAGS&lt;/span&gt;)&lt;br /&gt;
- toolexecdir = $(phobos_toolexecdir)&lt;br /&gt;
- toolexeclibdir = $(phobos_toolexeclibdir)&lt;br /&gt;
+The second change removes the [@-fversion=Posix@] flag from the Makefile of the runtime because the DMD frontend GDC currently uses (1.040) does not allow it to be specified as it is set automatically (this restriction has been lifted in later versions):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff --git a/runtime/compiler/gdc/Makefile.am b/runtime/compiler/gdc/Makefile.am&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- a/runtime/compiler/gdc/Makefile.am&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/runtime/compiler/gdc/Makefile.am&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -18,7 +18,7 @@&lt;/span&gt;
+ # AUTOMAKE_OPTIONS = 1.9.6 foreign no-dependencies
+
+ OUR_CFLAGS=@DEFS@ -I.
+&lt;span class=&quot;gd&quot;&gt;-D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared -fversion=Posix&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+D_EXTRA_DFLAGS=-nostdinc -pipe -I../../.. -I../shared&lt;/span&gt;
+ ALL_DFLAGS = $(DFLAGS) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(MULTIFLAGS)
+
+ host_alias=.
+&lt;span class=&quot;gh&quot;&gt;diff --git a/runtime/compiler/gdc/Makefile.in b/runtime/compiler/gdc/Makefile.in&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- a/runtime/compiler/gdc/Makefile.in&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/runtime/compiler/gdc/Makefile.in&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -228,7 +228,7 @@ target_vendor = @target_vendor@&lt;/span&gt;
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ OUR_CFLAGS = @DEFS@ -I.
+&lt;span class=&quot;gd&quot;&gt;-D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared -fversion=Posix&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+D_EXTRA_DFLAGS = -nostdinc -pipe -I../../.. -I../shared&lt;/span&gt;
+ ALL_DFLAGS = $(DFLAGS) $(D_MEM_FLAGS) $(D_EXTRA_DFLAGS) $(MULTIFLAGS)
+ toolexecdir = $(phobos_toolexecdir)
+ toolexeclibdir = $(phobos_toolexeclibdir)
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;The third and last change adds a workaround to Tango&amp;#8217;s user library for a bug in the &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; front-end which has been fixed by now (the compiler fails to resolve the type of the template parameter in the templated &lt;code&gt;intpow&lt;/code&gt; function):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff &lt;del&gt;-git a/user/tango/math/internal/BiguintCore.d b/user/tango/math/internal/BiguintCore.d&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;&lt;/del&gt;&amp;#8212; a/user/tango/math/internal/BiguintCore.d&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;&lt;ins&gt;+&lt;/ins&gt; b/user/tango/math/internal/BiguintCore.d&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gu&quot;&gt;&lt;code&gt;@ -516,7 +516,7 @&lt;/code&gt; static BigUint pow(BigUint x, ulong y)&lt;/span&gt;&lt;br /&gt;
-             }&lt;br /&gt;
-             y0 = y/p;&lt;br /&gt;
-             finalMultiplier = intpow(x0, y &amp;#8211; y0*p);&lt;br /&gt;
-&lt;span class=&quot;gd&quot;&gt;-            x0 = intpow(x0, p);&lt;/span&gt;&lt;br /&gt;
-&lt;span class=&quot;gi&quot;&gt;+            x0 = intpow!(BigDigit)(x0, p);&lt;/span&gt;&lt;br /&gt;
-         }&lt;br /&gt;
-         xlength = 1;&lt;br /&gt;
-     }&lt;br /&gt;
+The third and last change adds a workaround to Tango&apos;s user library for a bug in the DMD front-end which has been fixed by now (the compiler fails to resolve the type of the template parameter in the templated [@intpow@] function):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;gh&quot;&gt;diff --git a/user/tango/math/internal/BiguintCore.d b/user/tango/math/internal/BiguintCore.d&lt;/span&gt;
+&lt;span class=&quot;gd&quot;&gt;--- a/user/tango/math/internal/BiguintCore.d&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+++ b/user/tango/math/internal/BiguintCore.d&lt;/span&gt;
+&lt;span class=&quot;gu&quot;&gt;@@ -516,7 +516,7 @@ static BigUint pow(BigUint x, ulong y)&lt;/span&gt;
+             }
+             y0 = y/p;
+             finalMultiplier = intpow(x0, y - y0*p);
+&lt;span class=&quot;gd&quot;&gt;-            x0 = intpow(x0, p);&lt;/span&gt;
+&lt;span class=&quot;gi&quot;&gt;+            x0 = intpow!(BigDigit)(x0, p);&lt;/span&gt;
+         }
+         xlength = 1;
+     }
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;After you have applied these patches, you should be ready to build Tango (make sure that you have a &lt;code&gt;cc&lt;/code&gt; somewhere in your &lt;code&gt;PATH&lt;/code&gt;, if not, create a link to your system&amp;#8217;s &lt;code&gt;gcc&lt;/code&gt;):&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo &lt;span class=&quot;nv&quot;&gt;&lt;span class=&quot;caps&quot;&gt;PATH&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$&lt;span class=&quot;caps&quot;&gt;PATH&lt;/span&gt;&lt;/span&gt;:/opt/gdc/bin &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;gdc build/build.sh &amp;#8212;lib-install-dir /opt/gdc/lib&lt;br /&gt;
+
+After you have applied these patches, you should be ready to build Tango (make sure that you have a [@cc@] somewhere in your [@PATH@], if not, create a link to your system&apos;s [@gcc@]):
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo &lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;:/opt/gdc/bin &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;gdc build/build.sh --lib-install-dir /opt/gdc/lib
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;However, I had to remove Phobos&amp;#8217; &lt;code&gt;object.d&lt;/code&gt; from &lt;code&gt;/opt/gdc/include/d/4.3.1&lt;/code&gt; first. &lt;code&gt;build/build.sh&lt;/code&gt; should finish with a note reminding you that the user libraries still have to be installed. To do this, simply copy the contents of the &lt;code&gt;user&lt;/code&gt; directory to &lt;code&gt;/opt/gdc/include/d/4.3.1&lt;/code&gt; after removing the old include files which are part of Phobos (you have to keep the &lt;code&gt;gcc&lt;/code&gt; and &lt;code&gt;i686-pc-linux-gnu&lt;/code&gt; directories though). Congratulations, now you should be able to build your Tango projects with &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt;!&lt;/p&gt;
-&lt;p&gt;A quick tip for &lt;a href=&quot;http://www.dsource.org/projects/dsss/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;&lt;/a&gt; users: You probably have to modify your &lt;code&gt;gdc-posix-tango&lt;/code&gt; profile to omit the &lt;code&gt;-version=Posix&lt;/code&gt; switch (see above) on &lt;code&gt;gdmd&lt;/code&gt; calls and add &lt;code&gt;-L-ltango-base-gdc&lt;/code&gt; to the linker flags since Tango was not installed via &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt; in the above instructions.&lt;/p&gt;
-&lt;p class=&quot;update&quot;&gt;Since I originally wrote this post, Tango&amp;#8217;s build system was modified yet another time (at least, things are much simpler now). Instead of fiddling around with the makefiles, just use the &lt;code&gt;bob&lt;/code&gt; tool from the &lt;code&gt;build&lt;/code&gt; directory now which &lt;em&gt;should&lt;/em&gt; work with &lt;span class=&quot;caps&quot;&gt;GDC&lt;/span&gt; out of the box.&lt;/p&gt;</content>
+However, I had to remove Phobos&apos; [@object.d@] from [@/opt/gdc/include/d/4.3.1@] first. [@build/build.sh@] should finish with a note reminding you that the user libraries still have to be installed. To do this, simply copy the contents of the [@user@] directory to [@/opt/gdc/include/d/4.3.1@] after removing the old include files which are part of Phobos (you have to keep the [@gcc@] and [@i686-pc-linux-gnu@] directories though). Congratulations, now you should be able to build your Tango projects with GDC!
+
+A quick tip for &lt;a href=&quot;http://www.dsource.org/projects/dsss/&quot;&gt;DSSS&lt;/a&gt; users: You probably have to modify your [@gdc-posix-tango@] profile to omit the [@-version=Posix@] switch (see above) on [@gdmd@] calls and add [@-L-ltango-base-gdc@] to the linker flags since Tango was not installed via DSSS in the above instructions.
+
+p(update). Since I originally wrote this post, Tango&apos;s build system was modified yet another time (at least, things are much simpler now). Instead of fiddling around with the makefiles, just use the [@bob@] tool from the [@build@] directory now which _should_ work with GDC out of the box.
+</content>
  </entry>
  
  <entry>
    <title>Installing DMD, LDC, Tango and DSSS on (K)Ubuntu Jaunty</title>
    <link href="http://klickverbot.at/blog/2009/07/installing-dmd-ldc-tango-and-dsss-on-kubuntu-jaunty/"/>
-   <updated>2009-07-28T00:00:00+01:00</updated>
+   <updated>2009-07-28T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2009/07/installing-dmd-ldc-tango-and-dsss-on-kubuntu-jaunty</id>
-   <content type="html">&lt;p&gt;For quite a while now, I am using the &lt;a href=&quot;http://en.wikipedia.org/wiki/D_(programming_language)&quot;&gt;D programming language&lt;/a&gt;, version 1 (I have not looked at D2 yet, it is said to be still rather unstable). Even though I like it very much for its syntactical quality and the language itself is reasonably mature, I must admit that setting up the toolchain correctly can still be a very cumbersome task to do, especially when you are new to D.&lt;/p&gt;
-&lt;p&gt;This post describes an installation routine that should provide you with a working D development environment containing &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;, &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;, Tango and &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt; on (K)Ubuntu Jaunty. Please note that it assumes your system to be »clean« – if you have already installed any D-related software, it is probably advisable to remove it completely to prevent any problems with, for instance, stale files. &lt;!--more--&gt;&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir -p ~/tmp&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
-&lt;br /&gt;
-wget http://ftp.digitalmars.com/dmd.1.050.zip&lt;br /&gt;
-unzip dmd.1.050.zip&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;dmd/linux/bin/&lt;br /&gt;
-chmod +x dmd dumpobj obj2asm rdmd&lt;br /&gt;
-sudo cp dmd dmd.conf dumpobj obj2asm rdmd /usr/local/bin/&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
-svn co http://svn.dsource.org/projects/tango/trunk tango&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;tango/&lt;br /&gt;
-sudo &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;dmd build/build.sh &amp;#8212;lib-install-dir /usr/local/lib&lt;br /&gt;
-sudo cp -rf user/object.di user/rt user/std user/tango /usr/local/include/d/&lt;br /&gt;
-&lt;br /&gt;
-sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;[Environment]\nDFLAGS=-I/usr/local/include/d -defaultlib=tango-base-dmd -debuglib=tango-base-dmd -L-ltango-user-dmd -version=Tango -version=Posix&amp;quot; &amp;gt; /usr/local/bin/dmd.conf&amp;#39;&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# dsss\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu jaunty main&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;&lt;br /&gt;
-sudo apt-get install dsss&lt;br /&gt;
-sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=dmd-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;&lt;br /&gt;
+   <content type="html">For quite a while now, I am using the &lt;a href=&quot;http://en.wikipedia.org/wiki/D_(programming_language)&quot;&gt;D programming language&lt;/a&gt;, version 1 (I have not looked at D2 yet, it is said to be still rather unstable). Even though I like it very much for its syntactical quality and the language itself is reasonably mature, I must admit that setting up the toolchain correctly can still be a very cumbersome task to do, especially when you are new to D.
+
+This post describes an installation routine that should provide you with a working D development environment containing DMD, LDC, Tango and DSSS on (K)Ubuntu Jaunty. Please note that it assumes your system to be »clean« – if you have already installed any D-related software, it is probably advisable to remove it completely to prevent any problems with, for instance, stale files. &lt;!--more--&gt;
+
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;mkdir -p ~/tmp
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+
+wget http://ftp.digitalmars.com/dmd.1.050.zip
+unzip dmd.1.050.zip
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;dmd/linux/bin/
+chmod +x dmd dumpobj obj2asm rdmd
+sudo cp dmd dmd.conf dumpobj obj2asm rdmd /usr/local/bin/
+
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+svn co http://svn.dsource.org/projects/tango/trunk tango
+
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;tango/
+sudo &lt;span class=&quot;nv&quot;&gt;DC&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;dmd build/build.sh --lib-install-dir /usr/local/lib
+sudo cp -rf user/object.di user/rt user/std user/tango /usr/local/include/d/
+
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;[Environment]\nDFLAGS=-I/usr/local/include/d -defaultlib=tango-base-dmd -debuglib=tango-base-dmd -L-ltango-user-dmd -version=Tango -version=Posix&amp;quot; &amp;gt; /usr/local/bin/dmd.conf&amp;#39;&lt;/span&gt;
+
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# dsss\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu jaunty main&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;
+sudo apt-get install dsss
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=dmd-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;You should now be able to build your D/Tango programs with &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; and &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;I would suggest giving &lt;a href=&quot;http://www.dsource.org/projects/ldc&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;&lt;/a&gt; at least a short glance, a fairly young compiler project which leverages &lt;a href=&quot;http://llvm.org/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt;&lt;/a&gt; as its code generating backend. It is maturing very quickly and allows you to make use of the various features the &lt;span class=&quot;caps&quot;&gt;LLVM&lt;/span&gt; compiler infrastructure provides, the most noticeable probably being its excellent optimization routines. Fortunately, there are current binary packages available at launchpad, so all that is needed to &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt; is:&lt;/p&gt;
-&lt;figure class='code'&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# ldc-daily\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu karmic main\ndeb http://archive.ubuntu.com/ubuntu karmic main universe&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;&lt;br /&gt;
-sudo apt-get update&lt;br /&gt;
-&lt;br /&gt;
-sudo apt-get install ldc-daily libtango-ldc-daily-dev&lt;br /&gt;
-&lt;br /&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp&lt;br /&gt;
-wget -O ldc-posix-tango http://www.dsource.org/projects/ldc/browser/ldc-posix-tango?format&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;raw&lt;br /&gt;
-sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;sed &amp;quot;s:ldc.rebuild.conf:/etc/ldc/ldc.rebuild.conf:&amp;quot;  /etc/drebuild/ldc-posix-tango&amp;#39;&lt;/span&gt;&lt;br /&gt;
-&lt;br /&gt;
-sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=ldc-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;&lt;br /&gt;
+
+You should now be able to build your D/Tango programs with DMD and DSSS.
+
+I would suggest giving &lt;a href=&quot;http://www.dsource.org/projects/ldc&quot;&gt;LDC&lt;/a&gt; at least a short glance, a fairly young compiler project which leverages &lt;a href=&quot;http://llvm.org/&quot;&gt;LLVM&lt;/a&gt; as its code generating backend. It is maturing very quickly and allows you to make use of the various features the LLVM compiler infrastructure provides, the most noticeable probably being its excellent optimization routines. Fortunately, there are current binary packages available at launchpad, so all that is needed to LDC is:
+
+
+&lt;figure class=&apos;code&apos;&gt; &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo -e &amp;quot;# ldc-daily\ndeb http://ppa.launchpad.net/d-language-packagers/ppa/ubuntu karmic main\ndeb http://archive.ubuntu.com/ubuntu karmic main universe&amp;quot; &amp;gt;&amp;gt; /etc/apt/sources.list&amp;#39;&lt;/span&gt;
+sudo apt-get update
+
+sudo apt-get install ldc-daily libtango-ldc-daily-dev
+
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+wget -O ldc-posix-tango http://www.dsource.org/projects/ldc/browser/ldc-posix-tango?format&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;raw
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;sed &amp;quot;s:ldc.rebuild.conf:/etc/ldc/ldc.rebuild.conf:&amp;quot;  /etc/drebuild/ldc-posix-tango&amp;#39;&lt;/span&gt;
+
+sudo su -c &lt;span class=&quot;s1&quot;&gt;&amp;#39;echo &amp;quot;profile=ldc-posix-tango&amp;quot; &amp;gt; /etc/drebuild/default&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-&lt;p&gt;Note that the above commands install a daily snapshot of &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;, which I would recommend to use due to the currently fast development of &lt;span class=&quot;caps&quot;&gt;LDC&lt;/span&gt;. In order not to break you Jaunty installation, please &lt;em&gt;&lt;strong&gt;do not forget&lt;/strong&gt; to comment out the official »karmic« repositories&lt;/em&gt; (which contain some dependencies for &lt;code&gt;ldc-daily&lt;/code&gt;) in your &lt;code&gt;/etc/apt/sources.list&lt;/code&gt; and run &lt;code&gt;apt-get update&lt;/code&gt; after the installation is completed.&lt;/p&gt;
-&lt;p&gt;Both compilers are set up to use Tango, do &lt;em&gt;not&lt;/em&gt; install Tango via &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;! If you want to switch compilers, just activate the corresponding profile in &lt;code&gt;/etc/drebuild/default&lt;/code&gt; and do not forget to rebuild any D libraries you might have compiled and installed with the old compiler (just run &lt;code&gt;dsss net install … &lt;/code&gt;for the ones you installed using &lt;span class=&quot;caps&quot;&gt;DSSS&lt;/span&gt;).&lt;/p&gt;
-&lt;p class=&quot;update&quot;&gt;Since I wrote this post, Tango received yet another big structural change to its codebase (amongst other changes, the core and user libraries have been merged). Now, you should use the supplied &lt;em&gt;»bob«&lt;/em&gt; tool now to build tango. Additionally, Karmic is now stable so you might have to adapt the &lt;span class=&quot;caps&quot;&gt;APT&lt;/span&gt; repository-related instructions.&lt;/p&gt;</content>
+
+Note that the above commands install a daily snapshot of LDC, which I would recommend to use due to the currently fast development of LDC. In order not to break you Jaunty installation, please _*do not forget* to comment out the official »karmic« repositories_ (which contain some dependencies for [@ldc-daily@]) in your [@/etc/apt/sources.list@] and run [@apt-get update@] after the installation is completed.
+
+Both compilers are set up to use Tango, do _not_ install Tango via DSSS! If you want to switch compilers, just activate the corresponding profile in [@/etc/drebuild/default@] and do not forget to rebuild any D libraries you might have compiled and installed with the old compiler (just run [@dsss net install … @]for the ones you installed using DSSS).
+
+p(update). Since I wrote this post, Tango received yet another big structural change to its codebase (amongst other changes, the core and user libraries have been merged). Now, you should use the supplied _»bob«_ tool now to build tango. Additionally, Karmic is now stable so you might have to adapt the APT repository-related instructions.
+</content>
  </entry>
  
 </feed>

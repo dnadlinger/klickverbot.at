@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/KDE 4/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2019-08-04T08:04:04+01:00</updated>
+ <updated>2023-07-06T14:46:30-04:00</updated>
  <id>http://klickverbot.at/blog/tags/KDE 4/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,20 +14,25 @@
  <entry>
    <title>Duplicate »Translucency« KWin effect</title>
    <link href="http://klickverbot.at/blog/2009/04/duplicate-translucency-kwin-effect/"/>
-   <updated>2009-04-28T00:00:00+01:00</updated>
+   <updated>2009-04-28T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2009/04/duplicate-translucency-kwin-effect</id>
-   <content type="html">&lt;p&gt;For some time, the effect »Translucency« was listed twice in the KWin &lt;span class=&quot;caps&quot;&gt;KCM&lt;/span&gt; plugin list of my local &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; setup (&lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; trunk). One copy was actually working, the other was just producing error messages.&lt;/p&gt;
-&lt;p&gt;Today, I finally had time to investigate the issue: The problem was caused by a stale &lt;code&gt;.desktop&lt;/code&gt; file in &lt;code&gt;share/kde4/services/kwin&lt;/code&gt; with the old name of the plugin (it was renamed from &lt;em&gt;maketransparent&lt;/em&gt; to &lt;em&gt;translucency&lt;/em&gt;).&lt;/p&gt;
-&lt;p&gt;I have no idea how this could happen, because I usually purge the whole &lt;code&gt;/opt/kde&lt;/code&gt; folder everytime I &lt;code&gt;svn up&lt;/code&gt; my &lt;code&gt;qt-copy&lt;/code&gt;, which I happen to do quite often…&lt;/p&gt;</content>
+   <content type="html">For some time, the effect »Translucency« was listed twice in the KWin KCM plugin list of my local KDE setup (SVN trunk). One copy was actually working, the other was just producing error messages.
+
+Today, I finally had time to investigate the issue: The problem was caused by a stale [@.desktop@] file in [@share/kde4/services/kwin@] with the old name of the plugin (it was renamed from _maketransparent_ to _translucency_).
+
+I have no idea how this could happen, because I usually purge the whole [@/opt/kde@] folder everytime I [@svn up@] my [@qt-copy@], which I happen to do quite often…
+</content>
  </entry>
  
  <entry>
    <title>KHotkeys in KDE 4.1</title>
    <link href="http://klickverbot.at/blog/2008/11/khotkeys-in-kde-4-1/"/>
-   <updated>2008-11-02T00:00:00+00:00</updated>
+   <updated>2008-11-02T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2008/11/khotkeys-in-kde-4-1</id>
-   <content type="html">&lt;p&gt;I just upgraded to Kubuntu 8.10 in order to have a look at shiny new &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; 4. But amongst other minor annoyances, I had real trouble getting hotkeys to work. There are configuration options in the new System Settings panel (which is a huge regression compared to KControl by the way), but they seemed to have no effect.&lt;/p&gt;
-&lt;p&gt;After various attempts of fixing this problem myself, I finally found a (slightly hackish) solution: &lt;a href=&quot;http://ubuntuforums.org/showpost.php?p=5541572&amp;amp;postcount=9&quot;&gt;Re: Does khotkeys work on your &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; 4.1?&lt;/a&gt;. Seems like &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; 4.1 is still &lt;em&gt;very&lt;/em&gt; beta&amp;#8230;&lt;/p&gt;</content>
+   <content type="html">I just upgraded to Kubuntu 8.10 in order to have a look at shiny new KDE 4. But amongst other minor annoyances, I had real trouble getting hotkeys to work. There are configuration options in the new System Settings panel (which is a huge regression compared to KControl by the way), but they seemed to have no effect.
+
+After various attempts of fixing this problem myself, I finally found a (slightly hackish) solution: &quot;Re: Does khotkeys work on your KDE 4.1?&quot;:http://ubuntuforums.org/showpost.php?p=5541572&amp;postcount=9. Seems like KDE 4.1 is still _very_ beta...
+</content>
  </entry>
  
 </feed>

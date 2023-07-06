@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+       More info: h5bp.com/i/378
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Mathematische Grundlagen der 3D-Grafik | David Nadlinger</title>
+
+  <!-- Mobile viewport optimized: h5bp.com/viewport -->
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+  <!--<script type="text/javascript">var u="//piwik.klickverbot.at/";var _paq=[['setSiteId',1],['setTrackerUrl',u+'piwik.php'],['trackPageView']];(function(){var d=document,g=d.createElement('script'),s=d.getElementsByTagName('script')[0];g.type='text/javascript';g.defer=true;g.async=true;g.src=u+'piwik.js';s.parentNode.insertBefore(g,s);})();</script>-->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+  <link rel="openid.server" href="http://openid.klickverbot.at/" />
+  <link rel="openid2.provider" href="http://openid.klickverbot.at/" />
+</head>
+<body>
+  <header id="main_header">
+    <h1><span><a href="/">David Nadlinger</a></span></h1>
+    <nav role="navigation">
+      <ul>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/code">Code</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div role="main" id="main_content">
+    <div class="article">
+  <header>
+    <ul class="catnav">
+      <li><a href="/code/units">std.units</a></li>
+      <li><s>Next page</s></li>
+    </ul>
+  </header>
+  <div class="content">h1. Mathematische Grundlagen der 3D-Grafik
+
+notextile. <aside><a href="3d-mathematics.pdf" class="download">Get as PDF</a></aside>
+
+p(lead). A fifty-page paper (in German) about the mathematical basics of 3d computer graphics, which I wrote as part of my A-levels. Unfortunately, there is no English version available. The practical part of the project was "d4":/code/d4/, a software rasterizer.
+
+Heutzutage begegnen uns ständig computergenerierte Bilder, sei es in Form von Spezialeffekten oder künstlichen Charakteren in einem Kinofilm, sei es in Computerspielen oder bei der Visualisierung von Bauplänen, lange bevor die ersten Bagger rollen. Diese Möglichkeit, virtuelle Welten im Auge eines Betrachters Realität werden zu lassen, macht die 3D-Grafik in meinen Augen zu einem der interessantesten Anwendungsgebiete der Mathematik.
+
+Im Rahmen meiner Matura in Mathematik bot sich die Gelegenheit, die mathematischen Grundlagen dieses Themenbereiches im Form einer Fachbereichsarbeit mit dem Titel »Mathematische Grundlagen der 3D-Grafik« kurz zusammenzufassen, welche später auch mit dem 1. Schülerpreis der "Österreichischen Mathematischen Gesellschaft":http://www.oemg.ac.at/ ausgezeichnet wurde.
+
+Leider ist die Arbeit aufgrund des begrenzten Umfangs und der nötigen Einführung in die benötigten mathematischen Hilfsmittel (Matrizen, Quaternionen) recht elementar ausgefallen. Ein Auszug aus dem Inhaltsverzeichnis:
+
+<blockquote class="small">
+(columns2)# Vorwort
+# Einleitung
+# Mathematische Grundlagen
+*# Vektoren
+*# Matrizen
+*# Quaternionen
+*# Grundlagen der 3D-Grafik
+## Modellierung
+### Geometrie
+### Oberflächeneigenschaften
+### Texturen
+## Rendering
+### Koordinatentransformationen
+### Rasterung
+### Umsetzung in Hardware
+# Objekt-Transformationen
+## Skalierung
+## Translation
+## Rotation
+### Rotation um die Koordinatenachsen
+### Eulersche Winkel
+### Rotationsmatrix aus transformierten Basisvektoren
+### Darstellung als Quaternion
+# Betrachtungstransformationen
+## View Matrix
+## Projection Matrix
+# Ausblick
+# "Beispielprogramm":/code/d4
+
+</blockquote>
+
+Bei Interesse können Sie gerne die "Arbeit im PDF-Format":3d-mathematics.pdf herunterladen (51&nbsp;Seiten), die "LaTeX-Quellen auf GitHub":http://github.com/dnadlinger/3d-mathematics abrufen, oder einen kurzen Artikel zum begleitend in der Programmiersprache D entwickelten "Software Rasterizer _d4_":/code/d4/ einsehen.
+</div>
+</div>
+
+  </div>
+  <footer id="main_footer">
+    <ul>
+      <li><a class="twitter" href="//twitter.com/dnadlinger">Follow me on Twitter</a></li>
+      <li><a class="mail" href="/about">Contact me</a></li>
+      <li><a class="rss" href="/blog/atom.xml">Blog feed</a></li>
+    </ul>
+  </footer>
+
+  <!-- JavaScript at the bottom for fast page loading -->
+  <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
+       mathiasbynens.be/notes/async-analytics-snippet
+  <script>var _gaq=[['_setAccount','UA-29694904-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>-->
+  <!--<noscript><p><img src="http://piwik.klickverbot.at/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>-->
+</body>
+</html>

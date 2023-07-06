@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/Windows/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2019-08-04T08:04:04+01:00</updated>
+ <updated>2023-07-06T14:46:30-04:00</updated>
  <id>http://klickverbot.at/blog/tags/Windows/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,52 +14,68 @@
  <entry>
    <title>The Joys of OPTLINK</title>
    <link href="http://klickverbot.at/blog/2010/02/the-joys-of-optlink/"/>
-   <updated>2010-02-13T00:00:00+00:00</updated>
+   <updated>2010-02-13T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2010/02/the-joys-of-optlink</id>
-   <content type="html">&lt;p&gt;As you might know, &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;/Windows (the reference compiler for the &lt;a href=&quot;http://www.digitalmars.com/d/1.0/&quot;&gt;D&lt;/a&gt; programming language) does not use the standard &lt;span class=&quot;caps&quot;&gt;COFF&lt;/span&gt; format for the object files it generates, but the fairly obscure &lt;span class=&quot;caps&quot;&gt;OMF&lt;/span&gt; instead. This fact itself causes quite a number of annoyances. For example, the format differences make it unable to link static libraries produced by other compilers to D projects, which is especially annoying since it also applies to &lt;span class=&quot;caps&quot;&gt;DLL&lt;/span&gt; import libraries. You also cannot use any tools which expect object files in &lt;span class=&quot;caps&quot;&gt;COFF&lt;/span&gt; format and vice versa.&lt;/p&gt;
-&lt;p&gt;However, all of these issues, as annoying as they may be, do not pose a serious problem, they can all be worked around. But there is another one, and it has seven letters: &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt;. &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt;, courtesy of Digital Mars, is the linker which comes with &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;. There are quite a number of issues with it:&lt;/p&gt;
-&lt;p&gt;First, it is proprietary closed-source software. Apart from some people&amp;#8217;s idealistic worries, this also poses a serious problem to more pragmatically inclined coders because &lt;em&gt;there are no alternative linkers&lt;/em&gt; for &lt;span class=&quot;caps&quot;&gt;OMF&lt;/span&gt;, at least no even half-decent ones. This means that if you stumble upon a bug, you can do nothing more than to wait for Walter Bright to fix it.&lt;/p&gt;
-&lt;p&gt;Second, even if the source code was available, it would probably still be hard to fix bugs, since, according to Walter himself, large parts are written in assembler – a &lt;em&gt;maintainer&amp;#8217;s nightmare&lt;/em&gt;. This might also explain why it took him so long to fix some serious bugs in the past…&lt;/p&gt;
-&lt;p&gt;Third, there are bugs. &lt;em&gt;Lots of bugs&lt;/em&gt;, compared to other linkers and with the pretty high version number (8.00.2) in mind. If you want to know what I am talking about, just search the D newsgroups; projects which make extensive use of templates seem to be affected more often than others. Until yesterday, I personally had been spared from this kind of issues, but the &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt; bug I encountered yesterday almost drove me crazy, because one wouldn&amp;#8217;t expect this at all: &lt;!--more--&gt;&lt;/p&gt;
-&lt;p&gt;After I had worked quite some time on Linux exclusively, I needed to compile a Windows version of a project of mine. So I went ahead and rebooted, updated &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt;, Tango and a few other tools. Everything worked fine, the project even built fine, until I needed to build debug symbols into the binary. Every time I just added the &lt;code&gt;-g&lt;/code&gt; flag to the compiler invocation, &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt; would abort with »Error 118: Filename Expected«. Because I had also upgraded my build tool, my first thought was that the linker commands could really be broken, but on closer inspection, it turned out that the invocation was generated perfectly fine. So I went on and downgraded all of the tools again, but to no avail – again the same error, although debug builds had worked flawlessly in the past.&lt;/p&gt;
-&lt;p&gt;After having searched for about an hour, I finally found the cause, and I could not really believe it at first: Compared to my previous D/Windows setup, I had added the Notepad++ installation directory to my &lt;code&gt;PATH&lt;/code&gt;. You might ask yourself now, »Um, what? How should that break the linker?« Well, it turned out that &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt; apparently has problems with handling plus signs in all the lookup paths it uses, including not only the ones passed at the command line, but also those from the environment variables.&lt;/p&gt;
-&lt;p&gt;For a second I was really tempted to just drop &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; altogether, but unfortunately, there currently is no other D compiler of comparable quality for Windows. In my eyes, it would really help if &lt;span class=&quot;caps&quot;&gt;DMD&lt;/span&gt; used &lt;span class=&quot;caps&quot;&gt;COFF&lt;/span&gt; for its object files, making it possible to easily switch out &lt;span class=&quot;caps&quot;&gt;OPTLINK&lt;/span&gt;, since the maturity of the tool-chain is currently the number one problem of D.&lt;/p&gt;</content>
+   <content type="html">As you might know, DMD/Windows (the reference compiler for the &lt;a href=&quot;http://www.digitalmars.com/d/1.0/&quot;&gt;D&lt;/a&gt; programming language) does not use the standard COFF format for the object files it generates, but the fairly obscure OMF instead. This fact itself causes quite a number of annoyances. For example, the format differences make it unable to link static libraries produced by other compilers to D projects, which is especially annoying since it also applies to DLL import libraries. You also cannot use any tools which expect object files in COFF format and vice versa.
+
+However, all of these issues, as annoying as they may be, do not pose a serious problem, they can all be worked around. But there is another one, and it has seven letters: OPTLINK. OPTLINK, courtesy of Digital Mars, is the linker which comes with DMD. There are quite a number of issues with it:
+
+First, it is proprietary closed-source software. Apart from some people&apos;s idealistic worries, this also poses a serious problem to more pragmatically inclined coders because _there are no alternative linkers_ for OMF, at least no even half-decent ones. This means that if you stumble upon a bug, you can do nothing more than to wait for Walter Bright to fix it.
+
+Second, even if the source code was available, it would probably still be hard to fix bugs, since, according to Walter himself, large parts are written in assembler – a _maintainer&apos;s nightmare_. This might also explain why it took him so long to fix some serious bugs in the past…
+
+Third, there are bugs. _Lots of bugs_, compared to other linkers and with the pretty high version number (8.00.2) in mind. If you want to know what I am talking about, just search the D newsgroups; projects which make extensive use of templates seem to be affected more often than others. Until yesterday, I personally had been spared from this kind of issues, but the OPTLINK bug I encountered yesterday almost drove me crazy, because one wouldn&apos;t expect this at all: &lt;!--more--&gt;
+
+After I had worked quite some time on Linux exclusively, I needed to compile a Windows version of a project of mine. So I went ahead and rebooted, updated DMD, Tango and a few other tools. Everything worked fine, the project even built fine, until I needed to build debug symbols into the binary. Every time I just added the [@-g@] flag to the compiler invocation, OPTLINK would abort with »Error 118: Filename Expected«. Because I had also upgraded my build tool, my first thought was that the linker commands could really be broken, but on closer inspection, it turned out that the invocation was generated perfectly fine. So I went on and downgraded all of the tools again, but to no avail – again the same error, although debug builds had worked flawlessly in the past.
+
+After having searched for about an hour, I finally found the cause, and I could not really believe it at first: Compared to my previous D/Windows setup, I had added the Notepad++ installation directory to my [@PATH@]. You might ask yourself now, »Um, what? How should that break the linker?« Well, it turned out that OPTLINK apparently has problems with handling plus signs in all the lookup paths it uses, including not only the ones passed at the command line, but also those from the environment variables.
+
+For a second I was really tempted to just drop DMD altogether, but unfortunately, there currently is no other D compiler of comparable quality for Windows. In my eyes, it would really help if DMD used COFF for its object files, making it possible to easily switch out OPTLINK, since the maturity of the tool-chain is currently the number one problem of D.
+</content>
  </entry>
  
  <entry>
    <title>ZoneAlarm Firewall + Windows Vista = No Good</title>
    <link href="http://klickverbot.at/blog/2009/02/zonealarm-firewall-windows-vista-no-good/"/>
-   <updated>2009-02-01T00:00:00+00:00</updated>
+   <updated>2009-02-01T00:00:00-05:00</updated>
    <id>http://klickverbot.at/blog/2009/02/zonealarm-firewall-windows-vista-no-good</id>
-   <content type="html">&lt;p&gt;I am terribly short on time at the moment, but I just have to record this:&lt;br /&gt;
-&lt;em&gt;Don&amp;#8217;t use the Zone Labs ZoneAlarm Firewall on Microsoft Windows Vista. Just don&amp;#8217;t do it!&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;For me, the firewall caused numerous seemingly unrelated problems: the Windows Update panel froze when started (had to kill explorer.exe), the Windows Defender updates were not working anymore, I could not install Visual Studio (Visual C++ 2008 Express to be precise), etc.&lt;/p&gt;
-&lt;p&gt;I will certainly write more about this somewhen in the future&amp;#8230;&lt;/p&gt;
-&lt;p class=&quot;update&quot;&gt;Apparently, Microsoft have already covered this issue in a &lt;a href=&quot;http://support.microsoft.com/kb/321434&quot;&gt;knowledge base entry&lt;/a&gt; almost two years ago. D&amp;#8217;oh! I will probably do some testing on this during the next days.&lt;/p&gt;</content>
+   <content type="html">I am terribly short on time at the moment, but I just have to record this:
+_Don&apos;t use the Zone Labs ZoneAlarm Firewall on Microsoft Windows Vista. Just don&apos;t do it!_
+
+For me, the firewall caused numerous seemingly unrelated problems: the Windows Update panel froze when started (had to kill explorer.exe), the Windows Defender updates were not working anymore, I could not install Visual Studio (Visual C++ 2008 Express to be precise), etc.
+
+I will certainly write more about this somewhen in the future...
+
+p(update). Apparently, Microsoft have already covered this issue in a &quot;knowledge base entry&quot;:http://support.microsoft.com/kb/321434 almost two years ago. D&apos;oh! I will probably do some testing on this during the next days.
+</content>
  </entry>
  
  <entry>
    <title>Git on Windows</title>
    <link href="http://klickverbot.at/blog/2008/10/git-on-windows/"/>
-   <updated>2008-10-12T00:00:00+01:00</updated>
+   <updated>2008-10-12T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2008/10/git-on-windows</id>
-   <content type="html">&lt;p&gt;Just found &lt;a href=&quot;http://kylecordes.com/2008/04/30/git-windows-go/&quot;&gt;an excellent writeup&lt;/a&gt; by Kyle Cordes about using Git on Windows.&lt;/p&gt;</content>
+   <content type="html">Just found &quot;an excellent writeup&quot;:http://kylecordes.com/2008/04/30/git-windows-go/ by Kyle Cordes about using Git on Windows.
+</content>
  </entry>
  
  <entry>
    <title>NoInternetOpenWith</title>
    <link href="http://klickverbot.at/blog/2008/06/nointernetopenwith/"/>
-   <updated>2008-06-26T00:00:00+01:00</updated>
+   <updated>2008-06-26T00:00:00-04:00</updated>
    <id>http://klickverbot.at/blog/2008/06/nointernetopenwith</id>
-   <content type="html">&lt;p&gt;At the moment, I am forced to use a box running Windows Vista for parts of my daily work. One thing that really annoys me about Windows is that nasty dialog asking you if you want to search the internet which pops up when you want to open a file with an extension Windows doesn&amp;#8217;t know about. I am sure that 99 percent of the users would prefer to directly jump into the window where you can choose the application. But well, that&amp;#8217;s just Microsoft, I guess.&lt;/p&gt;
-&lt;p&gt;Today, I finally found a tweak that removes that useless dialog:&lt;br /&gt;
-Add a dword called &lt;code&gt;NoInternetOpenWith&lt;/code&gt; with the value &lt;code&gt;0x1&lt;/code&gt; under &lt;code&gt;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;If you do not want to poke around manually in your registry, you can copy the following lines in a new &lt;code&gt;.reg&lt;/code&gt; file and double-click it to add the key.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Windows Registry Editor Version 5.00&lt;/code&gt;
+   <content type="html">At the moment, I am forced to use a box running Windows Vista for parts of my daily work. One thing that really annoys me about Windows is that nasty dialog asking you if you want to search the internet which pops up when you want to open a file with an extension Windows doesn&apos;t know about. I am sure that 99 percent of the users would prefer to directly jump into the window where you can choose the application. But well, that&apos;s just Microsoft, I guess.
 
-&lt;code&gt;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+Today, I finally found a tweak that removes that useless dialog:
+Add a dword called @NoInternetOpenWith@ with the value @0x1@ under @HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer@.
+
+If you do not want to poke around manually in your registry, you can copy the following lines in a new @.reg@ file and double-click it to add the key.
+
+bc.. Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
 &quot;NoInternetOpenWith&quot;=dword:00000001
-&lt;/code&gt;&lt;/pre&gt;</content>
+</content>
  </entry>
  
 </feed>
