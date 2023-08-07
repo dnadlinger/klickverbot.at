@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/Sockets/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2023-07-06T14:46:30-04:00</updated>
+ <updated>2023-08-07T18:22:35+01:00</updated>
  <id>http://klickverbot.at/blog/tags/Sockets/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,7 +14,7 @@
  <entry>
    <title><code>getaddrinfo</code> cross-platform edge case behavior</title>
    <link href="http://klickverbot.at/blog/2012/01/getaddrinfo-edge-case-behavior-on-windows-linux-and-osx/"/>
-   <updated>2012-01-31T00:00:00-05:00</updated>
+   <updated>2012-01-31T00:00:00+00:00</updated>
    <id>http://klickverbot.at/blog/2012/01/getaddrinfo-edge-case-behavior-on-windows-linux-and-osx</id>
    <content type="html">&lt;p&gt;An often-needed piece of functionality in network programming is to resolve human-readable host or port names to their numerical equivalent, for example in order to pass the latter to operating system socket APIs. The &lt;code&gt;getaddrinfo&lt;/code&gt; function fills this role on POSIX and Windows. Apart from some flags, it accepts two string parameters for host and service (port) names and returns a list of corresponding IP addresses and port numbers, superseding the older &lt;code&gt;gethostbyname&lt;/code&gt; and &lt;code&gt;getservbyname&lt;/code&gt; functions.&lt;/p&gt;
 

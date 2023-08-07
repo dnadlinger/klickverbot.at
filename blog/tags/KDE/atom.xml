@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/KDE/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2023-07-06T14:46:30-04:00</updated>
+ <updated>2023-08-07T18:22:35+01:00</updated>
  <id>http://klickverbot.at/blog/tags/KDE/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,66 +14,52 @@
  <entry>
    <title>Getting KDE's clippboard to work with Eclipse</title>
    <link href="http://klickverbot.at/blog/2009/05/getting-kdes-clippboard-to-work-with-eclipse/"/>
-   <updated>2009-05-28T00:00:00-04:00</updated>
+   <updated>2009-05-28T00:00:00+01:00</updated>
    <id>http://klickverbot.at/blog/2009/05/getting-kdes-clippboard-to-work-with-eclipse</id>
-   <content type="html">For whatever reason, Eclipse does not work well with Klipper, the KDE clipboard manager, in its default settings. The symptoms: Quite often, you copy a piece of text to the clipboard. When you try to paste it, it miraculously disappears and some old piece of clipboard content is pasted instead.
-
-After simply trying to ignore the problem for some time, I searched and found a solution today: You have to disable the _»Prevent empty clipboard«_ setting in Klipper&apos;s configuration menu (which is accessible by right-clicking on the systray icon).
-
-Intuitive? Not to me…
-
-p(update). Disabling the mentioned option might introduce some minor glitches to general clipboard usage (sometimes, the clipboard seems to empty itself). As those occur rather infrequently, I have not been able to find out why this happens, or even if this is connected to the configuration changes described in this post.
-</content>
+   <content type="html">&lt;p&gt;For whatever reason, Eclipse does not work well with Klipper, the &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; clipboard manager, in its default settings. The symptoms: Quite often, you copy a piece of text to the clipboard. When you try to paste it, it miraculously disappears and some old piece of clipboard content is pasted instead.&lt;/p&gt;
+&lt;p&gt;After simply trying to ignore the problem for some time, I searched and found a solution today: You have to disable the &lt;em&gt;»Prevent empty clipboard«&lt;/em&gt; setting in Klipper&amp;#8217;s configuration menu (which is accessible by right-clicking on the systray icon).&lt;/p&gt;
+&lt;p&gt;Intuitive? Not to me…&lt;/p&gt;
+&lt;p class=&quot;update&quot;&gt;Disabling the mentioned option might introduce some minor glitches to general clipboard usage (sometimes, the clipboard seems to empty itself). As those occur rather infrequently, I have not been able to find out why this happens, or even if this is connected to the configuration changes described in this post.&lt;/p&gt;</content>
  </entry>
  
  <entry>
    <title>Duplicate »Translucency« KWin effect</title>
    <link href="http://klickverbot.at/blog/2009/04/duplicate-translucency-kwin-effect/"/>
-   <updated>2009-04-28T00:00:00-04:00</updated>
+   <updated>2009-04-28T00:00:00+01:00</updated>
    <id>http://klickverbot.at/blog/2009/04/duplicate-translucency-kwin-effect</id>
-   <content type="html">For some time, the effect »Translucency« was listed twice in the KWin KCM plugin list of my local KDE setup (SVN trunk). One copy was actually working, the other was just producing error messages.
-
-Today, I finally had time to investigate the issue: The problem was caused by a stale [@.desktop@] file in [@share/kde4/services/kwin@] with the old name of the plugin (it was renamed from _maketransparent_ to _translucency_).
-
-I have no idea how this could happen, because I usually purge the whole [@/opt/kde@] folder everytime I [@svn up@] my [@qt-copy@], which I happen to do quite often…
-</content>
+   <content type="html">&lt;p&gt;For some time, the effect »Translucency« was listed twice in the KWin &lt;span class=&quot;caps&quot;&gt;KCM&lt;/span&gt; plugin list of my local &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; setup (&lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt; trunk). One copy was actually working, the other was just producing error messages.&lt;/p&gt;
+&lt;p&gt;Today, I finally had time to investigate the issue: The problem was caused by a stale &lt;code&gt;.desktop&lt;/code&gt; file in &lt;code&gt;share/kde4/services/kwin&lt;/code&gt; with the old name of the plugin (it was renamed from &lt;em&gt;maketransparent&lt;/em&gt; to &lt;em&gt;translucency&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;I have no idea how this could happen, because I usually purge the whole &lt;code&gt;/opt/kde&lt;/code&gt; folder everytime I &lt;code&gt;svn up&lt;/code&gt; my &lt;code&gt;qt-copy&lt;/code&gt;, which I happen to do quite often…&lt;/p&gt;</content>
  </entry>
  
  <entry>
    <title>Debugging KDE applications with gdb</title>
    <link href="http://klickverbot.at/blog/2009/01/debugging-kde-applications-with-gdb/"/>
-   <updated>2009-01-24T00:00:00-05:00</updated>
+   <updated>2009-01-24T00:00:00+00:00</updated>
    <id>http://klickverbot.at/blog/2009/01/debugging-kde-applications-with-gdb</id>
-   <content type="html">A pretty long time has passed since my last post here, and in the meantime I have jumped right into KDE development myself. I have stumbled upon quite a few tricks and pitfalls that I will undoubtedly write about here some day.
-
-For now, I just want to share a little gem which I have discovered a few minutes ago: In [@kdesdk/scripts@], David Faure published a little script called [@kde-devel-gdb@] (&quot;view with WebSVN&quot;:http://websvn.kde.org/trunk/KDE/kdesdk/scripts/kde-devel-gdb?view=markup), which extends gdb with the ability to print the contents of several Qt containers, including the widely used [@QString@]. Highly recommended!
-</content>
+   <content type="html">&lt;p&gt;A pretty long time has passed since my last post here, and in the meantime I have jumped right into &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; development myself. I have stumbled upon quite a few tricks and pitfalls that I will undoubtedly write about here some day.&lt;/p&gt;
+&lt;p&gt;For now, I just want to share a little gem which I have discovered a few minutes ago: In &lt;code&gt;kdesdk/scripts&lt;/code&gt;, David Faure published a little script called &lt;code&gt;kde-devel-gdb&lt;/code&gt; (&lt;a href=&quot;http://websvn.kde.org/trunk/KDE/kdesdk/scripts/kde-devel-gdb?view=markup&quot;&gt;view with WebSVN&lt;/a&gt;), which extends gdb with the ability to print the contents of several Qt containers, including the widely used &lt;code&gt;QString&lt;/code&gt;. Highly recommended!&lt;/p&gt;</content>
  </entry>
  
  <entry>
    <title>KHotkeys in KDE 4.1</title>
    <link href="http://klickverbot.at/blog/2008/11/khotkeys-in-kde-4-1/"/>
-   <updated>2008-11-02T00:00:00-04:00</updated>
+   <updated>2008-11-02T00:00:00+00:00</updated>
    <id>http://klickverbot.at/blog/2008/11/khotkeys-in-kde-4-1</id>
-   <content type="html">I just upgraded to Kubuntu 8.10 in order to have a look at shiny new KDE 4. But amongst other minor annoyances, I had real trouble getting hotkeys to work. There are configuration options in the new System Settings panel (which is a huge regression compared to KControl by the way), but they seemed to have no effect.
-
-After various attempts of fixing this problem myself, I finally found a (slightly hackish) solution: &quot;Re: Does khotkeys work on your KDE 4.1?&quot;:http://ubuntuforums.org/showpost.php?p=5541572&amp;postcount=9. Seems like KDE 4.1 is still _very_ beta...
-</content>
+   <content type="html">&lt;p&gt;I just upgraded to Kubuntu 8.10 in order to have a look at shiny new &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; 4. But amongst other minor annoyances, I had real trouble getting hotkeys to work. There are configuration options in the new System Settings panel (which is a huge regression compared to KControl by the way), but they seemed to have no effect.&lt;/p&gt;
+&lt;p&gt;After various attempts of fixing this problem myself, I finally found a (slightly hackish) solution: &lt;a href=&quot;http://ubuntuforums.org/showpost.php?p=5541572&amp;amp;postcount=9&quot;&gt;Re: Does khotkeys work on your &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; 4.1?&lt;/a&gt;. Seems like &lt;span class=&quot;caps&quot;&gt;KDE&lt;/span&gt; 4.1 is still &lt;em&gt;very&lt;/em&gt; beta&amp;#8230;&lt;/p&gt;</content>
  </entry>
  
  <entry>
    <title>KDE Konsole corruption when Compiz is active</title>
    <link href="http://klickverbot.at/blog/2008/09/kde-konsole-corruption-when-compiz-is-active/"/>
-   <updated>2008-09-03T00:00:00-04:00</updated>
+   <updated>2008-09-03T00:00:00+01:00</updated>
    <id>http://klickverbot.at/blog/2008/09/kde-konsole-corruption-when-compiz-is-active</id>
-   <content type="html">On my laptop I&apos;m currently running Kubuntu 8.04 (Hardy Heron). For additional eye candy goodness I am using the [@compiz-fusion@] package from the Kubuntu repositories. Surprisingly, even on the laptop hardware (Asus V1S) everything went smooth out of the box – I could even manage to find some drivers for the webcam and for the finger print scanner.
-
-Well, everything worked fine except for one little detail: When I had an active Konsole session on one cube face, for example a log file, and continued to work on another side of the cube, the Konsole output would often be broken when I switched back to it. It would look as if the output had been scrolled, but the non-scrolled output hadn&apos;t been cleared from the window. This problem could be fixed by forcing the window to refresh, e.g. by switching to another (Konsole) tab.
-
-In their 169.XX driver series, nVidia added a config option called [@UseCompositeWrapper@], which can help to sort out this kind of redraw problems. Fortunately, enabling this via adding the following line to the [@Device@] section of my [@xorg.conf@] was enough to solve the problem:
-
-bc. Option &quot;UseCompositeWrapper&quot; &quot;true&quot;
-</content>
+   <content type="html">&lt;p&gt;On my laptop I&amp;#8217;m currently running Kubuntu 8.04 (Hardy Heron). For additional eye candy goodness I am using the &lt;code&gt;compiz-fusion&lt;/code&gt; package from the Kubuntu repositories. Surprisingly, even on the laptop hardware (Asus V1S) everything went smooth out of the box – I could even manage to find some drivers for the webcam and for the finger print scanner.&lt;/p&gt;
+&lt;p&gt;Well, everything worked fine except for one little detail: When I had an active Konsole session on one cube face, for example a log file, and continued to work on another side of the cube, the Konsole output would often be broken when I switched back to it. It would look as if the output had been scrolled, but the non-scrolled output hadn&amp;#8217;t been cleared from the window. This problem could be fixed by forcing the window to refresh, e.g. by switching to another (Konsole) tab.&lt;/p&gt;
+&lt;p&gt;In their 169.XX driver series, nVidia added a config option called &lt;code&gt;UseCompositeWrapper&lt;/code&gt;, which can help to sort out this kind of redraw problems. Fortunately, enabling this via adding the following line to the &lt;code&gt;Device&lt;/code&gt; section of my &lt;code&gt;xorg.conf&lt;/code&gt; was enough to solve the problem:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Option &quot;UseCompositeWrapper&quot; &quot;true&quot;
+&lt;/code&gt;&lt;/pre&gt;</content>
  </entry>
  
 </feed>

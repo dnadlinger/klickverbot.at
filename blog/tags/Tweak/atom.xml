@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/Tweak/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2023-07-06T14:46:30-04:00</updated>
+ <updated>2023-08-07T18:22:35+01:00</updated>
  <id>http://klickverbot.at/blog/tags/Tweak/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,20 +14,17 @@
  <entry>
    <title>NoInternetOpenWith</title>
    <link href="http://klickverbot.at/blog/2008/06/nointernetopenwith/"/>
-   <updated>2008-06-26T00:00:00-04:00</updated>
+   <updated>2008-06-26T00:00:00+01:00</updated>
    <id>http://klickverbot.at/blog/2008/06/nointernetopenwith</id>
-   <content type="html">At the moment, I am forced to use a box running Windows Vista for parts of my daily work. One thing that really annoys me about Windows is that nasty dialog asking you if you want to search the internet which pops up when you want to open a file with an extension Windows doesn&apos;t know about. I am sure that 99 percent of the users would prefer to directly jump into the window where you can choose the application. But well, that&apos;s just Microsoft, I guess.
+   <content type="html">&lt;p&gt;At the moment, I am forced to use a box running Windows Vista for parts of my daily work. One thing that really annoys me about Windows is that nasty dialog asking you if you want to search the internet which pops up when you want to open a file with an extension Windows doesn&amp;#8217;t know about. I am sure that 99 percent of the users would prefer to directly jump into the window where you can choose the application. But well, that&amp;#8217;s just Microsoft, I guess.&lt;/p&gt;
+&lt;p&gt;Today, I finally found a tweak that removes that useless dialog:&lt;br /&gt;
+Add a dword called &lt;code&gt;NoInternetOpenWith&lt;/code&gt; with the value &lt;code&gt;0x1&lt;/code&gt; under &lt;code&gt;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you do not want to poke around manually in your registry, you can copy the following lines in a new &lt;code&gt;.reg&lt;/code&gt; file and double-click it to add the key.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Windows Registry Editor Version 5.00&lt;/code&gt;
 
-Today, I finally found a tweak that removes that useless dialog:
-Add a dword called @NoInternetOpenWith@ with the value @0x1@ under @HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer@.
-
-If you do not want to poke around manually in your registry, you can copy the following lines in a new @.reg@ file and double-click it to add the key.
-
-bc.. Windows Registry Editor Version 5.00
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+&lt;code&gt;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
 &quot;NoInternetOpenWith&quot;=dword:00000001
-</content>
+&lt;/code&gt;&lt;/pre&gt;</content>
  </entry>
  
 </feed>

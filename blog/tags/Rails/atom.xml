@@ -3,7 +3,7 @@
  <title>David Nadlinger</title>
  <link href="http://klickverbot.at/blog/tags/Rails/atom.xml" rel="self"/>
  <link href="http://klickverbot.at/"/>
- <updated>2023-07-06T14:46:30-04:00</updated>
+ <updated>2023-08-07T18:22:35+01:00</updated>
  <id>http://klickverbot.at/blog/tags/Rails/</id>
  <author>
    <name>David Nadlinger</name>
@@ -14,23 +14,19 @@
  <entry>
    <title>Getting started with git</title>
    <link href="http://klickverbot.at/blog/2008/08/getting-started-with-git/"/>
-   <updated>2008-08-02T00:00:00-04:00</updated>
+   <updated>2008-08-02T00:00:00+01:00</updated>
    <id>http://klickverbot.at/blog/2008/08/getting-started-with-git</id>
-   <content type="html">Recently, I decided to have a look at the revision control system &quot;Git&quot;:http://git-scm.com and the »social code hosting service« &quot;GitHub&quot;:http://github.com, which is currently hyped in large parts of the open source community (git is used for the Linux kernel, Ruby on Rails, ...). At first, I felt pretty overwhelmed, because the differences to other SCMs like Subversion were bigger than I had expected. But now, having read the excellent blog post &quot;Got git?&quot;:http://b.lesseverything.com/2008/3/25/got-git-howto-git-and-github by Steven Bristol, I am starting to understand the concepts and the motivation behind it.
-
-Frankly, I am still not quite sure if the &quot;doing it distributed&quot; paradigm will really establish itself in everyday coding work, but for open source projects git looks very promising at least.
-</content>
+   <content type="html">&lt;p&gt;Recently, I decided to have a look at the revision control system &lt;a href=&quot;http://git-scm.com&quot;&gt;Git&lt;/a&gt; and the »social code hosting service« &lt;a href=&quot;http://github.com&quot;&gt;GitHub&lt;/a&gt;, which is currently hyped in large parts of the open source community (git is used for the Linux kernel, Ruby on Rails, &amp;#8230;). At first, I felt pretty overwhelmed, because the differences to other SCMs like Subversion were bigger than I had expected. But now, having read the excellent blog post &lt;a href=&quot;http://b.lesseverything.com/2008/3/25/got-git-howto-git-and-github&quot;&gt;Got git?&lt;/a&gt; by Steven Bristol, I am starting to understand the concepts and the motivation behind it.&lt;/p&gt;
+&lt;p&gt;Frankly, I am still not quite sure if the &amp;#8220;doing it distributed&amp;#8221; paradigm will really establish itself in everyday coding work, but for open source projects git looks very promising at least.&lt;/p&gt;</content>
  </entry>
  
  <entry>
    <title>Distributing Rails Applications</title>
    <link href="http://klickverbot.at/blog/2008/06/distributing-rails-applications/"/>
-   <updated>2008-06-20T00:00:00-04:00</updated>
+   <updated>2008-06-20T00:00:00+01:00</updated>
    <id>http://klickverbot.at/blog/2008/06/distributing-rails-applications</id>
-   <content type="html">I just found &quot;this little tutorial&quot;:http://www.erikveen.dds.nl/distributingrubyapplications/rails.html on how to package your Rails application into a neat archive for showing it to your customers.
-
-I guess it will come in quite handy for me in a few weeks because I am developing a small application for a friend of mine at the moment, who is not a developer, but wants to run the application locally on his Windows box.
-</content>
+   <content type="html">&lt;p&gt;I just found &lt;a href=&quot;http://www.erikveen.dds.nl/distributingrubyapplications/rails.html&quot;&gt;this little tutorial&lt;/a&gt; on how to package your Rails application into a neat archive for showing it to your customers.&lt;/p&gt;
+&lt;p&gt;I guess it will come in quite handy for me in a few weeks because I am developing a small application for a friend of mine at the moment, who is not a developer, but wants to run the application locally on his Windows box.&lt;/p&gt;</content>
  </entry>
  
 </feed>
